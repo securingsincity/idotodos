@@ -1,10 +1,6 @@
-# Idotodos_Ex
+# I Do To Dos
 
-The idotodos platform written in Elixir
-
-# What is I Do Todos
-
-It's a service to make wedding invitations and wedding planning easier.   
+A service to make wedding invitations and wedding planning easier written in Elixir and JavaScript   
 
 # Getting started
 To start your Phoenix app:

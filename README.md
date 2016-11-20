@@ -1,6 +1,10 @@
-# IdotodosEx
+# Idotodos_Ex
 
-The idotodos platform
+The idotodos platform written in Elixir
+
+# What is I Do Todos
+
+It's a service to make wedding invitations and wedding planning easier.   
 
 # Getting started
 To start your Phoenix app:

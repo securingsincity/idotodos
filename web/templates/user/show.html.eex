@@ -1,0 +1,59 @@
+<h2>Show user</h2>
+
+<ul>
+
+  <li>
+    <strong>First name:</strong>
+    <%= @user.first_name %>
+  </li>
+
+  <li>
+    <strong>Last name:</strong>
+    <%= @user.last_name %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </li>
+
+  <li>
+    <strong>Middle name:</strong>
+    <%= @user.middle_name %>
+  </li>
+
+  <li>
+    <strong>Gender:</strong>
+    <%= @user.gender %>
+  </li>
+
+  <li>
+    <strong>Street:</strong>
+    <%= @user.street %>
+  </li>
+
+  <li>
+    <strong>Suite:</strong>
+    <%= @user.suite %>
+  </li>
+
+  <li>
+    <strong>City:</strong>
+    <%= @user.city %>
+  </li>
+
+  <li>
+    <strong>State:</strong>
+    <%= @user.state %>
+  </li>
+
+  <li>
+    <strong>Zip code:</strong>
+    <%= @user.zip_code %>
+  </li>
+
+
+</ul>
+
+<%= link "Edit", to: user_path(@conn, :edit, @user) %>
+<%= link "Back", to: user_path(@conn, :index) %>

@@ -1,0 +1,28 @@
+<h2>Show restaurant</h2>
+
+<ul>
+
+  <li>
+    <strong>Address:</strong>
+    <%= @restaurant.address %>
+  </li>
+
+  <li>
+    <strong>Phone number:</strong>
+    <%= @restaurant.phone_number %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @restaurant.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @restaurant.description %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: restaurant_path(@conn, :edit, @restaurant) %>
+<%= link "Back", to: restaurant_path(@conn, :index) %>

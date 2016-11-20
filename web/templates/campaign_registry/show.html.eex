@@ -1,0 +1,28 @@
+<h2>Show campaign registry</h2>
+
+<ul>
+
+  <li>
+    <strong>Campaign:</strong>
+    <%= @campaign_registry.campaign_id %>
+  </li>
+
+  <li>
+    <strong>Link:</strong>
+    <%= @campaign_registry.link %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @campaign_registry.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @campaign_registry.description %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: campaign_registry_path(@conn, :edit, @campaign_registry) %>
+<%= link "Back", to: campaign_registry_path(@conn, :index) %>

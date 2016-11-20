@@ -1,0 +1,69 @@
+<h2>Show guest</h2>
+
+<ul>
+
+  <li>
+    <strong>First name:</strong>
+    <%= @guest.first_name %>
+  </li>
+
+  <li>
+    <strong>Last name:</strong>
+    <%= @guest.last_name %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @guest.email %>
+  </li>
+
+
+  <li>
+    <strong>Party:</strong>
+    <%= @guest.party_id %>
+  </li>
+
+  <li>
+    <strong>Middle name:</strong>
+    <%= @guest.middle_name %>
+  </li>
+
+  <li>
+    <strong>Gender:</strong>
+    <%= @guest.gender %>
+  </li>
+
+  <li>
+    <strong>Street:</strong>
+    <%= @guest.street %>
+  </li>
+
+  <li>
+    <strong>Suite:</strong>
+    <%= @guest.suite %>
+  </li>
+
+  <li>
+    <strong>City:</strong>
+    <%= @guest.city %>
+  </li>
+
+  <li>
+    <strong>State:</strong>
+    <%= @guest.state %>
+  </li>
+
+  <li>
+    <strong>Zip code:</strong>
+    <%= @guest.zip_code %>
+  </li>
+
+  <li>
+    <strong>Campaign:</strong>
+    <%= @guest.campaign_id %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: guest_path(@conn, :edit, @guest) %>
+<%= link "Back", to: guest_path(@conn, :index) %>

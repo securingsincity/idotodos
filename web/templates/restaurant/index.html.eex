@@ -1,0 +1,32 @@
+<h2>Listing restaurants</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Phone number</th>
+      <th>Name</th>
+      <th>Description</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for restaurant <- @restaurants do %>
+    <tr>
+      <td><%= restaurant.address %></td>
+      <td><%= restaurant.phone_number %></td>
+      <td><%= restaurant.name %></td>
+      <td><%= restaurant.description %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: restaurant_path(@conn, :show, restaurant), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: restaurant_path(@conn, :edit, restaurant), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: restaurant_path(@conn, :delete, restaurant), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New restaurant", to: restaurant_path(@conn, :new) %>

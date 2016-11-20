@@ -1,0 +1,32 @@
+<h2>Listing campaign registries</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Campaign</th>
+      <th>Link</th>
+      <th>Name</th>
+      <th>Description</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for campaign_registry <- @campaign_registries do %>
+    <tr>
+      <td><%= campaign_registry.campaign_id %></td>
+      <td><%= campaign_registry.link %></td>
+      <td><%= campaign_registry.name %></td>
+      <td><%= campaign_registry.description %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: campaign_registry_path(@conn, :show, campaign_registry), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: campaign_registry_path(@conn, :edit, campaign_registry), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: campaign_registry_path(@conn, :delete, campaign_registry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New campaign registry", to: campaign_registry_path(@conn, :new) %>

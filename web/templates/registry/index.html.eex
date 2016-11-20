@@ -1,0 +1,32 @@
+<h2>Listing registries</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Link</th>
+      <th>Name</th>
+      <th>Description</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for registry <- @registries do %>
+    <tr>
+      <td><%= registry.image %></td>
+      <td><%= registry.link %></td>
+      <td><%= registry.name %></td>
+      <td><%= registry.description %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: registry_path(@conn, :show, registry), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: registry_path(@conn, :edit, registry), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: registry_path(@conn, :delete, registry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New registry", to: registry_path(@conn, :new) %>

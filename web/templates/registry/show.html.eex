@@ -1,0 +1,28 @@
+<h2>Show registry</h2>
+
+<ul>
+
+  <li>
+    <strong>Image:</strong>
+    <%= @registry.image %>
+  </li>
+
+  <li>
+    <strong>Link:</strong>
+    <%= @registry.link %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @registry.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @registry.description %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: registry_path(@conn, :edit, @registry) %>
+<%= link "Back", to: registry_path(@conn, :index) %>

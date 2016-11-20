@@ -1,0 +1,6 @@
+<h2>Edit campaign registry</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: campaign_registry_path(@conn, :update, @campaign_registry) %>
+
+<%= link "Back", to: campaign_registry_path(@conn, :index) %>

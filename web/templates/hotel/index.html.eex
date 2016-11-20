@@ -1,0 +1,32 @@
+<h2>Listing hotels</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Phone number</th>
+      <th>Name</th>
+      <th>Description</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for hotel <- @hotels do %>
+    <tr>
+      <td><%= hotel.address %></td>
+      <td><%= hotel.phone_number %></td>
+      <td><%= hotel.name %></td>
+      <td><%= hotel.description %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: hotel_path(@conn, :show, hotel), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: hotel_path(@conn, :edit, hotel), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: hotel_path(@conn, :delete, hotel), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New hotel", to: hotel_path(@conn, :new) %>

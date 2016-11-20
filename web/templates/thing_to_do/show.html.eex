@@ -1,0 +1,28 @@
+<h2>Show thing to do</h2>
+
+<ul>
+
+  <li>
+    <strong>Address:</strong>
+    <%= @thing_to_do.address %>
+  </li>
+
+  <li>
+    <strong>Phone number:</strong>
+    <%= @thing_to_do.phone_number %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @thing_to_do.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @thing_to_do.description %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: thing_to_do_path(@conn, :edit, @thing_to_do) %>
+<%= link "Back", to: thing_to_do_path(@conn, :index) %>

@@ -1,0 +1,28 @@
+<h2>Show hotel</h2>
+
+<ul>
+
+  <li>
+    <strong>Address:</strong>
+    <%= @hotel.address %>
+  </li>
+
+  <li>
+    <strong>Phone number:</strong>
+    <%= @hotel.phone_number %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @hotel.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @hotel.description %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: hotel_path(@conn, :edit, @hotel) %>
+<%= link "Back", to: hotel_path(@conn, :index) %>

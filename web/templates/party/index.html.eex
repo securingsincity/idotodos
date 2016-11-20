@@ -1,0 +1,32 @@
+<h2>Listing parties</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Campaign</th>
+      <th>User</th>
+      <th>Name</th>
+      <th>Max party size</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for party <- @parties do %>
+    <tr>
+      <td><%= party.campaign_id %></td>
+      <td><%= party.user_id %></td>
+      <td><%= party.name %></td>
+      <td><%= party.max_party_size %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: party_path(@conn, :show, party), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: party_path(@conn, :edit, party), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: party_path(@conn, :delete, party), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New party", to: party_path(@conn, :new) %>

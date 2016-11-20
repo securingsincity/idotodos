@@ -1,0 +1,32 @@
+<h2>Listing things to do</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Phone number</th>
+      <th>Name</th>
+      <th>Description</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for thing_to_do <- @things_to_do do %>
+    <tr>
+      <td><%= thing_to_do.address %></td>
+      <td><%= thing_to_do.phone_number %></td>
+      <td><%= thing_to_do.name %></td>
+      <td><%= thing_to_do.description %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: thing_to_do_path(@conn, :show, thing_to_do), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: thing_to_do_path(@conn, :edit, thing_to_do), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: thing_to_do_path(@conn, :delete, thing_to_do), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New thing to do", to: thing_to_do_path(@conn, :new) %>

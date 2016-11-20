@@ -1,0 +1,6 @@
+<h2>Edit registry</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: registry_path(@conn, :update, @registry) %>
+
+<%= link "Back", to: registry_path(@conn, :index) %>

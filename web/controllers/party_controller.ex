@@ -2,7 +2,7 @@ defmodule IdotodosEx.PartyController do
   use IdotodosEx.Web, :controller
 
   alias IdotodosEx.Party
-
+  require Logger
   def index(conn, _params) do
     parties = Repo.all(Party)
     render(conn, "index.html", parties: parties)
@@ -60,6 +60,24 @@ defmodule IdotodosEx.PartyController do
 
     conn
     |> put_flash(:info, "Party deleted successfully.")
+    |> redirect(to: party_path(conn, :index))
+  end
+
+  def upload(conn, _) do
+    render(conn, "upload.html")
+  end
+  
+  def bulk_upload(conn, %{"data" => %{"bulk_upload" => data}}) do
+    
+    results = CSV.decode( File.stream!(data.path) , headers: true) 
+    |> Enum.reduce(%{}, fn(row, acc) ->
+      result = Map.get(acc, row["party_name"], [row])
+      Map.merge(acc, %{row["party_name"] => result })
+    end)
+
+    IO.inspect results
+    conn
+    |> put_flash(:info, "Bulk upload was successful")
     |> redirect(to: party_path(conn, :index))
   end
 end

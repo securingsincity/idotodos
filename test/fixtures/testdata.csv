@@ -1,0 +1,6 @@
+party_name,max_party_size,first_name,last_name,email,street,suite,city,state,zip_code,bridal_party
+the seinfelds,2,Jerry,Seinfeld,seinfeld@gmail.com,488 81st st,5b,New York,NY,10001,groomsman
+the seinfelds,2,Schmoopy,Seinfeld,seinfeld@gmail.com,500 81st st,5b,New York,NY,10001,
+elaine,2,Elaine,Bennis,elain@gmail.com,503 81st st,5c,New York,NY,10001,maid of honor
+george,2,George,Costanza,georgie@gmail.com,5091205 oimaeoimf st,5a,Brooklyn,NY,10000,
+george,2,Susan,Costanza,seinfeld@gmail.com,501 81st st,5b,New York,NY,10050,

@@ -14,7 +14,7 @@ defmodule IdotodosEx.CampaignControllerTest do
   end 
 
   test "list with user permissions should be 404", %{conn: conn} do
-    user_changeset = User.registration_changeset(%User{}, %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123"})
+    user_changeset = User.registration_changeset(%User{}, %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123", password_confirmation: "a123123"})
     Repo.insert!(user_changeset)
     user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
     conn = AuthHelpers.sign_in(conn, user)
@@ -23,7 +23,7 @@ defmodule IdotodosEx.CampaignControllerTest do
   end 
 
   test "list with admin permissions should be 200 with list", %{conn: conn} do
-    user_changeset = User.admin_registration_changeset(%User{}, %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123"})
+    user_changeset = User.admin_registration_changeset(%User{}, %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123", password_confirmation: "a123123"})
     Repo.insert!(user_changeset)
     campaign_changeset = Campaign.changeset(%Campaign{}, @valid_attrs)
     campaign = Repo.insert!(campaign_changeset)
@@ -41,7 +41,7 @@ defmodule IdotodosEx.CampaignControllerTest do
   end 
 
   test "show one with user permissions should be 404", %{conn: conn} do
-    user_changeset = User.registration_changeset(%User{}, %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123"})
+    user_changeset = User.registration_changeset(%User{}, %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123", password_confirmation: "a123123"})
     Repo.insert!(user_changeset)
     user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
     campaign_changeset = Campaign.changeset(%Campaign{}, @valid_attrs)
@@ -53,7 +53,7 @@ defmodule IdotodosEx.CampaignControllerTest do
 
 
   test "show with admin permissions should be 200 with correct", %{conn: conn} do
-    user_changeset = User.admin_registration_changeset(%User{}, %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123"})
+    user_changeset = User.admin_registration_changeset(%User{}, %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123", password_confirmation: "a123123"})
     Repo.insert!(user_changeset)
     campaign_changeset = Campaign.changeset(%Campaign{}, @valid_attrs)
     campaign = Repo.insert!(campaign_changeset)

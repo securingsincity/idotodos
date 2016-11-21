@@ -5,6 +5,17 @@ defmodule IdotodosEx.PartyControllerTest do
   @valid_attrs %{max_party_size: 42, name: "some content"}
   @invalid_attrs %{}
 
+  test "upload route", %{conn: conn} do
+    conn = get conn, party_path(conn, :upload)
+    assert html_response(conn, 200) =~ "Bulk Upload"
+  end
+
+  test "bulk upload with a csv", %{conn: conn} do
+    upload = %Plug.Upload{path: "test/fixtures/testdata.csv", filename: "testdata.csv"}
+    conn = post conn, party_path(conn, :bulk_upload),data: %{bulk_upload: upload}
+    assert redirected_to(conn) == party_path(conn, :index)
+  end
+
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, party_path(conn, :index)
     assert html_response(conn, 200) =~ "Listing parties"

@@ -1,6 +1,5 @@
 defmodule IdotodosEx.CampaignController do
   use IdotodosEx.Web, :controller
-  require Logger
   alias IdotodosEx.Campaign
   alias IdotodosEx.Repo
 

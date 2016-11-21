@@ -1,0 +1,54 @@
+<h1>Sign up</h1>
+
+<%= form_for @conn, registration_path(@conn, :create), [as: :campaign], fn f -> %>
+  <div class="form-group">
+    <%= label f, :main_date, class: "control-label" %>
+    <%= date_select f, :main_date, class: "form-control" %>
+    <%= error_tag f, :main_date %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
+
+    <%= inputs_for f, :user, fn u -> %> 
+        <div class="form-group">
+        <%= text_input u, :first_name, placeholder: "First name", 
+                            class: "form-control" %>
+        </div>
+        <div class="form-group">
+        <%= text_input u, :last_name, placeholder: "Last name", 
+                            class: "form-control" %>
+        </div>
+        <div class="form-group">
+        <%= text_input u, :email, placeholder: "Email", 
+                            class: "form-control" %>
+        </div>
+        <div class="form-group">
+            <%= password_input u, :password, placeholder: "Password",                   
+                                            class: "form-control" %>
+        </div>
+        <div class="form-group">
+            <%= password_input u, :password_confirmation, placeholder: "Password Confirmation",                   
+                                            class: "form-control" %>
+        </div>
+    <% end %>
+
+    <%= inputs_for f, :partner, fn u -> %> 
+        <div class="form-group">
+        <%= text_input u, :first_name, placeholder: "Partner's first name", 
+                            class: "form-control" %>
+        </div>
+        <div class="form-group">
+        <%= text_input u, :last_name, placeholder: "Partner's ast name", 
+                            class: "form-control" %>
+        </div>
+        <div class="form-group">
+        <%= text_input u, :email, placeholder: "Email", 
+                            class: "form-control" %>
+        </div>
+    <% end %>
+    <%= submit "Sign up", class: "btn btn-primary" %>
+<% end %>

@@ -28,10 +28,19 @@ defmodule IdotodosEx.Router do
     get "/", PageController, :index
     resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    get "/signin", SessionController, :new
+    post "/signin", SessionController, :create
+    get "/signout", SessionController, :delete
+    get "/signup", RegistrationController, :signup
+    post "/signup", RegistrationController, :create
+
   end
 
   scope "/", IdotodosEx do
     pipe_through [:browser, :browser_auth]
+    get "/app", PageController, :app 
+    get "/app/parties/upload", PartyController, :upload
+    post "/app/parties/upload", PartyController, :bulk_upload
     resources "/users", UserController 
     resources "/guests", GuestController
     resources "/parties", PartyController

@@ -9,6 +9,7 @@ defmodule IdotodosEx.UserTest do
     last_name: "Hrisho", 
     middle_name: "some content",
     password: "some content",
+    password_confirmation: "some content",
     state: "some content", 
     street: "some content", 
     city: "some content", 
@@ -72,6 +73,13 @@ defmodule IdotodosEx.UserTest do
 
   test "invalid admin registration changeset  when password is tooshort" do
     invalid = %{@valid_attrs | password: "abc"}
+    changeset = User.admin_registration_changeset(%User{},invalid)
+    refute changeset.valid?
+  end
+  
+
+  test "invalid admin registration changeset  when password dont match" do
+    invalid = %{@valid_attrs | password_confirmation: "abc123"}
     changeset = User.admin_registration_changeset(%User{},invalid)
     refute changeset.valid?
   end

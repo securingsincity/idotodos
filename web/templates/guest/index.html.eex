@@ -6,8 +6,6 @@
       <th>First name</th>
       <th>Last name</th>
       <th>Email</th>
-      <th>Password</th>
-      <th>Party</th>
       <th>Middle name</th>
       <th>Gender</th>
       <th>Street</th>
@@ -26,8 +24,6 @@
       <td><%= guest.first_name %></td>
       <td><%= guest.last_name %></td>
       <td><%= guest.email %></td>
-      <td><%= guest.password %></td>
-      <td><%= guest.party_id %></td>
       <td><%= guest.middle_name %></td>
       <td><%= guest.gender %></td>
       <td><%= guest.street %></td>

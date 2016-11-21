@@ -51,7 +51,7 @@ defmodule IdotodosEx.CampaignTest do
   end
 
   test "save a campaign with a registered user and a partner" do
-    user_changeset = %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123"}
+    user_changeset = %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123", password_confirmation: "a123123"}
     partner_changeset =  %{first_name: "Sara", last_name: "Noonan"}
     campaign_struct = Map.merge(@valid_attrs, %{user: user_changeset, partner: partner_changeset})
     changeset = Campaign.registration_changeset(%Campaign{}, campaign_struct)

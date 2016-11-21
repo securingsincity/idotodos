@@ -18,6 +18,7 @@ defmodule IdotodosEx.User do
     field :last_name, :string
     field :email, :string
     field :password, :string, virtual: true
+    field :password_confirm, :string, virtual: true
     field :password_hash, :string
     field :middle_name, :string
     field :gender, :string
@@ -49,6 +50,7 @@ defmodule IdotodosEx.User do
     |> changeset(params)
     |> cast(params, ~w(password), [])
     |> validate_length(:password, min: 6, max: 100)
+    |> validate_confirmation(:password, message: "Password and password confirmation must match")
     |> put_pass_hash()
   end
 

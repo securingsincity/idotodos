@@ -67,15 +67,23 @@ defmodule IdotodosEx.PartyController do
     render(conn, "upload.html")
   end
   
-  def bulk_upload(conn, %{"data" => %{"bulk_upload" => data}}) do
-    
-    results = CSV.decode( File.stream!(data.path) , headers: true) 
+  def csv_path_to_map_of_parties(path) do
+    CSV.decode( File.stream!(path) , headers: true) 
     |> Enum.reduce(%{}, fn(row, acc) ->
       result = Map.get(acc, row["party_name"], [row])
       Map.merge(acc, %{row["party_name"] => result })
     end)
 
-    IO.inspect results
+  end
+  
+
+
+  def bulk_upload(conn, %{"data" => %{"bulk_upload" => data}}) do
+    results = csv_path_to_map_of_parties data.path
+    # results
+    # |> Enum.each(&(Task.async(fn -> func.(&1) end)))
+    # |> Enum.each(&Task.await/1)
+
     conn
     |> put_flash(:info, "Bulk upload was successful")
     |> redirect(to: party_path(conn, :index))

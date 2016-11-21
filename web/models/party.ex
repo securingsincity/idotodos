@@ -5,7 +5,7 @@ defmodule IdotodosEx.Party do
     field :name, :string
     field :max_party_size, :integer
     belongs_to :campaign, IdotodosEx.Campaign
-    # has_many :guests, IdotodosEx.Guest
+    has_many :guests, IdotodosEx.Guest
     timestamps()
   end
 
@@ -16,5 +16,11 @@ defmodule IdotodosEx.Party do
     struct
     |> cast(params, [ :name, :max_party_size])
     |> validate_required([:name, :max_party_size])
+  end
+
+  def changeset_with_guests(struct, params) do
+    struct
+    |> changeset(params)
+    |> cast_assoc(:guests)
   end
 end

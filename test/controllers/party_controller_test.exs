@@ -16,6 +16,27 @@ defmodule IdotodosEx.PartyControllerTest do
     assert redirected_to(conn) == party_path(conn, :index)
   end
 
+  test "csv is manipulated to be a map with keys for each family" do
+    
+    result = IdotodosEx.PartyController.csv_path_to_map_of_parties "test/fixtures/testdata.csv"
+    assert result == %{"elaine" => [%{"bridal_party" => "maid of honor", "city" => "New York",
+     "email" => "elain@gmail.com", "first_name" => "Elaine",
+     "last_name" => "Bennis", "max_party_size" => "2", "party_name" => "elaine",
+     "state" => "NY", "street" => "503 81st st", "suite" => "5c",
+     "zip_code" => "10001"}],
+  "george" => [%{"bridal_party" => "", "city" => "Brooklyn",
+     "email" => "georgie@gmail.com", "first_name" => "George",
+     "last_name" => "Costanza", "max_party_size" => "2",
+     "party_name" => "george", "state" => "NY",
+     "street" => "5091205 oimaeoimf st", "suite" => "5a",
+     "zip_code" => "10000"}],
+  "the seinfelds" => [%{"bridal_party" => "groomsman", "city" => "New York",
+     "email" => "seinfeld@gmail.com", "first_name" => "Jerry",
+     "last_name" => "Seinfeld", "max_party_size" => "2",
+     "party_name" => "the seinfelds", "state" => "NY",
+     "street" => "488 81st st", "suite" => "5b", "zip_code" => "10001"}]}
+  end
+
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, party_path(conn, :index)
     assert html_response(conn, 200) =~ "Listing parties"

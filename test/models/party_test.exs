@@ -20,4 +20,15 @@ defmodule IdotodosEx.PartyTest do
     changeset = Party.changeset(%Party{}, @invalid_attrs)
     refute changeset.valid?
   end
+
+  test "changeset with valid guests is valid and creates guests" do
+    attrs = Map.merge(@valid_attrs, %{ guests: [%{first_name: "foo", last_name: "bar"}]})
+    changeset = Party.changeset_with_guests(%Party{}, attrs)
+    assert changeset.valid?
+    {_, party} = Repo.insert(changeset)
+    assert party.name == "some content"
+    loaded_party = party |> Repo.preload(:guests)
+    guest = loaded_party.guests |> List.first
+    assert guest.first_name == "foo"
+  end
 end

@@ -3,8 +3,6 @@
 <table class="table">
   <thead>
     <tr>
-      <th>Campaign</th>
-      <th>User</th>
       <th>Name</th>
       <th>Max party size</th>
 
@@ -15,7 +13,6 @@
 <%= for party <- @parties do %>
     <tr>
       <td><%= party.campaign_id %></td>
-      <td><%= party.user_id %></td>
       <td><%= party.name %></td>
       <td><%= party.max_party_size %></td>
 

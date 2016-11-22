@@ -29,12 +29,19 @@ defmodule IdotodosEx.PartyControllerTest do
      "last_name" => "Costanza", "max_party_size" => "2",
      "party_name" => "george", "state" => "NY",
      "street" => "5091205 oimaeoimf st", "suite" => "5a",
-     "zip_code" => "10000"}],
-  "the seinfelds" => [%{"bridal_party" => "groomsman", "city" => "New York",
+     "zip_code" => "10000"}, %{"bridal_party" => "", "city" => "New York", "email" => "seinfeld@gmail.com", "first_name" => "Susan", "last_name" => "Costanza", "max_party_size" => "2", "party_name" => "george", "state" => "NY", "street" => "501 81st st", "suite" => "5b", "zip_code" => "10050"}],
+  "the seinfelds" => [
+    %{"bridal_party" => "groomsman", "city" => "New York",
      "email" => "seinfeld@gmail.com", "first_name" => "Jerry",
      "last_name" => "Seinfeld", "max_party_size" => "2",
      "party_name" => "the seinfelds", "state" => "NY",
-     "street" => "488 81st st", "suite" => "5b", "zip_code" => "10001"}]}
+     "street" => "488 81st st", "suite" => "5b", "zip_code" => "10001"},
+     %{"city" => "New York", "bridal_party" => "",
+     "email" => "seinfeld@gmail.com", "first_name" => "Schmoopy",
+     "last_name" => "Seinfeld", "max_party_size" => "2",
+     "party_name" => "the seinfelds", "state" => "NY",
+     "street" => "500 81st st", "suite" => "5b", "zip_code" => "10001"}
+     ]}
   end
 
   test "lists all entries on index", %{conn: conn} do

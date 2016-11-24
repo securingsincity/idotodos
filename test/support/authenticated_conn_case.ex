@@ -16,6 +16,7 @@ defmodule IdotodosEx.AuthConnCase do
   use ExUnit.CaseTemplate
   alias IdotodosEx.Repo
   alias IdotodosEx.User
+  alias IdotodosEx.Campaign
   
   
   using do
@@ -25,6 +26,7 @@ defmodule IdotodosEx.AuthConnCase do
 
       alias IdotodosEx.Repo
       alias IdotodosEx.User
+      alias IdotodosEx.Campaign
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
@@ -42,8 +44,10 @@ defmodule IdotodosEx.AuthConnCase do
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(IdotodosEx.Repo, {:shared, self()})
     end
-    user_changeset = User.registration_changeset(%User{}, %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123"})
-    Repo.insert!(user_changeset)
+    
+    changeset = Campaign.registration_changeset(%Campaign{}, %{ main_date: %{day: 17, month: 4, year: 2010}, 
+    name: "somecontent", user: %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123"}, partner: %{first_name: "sara", last_name: "noonan"}})
+    Repo.insert!(changeset)
     user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
     conn = IdotodosEx.AuthHelpers.sign_in(Phoenix.ConnTest.build_conn(), user)
     

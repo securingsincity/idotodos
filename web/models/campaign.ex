@@ -7,6 +7,7 @@ defmodule IdotodosEx.Campaign do
     has_one :user, IdotodosEx.User
     has_one :partner, IdotodosEx.User
     has_many :guests, IdotodosEx.Guest
+    has_many :parties, IdotodosEx.Party
     timestamps()
   end
 
@@ -23,8 +24,8 @@ defmodule IdotodosEx.Campaign do
   def registration_changeset(struct, params \\ %{}) do 
     struct
     |> changeset(params)
-    |> cast_assoc(:partner, %{with: &IdotodosEx.User.partner_changeset(&1,&2)} )
-    |> cast_assoc(:user, %{with: &IdotodosEx.User.registration_changeset(&1,&2)})
+    |> cast_assoc(:partner, required: true, with: &IdotodosEx.User.partner_changeset(&1,&2) )
+    |> cast_assoc(:user, required: true, with: &IdotodosEx.User.registration_changeset(&1,&2))
   end
 
 end

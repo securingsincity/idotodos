@@ -23,9 +23,17 @@ defmodule IdotodosEx.Guest do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:first_name, :last_name, :email, :middle_name, :gender, :street, :suite, :city, :state, :zip_code])
+    |> cast(params, [:campaign_id, :party_id, :first_name, :last_name, :email, :middle_name, :gender, :street, :suite, :city, :state, :zip_code])
     |> validate_required([:first_name, :last_name])
     |> update_change(:email, &String.downcase/1)
     |> validate_format(:email, ~r/@/)
+  end
+
+  def changeset_with_party(struct, params \\ %{}) do
+    struct
+    |> changeset(params)
+    |> cast(params, [:campaign_id, :party_id])
+    |> cast_assoc(:party)
+    |> cast_assoc(:campaign)
   end
 end

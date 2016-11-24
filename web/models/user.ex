@@ -28,7 +28,7 @@ defmodule IdotodosEx.User do
     field :state, :string
     field :zip_code, :string
     field :is_admin, :boolean
-    # belongs_to :campaign, IdotodosEx.Campaign
+    belongs_to :campaign, IdotodosEx.Campaign
     timestamps()
   end
 

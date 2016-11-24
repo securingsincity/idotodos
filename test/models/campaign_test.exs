@@ -59,8 +59,11 @@ defmodule IdotodosEx.CampaignTest do
     {_, campaign} = Repo.insert(changeset)
     assert campaign.name == "somecontent"
     campaign = campaign |> Repo.preload(:partner) |> Repo.preload(:user)
+    assert campaign.user.campaign_id == campaign.id
+    assert campaign.partner.campaign_id == campaign.id
     assert campaign.user.first_name == "James"
     assert campaign.user.password_hash !== "a123123"
+    assert campaign.partner.id !== nil
     assert campaign.partner.first_name == "Sara"
   end
 end

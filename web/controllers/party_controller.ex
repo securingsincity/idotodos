@@ -67,10 +67,11 @@ defmodule IdotodosEx.PartyController do
     render(conn, "upload.html")
   end
   
-  def csv_path_to_map_of_parties(path) do
+  def csv_path_to_map_of_parties(path, campaign_id) do
     CSV.decode( File.stream!(path) , headers: true) 
     |> Enum.reduce(%{}, fn(row, acc) ->
       result = Map.get(acc, row["party_name"], [])
+      row = Map.merge(row, %{"campaign_id" => campaign_id})
       result = result ++ [row]
       Map.merge(acc, %{row["party_name"] => result })
     end)
@@ -80,7 +81,8 @@ defmodule IdotodosEx.PartyController do
 
 
   def bulk_upload(conn, %{"data" => %{"bulk_upload" => data}}) do
-    results = csv_path_to_map_of_parties data.path
+    logged_in_user = Guardian.Plug.current_resource(conn)
+    results = csv_path_to_map_of_parties(data.path, logged_in_user.campaign_id)
     done = results
     |> Enum.map( fn({x, y}) -> Task.async(fn -> 
       party = Party.changeset_with_guests(%Party{}, %{guests: y, name: x, max_party_size: length(y)})

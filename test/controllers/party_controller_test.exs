@@ -18,26 +18,26 @@ defmodule IdotodosEx.PartyControllerTest do
 
   test "csv is manipulated to be a map with keys for each family" do
     
-    result = IdotodosEx.PartyController.csv_path_to_map_of_parties "test/fixtures/testdata.csv"
+    result = IdotodosEx.PartyController.csv_path_to_map_of_parties( "test/fixtures/testdata.csv", 4)
     assert result == %{"elaine" => [%{"bridal_party" => "maid of honor", "city" => "New York",
      "email" => "elain@gmail.com", "first_name" => "Elaine",
      "last_name" => "Bennis", "max_party_size" => "2", "party_name" => "elaine",
-     "state" => "NY", "street" => "503 81st st", "suite" => "5c",
+     "state" => "NY", "street" => "503 81st st", "suite" => "5c","campaign_id"=>4,
      "zip_code" => "10001"}],
-  "george" => [%{"bridal_party" => "", "city" => "Brooklyn",
+  "george" => [%{"bridal_party" => "", "city" => "Brooklyn","campaign_id"=>4,
      "email" => "georgie@gmail.com", "first_name" => "George",
      "last_name" => "Costanza", "max_party_size" => "2",
      "party_name" => "george", "state" => "NY",
      "street" => "5091205 oimaeoimf st", "suite" => "5a",
-     "zip_code" => "10000"}, %{"bridal_party" => "", "city" => "New York", "email" => "seinfeld@gmail.com", "first_name" => "Susan", "last_name" => "Costanza", "max_party_size" => "2", "party_name" => "george", "state" => "NY", "street" => "501 81st st", "suite" => "5b", "zip_code" => "10050"}],
+     "zip_code" => "10000"}, %{"bridal_party" => "","campaign_id"=>4, "city" => "New York", "email" => "seinfeld@gmail.com", "first_name" => "Susan", "last_name" => "Costanza", "max_party_size" => "2", "party_name" => "george", "state" => "NY", "street" => "501 81st st", "suite" => "5b", "zip_code" => "10050"}],
   "the seinfelds" => [
-    %{"bridal_party" => "groomsman", "city" => "New York",
+    %{"bridal_party" => "groomsman", "city" => "New York","campaign_id"=>4,
      "email" => "seinfeld@gmail.com", "first_name" => "Jerry",
      "last_name" => "Seinfeld", "max_party_size" => "2",
      "party_name" => "the seinfelds", "state" => "NY",
      "street" => "488 81st st", "suite" => "5b", "zip_code" => "10001"},
      %{"city" => "New York", "bridal_party" => "",
-     "email" => "seinfeld@gmail.com", "first_name" => "Schmoopy",
+     "email" => "seinfeld@gmail.com", "first_name" => "Schmoopy","campaign_id"=>4,
      "last_name" => "Seinfeld", "max_party_size" => "2",
      "party_name" => "the seinfelds", "state" => "NY",
      "street" => "500 81st st", "suite" => "5b", "zip_code" => "10001"}

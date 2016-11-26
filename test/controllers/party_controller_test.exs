@@ -16,9 +16,17 @@ defmodule IdotodosEx.PartyControllerTest do
     assert redirected_to(conn) == party_path(conn, :index)
   end
 
+  test "bulk upload with a broken csv", %{conn: conn} do
+    upload = %Plug.Upload{path: "test/fixtures/testdata-broken.csv", filename: "testdata.csv"}
+    conn = post conn, party_path(conn, :bulk_upload),data: %{bulk_upload: upload}
+    assert html_response(conn, 200) =~ "There was an error parsing your import"
+  end
+
+
+
   test "csv is manipulated to be a map with keys for each family" do
     
-    result = IdotodosEx.PartyController.csv_path_to_map_of_parties( "test/fixtures/testdata.csv", 4)
+    {:ok, result} = IdotodosEx.PartyController.csv_path_to_map_of_parties( "test/fixtures/testdata.csv", 4)
     assert result == %{"elaine" => [%{"bridal_party" => "maid of honor", "city" => "New York",
      "email" => "elain@gmail.com", "first_name" => "Elaine",
      "last_name" => "Bennis", "max_party_size" => "2", "party_name" => "elaine",
@@ -42,6 +50,12 @@ defmodule IdotodosEx.PartyControllerTest do
      "party_name" => "the seinfelds", "state" => "NY",
      "street" => "500 81st st", "suite" => "5b", "zip_code" => "10001"}
      ]}
+  end
+
+  test "csv is broken and should be handled" do
+    
+    {:error, result} = IdotodosEx.PartyController.csv_path_to_map_of_parties( "test/fixtures/testdata-broken.csv", 4)
+    assert result == "There was an error parsing your import"
   end
 
   test "lists all entries on index", %{conn: conn} do

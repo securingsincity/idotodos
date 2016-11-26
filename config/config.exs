@@ -7,7 +7,9 @@ use Mix.Config
 
 # General application configuration
 config :idotodos_ex,
-  ecto_repos: [IdotodosEx.Repo]
+  ecto_repos: [IdotodosEx.Repo],
+  mailgun_domain: "idotodos.mailgun.orggs",
+  mailgun_key: System.get_env("MAILGUN_API_KEY")
 
 # Configures the endpoint
 config :idotodos_ex, IdotodosEx.Endpoint,

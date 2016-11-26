@@ -42,6 +42,7 @@ defmodule IdotodosEx.Router do
     get "/app/parties/upload", PartyController, :upload
     post "/app/parties/upload", PartyController, :bulk_upload
     resources "/users", UserController 
+    resources "/app/parties", UserPartyController
     resources "/guests", GuestController
     resources "/parties", PartyController
     resources "/restaurants", RestaurantController

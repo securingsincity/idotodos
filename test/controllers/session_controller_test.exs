@@ -20,10 +20,8 @@ defmodule IdotodosEx.SessionControllerTest do
   test "create with valid creds should redirect user to the application page", %{conn: conn} do
     user_changeset = User.registration_changeset(%User{}, %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123"})
     Repo.insert!(user_changeset)
-    user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
-
     conn = post conn, session_path(conn, :create), session: %{email: "james.hrisho@gmail.com", password: "a123123" }
-    assert redirected_to(conn) == user_path(conn, :show, user)
+    assert redirected_to(conn) == page_path(conn, :app)
   end
 
   test "delete route will signout user", %{conn: conn} do

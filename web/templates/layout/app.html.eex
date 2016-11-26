@@ -13,24 +13,7 @@
 
   <body>
     <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <%= if logged_in?(@conn) do %>
-              <%= link "Sign out", to: session_path(@conn, :delete, :access), 
-                      method: :delete, class: "btn btn-danger" %><br>
-              <%= link "#{current_user(@conn).email}", to: user_path(@conn,  
-                        :show, current_user(@conn)) %>
-            <% else %>
-              <%= link "Create new account", to: user_path(@conn, :new), 
-                      class: "btn btn-danger" %>
-              <%= link "Sign in", to: session_path(@conn, :new), 
-                      class: "btn btn-danger" %>
-            <% end %>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+      <%= render IdotodosEx.SharedView, "header.html", conn: @conn %>      
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>

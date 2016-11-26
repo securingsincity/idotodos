@@ -2,7 +2,6 @@ defmodule IdotodosEx.PartyController do
   use IdotodosEx.Web, :controller
 
   alias IdotodosEx.Party
-  require Logger
   def index(conn, _params) do
     parties = Repo.all(Party)
     render(conn, "index.html", parties: parties)

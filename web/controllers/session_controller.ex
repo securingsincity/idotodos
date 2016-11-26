@@ -12,7 +12,7 @@ defmodule IdotodosEx.SessionController do
                 logged_in_user = Guardian.Plug.current_resource(conn)
                 conn
                 |> put_flash(:info, "Logged in")
-                |> redirect(to: user_path(conn, :show, logged_in_user))
+                |> redirect(to: page_path(conn, :app))
             {:error, _reason, conn} ->
                 conn
                 |> put_flash(:error, "Wrong username/password")

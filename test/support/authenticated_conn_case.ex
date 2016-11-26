@@ -45,7 +45,7 @@ defmodule IdotodosEx.AuthConnCase do
       Ecto.Adapters.SQL.Sandbox.mode(IdotodosEx.Repo, {:shared, self()})
     end
     
-    changeset = Campaign.registration_changeset(%Campaign{}, %{ main_date: %{day: 17, month: 4, year: 2010}, 
+    changeset = Campaign.registration_changeset(%Campaign{}, %{ main_date: %{day: 17, month: 4, year: 2018}, 
     name: "somecontent", user: %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123"}, partner: %{first_name: "sara", last_name: "noonan"}})
     Repo.insert!(changeset)
     user = Repo.get_by!(User, email: "james.hrisho@gmail.com")

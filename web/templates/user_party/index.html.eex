@@ -1,0 +1,28 @@
+<h2>Your Guests</h2>
+<table class="table">
+<thead>
+<tr>
+    <th>Name</th>
+    <th>Max party size</th>
+    <th>Guests</th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+<%= for party <- @parties do %>
+<tr>
+    <td><%= party.name %></td>
+    <td><%= party.max_party_size %></td>
+    <td>
+        <ul>
+    <%= for guest <- party.guests do %>
+        <li><%= guest.first_name %> <%= guest.last_name %></li>
+        
+    <% end %>
+        </ul>
+    </td>
+
+    <td class="text-right">
+    </td>
+</tr>
+<% end %>

@@ -1,0 +1,26 @@
+<header class="header">
+<nav role="navigation">
+    <ul class="nav nav-pills pull-right">
+    <%= if logged_in?(@conn) do %>
+        <%= link "Sign out", to: session_path(@conn, :delete, :access), 
+                method: :delete, class: "btn btn-danger" %><br>
+        <%= link "#{current_user(@conn).email}", to: user_path(@conn,  
+                :show, current_user(@conn)) %>
+    <% else %>
+        <%= link "Sign up", to: registration_path(@conn, :signup), 
+                class: "btn btn-danger" %>
+        <%= link "Sign in", to: session_path(@conn, :new), 
+                class: "btn btn-danger" %>
+    <% end %>
+    </ul>
+    <ul class="nav nav-pills">
+    <%= if logged_in?(@conn) do %>
+        <%= link "Home", to: page_path(@conn, :app), class: "btn btn-info" %>
+        <%= link "Guests", to: user_party_path(@conn, :index), class: "btn btn-info" %>
+        <%= link "Invites", to: user_party_path(@conn, :index), class: "btn btn-info" %>
+        <%= link "Website", to: user_party_path(@conn, :index), class: "btn btn-info" %>
+    <% end %>
+    </ul>
+</nav>
+<span class="logo"></span>
+</header>

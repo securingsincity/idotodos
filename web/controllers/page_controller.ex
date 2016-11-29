@@ -13,7 +13,6 @@ defmodule IdotodosEx.PageController do
   
   def app(conn, _params) do
     logged_in_user = Guardian.Plug.current_resource(conn) |> Repo.preload(:campaign)
-    
     logged_in_user = Map.merge(logged_in_user, %{formatted_date: list_date_format(logged_in_user.campaign.main_date)})
     render conn, "app.html", user: logged_in_user
   end

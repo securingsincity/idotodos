@@ -30,7 +30,7 @@ defmodule IdotodosEx.PartyInviteEmailStatus do
       :party_id,
       :invite_id
     ])
-    |> validate_required([:event, :reason, :description, :recipient, :timestamp, :url])
+    |> validate_required([:event])
     |> foreign_key_constraint(:campaign_id)
     |> foreign_key_constraint(:party_id)
     |> foreign_key_constraint(:invite_id)

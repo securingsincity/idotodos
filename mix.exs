@@ -4,7 +4,7 @@ defmodule IdotodosEx.Mixfile do
   def project do
     [app: :idotodos_ex,
      version: "0.0.1",
-     elixir: "~> 1.2",
+     elixir: "~> 1.3.4",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
@@ -30,21 +30,23 @@ defmodule IdotodosEx.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.2.1"},
-     {:phoenix_pubsub, "~> 1.0"},
-     {:phoenix_ecto, "~> 3.0"},
-     {:csv, "~> 1.4.2"},
-     {:postgrex, ">= 0.0.0"},
-     {:phoenix_html, "~> 2.6"},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:mix_test_watch, "~> 0.2", only: :dev},
-     {:gettext, "~> 0.11"},
-     {:guardian, "~> 0.13.0"},
+    [
+      {:phoenix, "~> 1.2.1"},
+      {:phoenix_pubsub, "~> 1.0"},
+      {:phoenix_ecto, "~> 3.0"},
+      {:csv, "~> 1.4.2"},
+      {:postgrex, ">= 0.0.0"},
+      {:phoenix_html, "~> 2.6"},
+      {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:mix_test_watch, "~> 0.2", only: :dev},
+      {:gettext, "~> 0.11"},
+      {:guardian, "~> 0.13.0"},
       {:comeonin, "~> 2.5"},
       {:timex, "~> 3.0"},
-   {:timex_ecto, "~> 3.0"},
-    {:mailgun, "~> 0.1.2"},
-     {:cowboy, "~> 1.0"}]
+      {:timex_ecto, "~> 3.0"},
+      {:mailgun, "~> 0.1.2"},
+      {:cowboy, "~> 1.0"}
+    ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

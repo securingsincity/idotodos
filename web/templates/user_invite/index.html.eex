@@ -1,0 +1,25 @@
+<h2>Your Invites</h2>
+<%= link "New Invite", to: user_invite_path(@conn, :new) %>
+<table class="table">
+<thead>
+<tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Subject</th>
+    <th></th>
+</tr>
+</thead>
+<tbody>
+<%= for invite <- @invites do %>
+<tr>
+    <td><%= invite.name %></td>
+    <td><%= invite.type %></td>
+    <td><%= invite.subject %></td>
+
+    <td class="text-right">
+        <%= link "Edit", to: user_invite_path(@conn, :edit, invite), class: "btn btn-default btn-xs" %>
+        <p>View Email Stats</p>
+        <p>Send</p>
+    </td>
+</tr>
+<% end %>

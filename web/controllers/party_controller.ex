@@ -101,6 +101,6 @@ defmodule IdotodosEx.PartyController do
         |> put_flash(:error, message)
         |> render("upload.html")
     end
-      
+    
   end
 end

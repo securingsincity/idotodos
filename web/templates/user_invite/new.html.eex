@@ -1,0 +1,5 @@
+<h2>New Invite</h2>
+
+<%= render "form.html", changeset: @changeset, action: user_invite_path(@conn, :create) %>
+
+<%= link "Back", to: user_invite_path(@conn, :index) %>

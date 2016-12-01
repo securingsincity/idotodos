@@ -6,6 +6,7 @@ defmodule IdotodosEx.Party do
     field :max_party_size, :integer
     belongs_to :campaign, IdotodosEx.Campaign
     has_many :guests, IdotodosEx.Guest
+    has_many :party_invite_email_statuses, IdotodosEx.PartyInviteEmailStatus
     timestamps()
   end
 

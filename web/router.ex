@@ -19,6 +19,7 @@ defmodule IdotodosEx.Router do
   pipeline :browser_admin do
     plug IdotodosEx.Plugs.IsAdmin
   end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -33,7 +34,6 @@ defmodule IdotodosEx.Router do
     get "/signout", SessionController, :delete
     get "/signup", RegistrationController, :signup
     post "/signup", RegistrationController, :create
-
   end
 
   scope "/", IdotodosEx do
@@ -43,6 +43,7 @@ defmodule IdotodosEx.Router do
     post "/app/parties/upload", PartyController, :bulk_upload
     resources "/users", UserController 
     resources "/app/parties", UserPartyController
+    resources "/app/invites", UserInviteController
     resources "/guests", GuestController
     resources "/parties", PartyController
     resources "/restaurants", RestaurantController
@@ -50,6 +51,12 @@ defmodule IdotodosEx.Router do
     resources "/hotels", HotelController
     resources "/campaign_registries", CampaignRegistryController
     resources "/registries", RegistryController
+  end
+
+  scope "/api", IdotodosEx do
+    pipe_through [:api]
+    post "/party-invite-email-status", PartyInviteEmailStatusController, :create
+    
   end
 
   scope "/admin", IdotodosEx do

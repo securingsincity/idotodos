@@ -43,6 +43,7 @@ defmodule IdotodosEx.Mixfile do
       {:comeonin, "~> 2.5"},
       {:timex, "~> 3.0"},
    {:timex_ecto, "~> 3.0"},
+    {:mailgun, "~> 0.1.2"},
      {:cowboy, "~> 1.0"}]
   end
 

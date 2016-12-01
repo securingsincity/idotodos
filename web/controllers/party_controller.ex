@@ -89,7 +89,7 @@ defmodule IdotodosEx.PartyController do
       {:ok, results} -> 
         results
         |> Enum.map( fn({x, y}) -> Task.async(fn -> 
-          party = Party.changeset_with_guests(%Party{}, %{guests: y, name: x, max_party_size: length(y)})
+          party = Party.changeset_with_guests(%Party{}, %{guests: y, name: x, max_party_size: length(y), campaign_id: logged_in_user.campaign_id})
           Repo.insert!(party)
         end)end)
         |> Enum.each(&Task.await/1)

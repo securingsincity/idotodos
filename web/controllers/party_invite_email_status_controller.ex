@@ -2,7 +2,7 @@ defmodule IdotodosEx.PartyInviteEmailStatusController do
     use IdotodosEx.Web, :controller
     alias IdotodosEx.PartyInviteEmailStatus
     alias IdotodosEx.Repo
-    def create(conn, %{"data" => data}) do
+    def create(conn, data) do
         changeset = PartyInviteEmailStatus.changeset(%PartyInviteEmailStatus{}, data)
         if !changeset.valid? do
             conn 

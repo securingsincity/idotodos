@@ -24,6 +24,11 @@ defmodule IdotodosEx.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :mailgun do
+    plug :accepts, ["html"]
+    # add a mailgun webhook plug
+  end
+
   scope "/", IdotodosEx do
     pipe_through :browser # Use the default browser stack
     get "/", PageController, :index
@@ -34,6 +39,11 @@ defmodule IdotodosEx.Router do
     get "/signout", SessionController, :delete
     get "/signup", RegistrationController, :signup
     post "/signup", RegistrationController, :create
+  end
+
+  scope "/", IdotodosEx do
+    pipe_through :mailgun
+    post "/party-invite-email-status", PartyInviteEmailStatusController, :create
   end
 
   scope "/", IdotodosEx do

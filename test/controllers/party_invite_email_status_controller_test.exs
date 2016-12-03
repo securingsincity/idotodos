@@ -23,13 +23,13 @@ defmodule IdotodosEx.PartyInviteEmailStatusControllerTest do
         url: "some content"
     }
     test "should return a 400 with invalid attrs", %{conn: conn} do
-        conn = post conn, party_invite_email_status_path(conn, :create,data: @invalid_attrs)
+        conn = post conn, party_invite_email_status_path(conn, :create, @invalid_attrs)
         assert conn.status == 400
         assert String.contains?(conn.resp_body, "Invalid Data")
     end
 
     test "should return a 400 with valid attrs but no foreign keys", %{conn: conn} do
-        conn = post conn, party_invite_email_status_path(conn, :create,data: @invalid_attrs_with_bad_keys)
+        conn = post conn, party_invite_email_status_path(conn, :create, @invalid_attrs_with_bad_keys)
         assert conn.status == 400
         assert String.contains?(conn.resp_body, "error")
     end
@@ -67,7 +67,7 @@ defmodule IdotodosEx.PartyInviteEmailStatusControllerTest do
             party_id: party.id,
             campaign_id: campaign.id
         })
-        conn = post conn, party_invite_email_status_path(conn, :create,data: valid_attrs)
+        conn = post conn, party_invite_email_status_path(conn, :create, valid_attrs)
         assert conn.status == 200
         assert String.contains?(conn.resp_body, "some content")
     end

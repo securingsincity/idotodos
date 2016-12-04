@@ -26,4 +26,5 @@ defmodule IdotodosEx.UserPartyControllerTest do
     test "should not list another user's parties and guests" do
         ## WRITE A TEST FOR ME!!!
     end
+
 end

@@ -49,4 +49,28 @@ defmodule IdotodosEx.PartyTest do
     assert guest.party.id == party.id
     assert guest.party_id == party.id
   end
+
+  test "changeset with valid guests is invalid if guests exceed max_party_size" do
+    user_changeset = %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123", password_confirmation: "a123123"}
+    partner_changeset =  %{first_name: "Sara", last_name: "Noonan"}
+    campaign_struct = %{
+      main_date: %{day: 17, month: 4, year: 2010}, 
+      name: "foo", 
+      user: user_changeset, 
+      partner: partner_changeset
+    }
+    changeset = Campaign.registration_changeset(%Campaign{}, campaign_struct)
+    assert changeset.valid?
+    {_, campaign} = Repo.insert(changeset)
+
+    attrs = Map.merge(@valid_attrs, %{ 
+    max_party_size: 2,
+    guests: [
+      %{first_name: "foo", last_name: "bar", campaign_id: campaign.id},
+      %{first_name: "foo", last_name: "cat", campaign_id: campaign.id},
+      %{first_name: "foo", last_name: "dog", campaign_id: campaign.id}
+    ], campaign_id: campaign.id})
+    changeset = Party.changeset_with_guests(%Party{}, attrs)
+    assert !changeset.valid?
+  end
 end

@@ -1,6 +1,7 @@
 defmodule IdotodosEx.UserInviteController do
     use IdotodosEx.Web, :controller
     alias IdotodosEx.Invite
+    alias IdotodosEx.Party
     def index(conn, _params) do
         campaign_id = Guardian.Plug.current_resource(conn).campaign_id
         invites = Repo.all(
@@ -50,5 +51,34 @@ defmodule IdotodosEx.UserInviteController do
                 render(conn, "edit.html", invite: invite, changeset: changeset)
         end
 
+    end
+
+    def send(conn, %{"id" => id}) do
+        campaign_id = Guardian.Plug.current_resource(conn).campaign_id
+        invite = Repo.get_by!(Invite, %{id: id, campaign_id: campaign_id})
+        changeset = Invite.changeset(invite)
+
+        render(conn, "send.html", invite: invite)
+    end
+
+    def send_email(conn, %{"id" => id, "send_invite"=> %{ "who" => who }}) do
+        campaign_id = Guardian.Plug.current_resource(conn).campaign_id
+        invite = Repo.get_by!(Invite, %{id: id, campaign_id: campaign_id})
+        case who do
+            "all" -> send_to_all_parties(campaign_id, invite)
+        end
+        conn
+            |> put_flash(:info, "Invites sent successfully")
+            |> redirect(to: user_invite_path(conn, :index))        
+    end
+
+    def send_to_all_parties(campaign_id, invite) do 
+        #parties = Repo.all(
+        #    from party in Party,
+        #    where: [campaign_id: ^campaign_id]
+        #)  
+        #|> Enum.map(fn x -> Repo.preload(x, :guests) end)
+
+        
     end
 end

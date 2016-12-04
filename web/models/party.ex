@@ -23,6 +23,17 @@ defmodule IdotodosEx.Party do
     struct
     |> changeset(params)
     |> cast_assoc(:guests)
+    |> validate_max_party_size
     |> cast_assoc(:campaign)
+  end
+
+  def validate_max_party_size(changeset) do
+    guests = get_field(changeset, :guests)
+    max_party_size = get_field(changeset, :max_party_size)
+
+    case length(guests) <= max_party_size do
+      true -> changeset
+      false -> add_error(changeset, :guests, "You can't invite more guests than the max party size")
+    end
   end
 end

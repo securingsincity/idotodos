@@ -3,7 +3,7 @@
     <ul class="nav nav-pills pull-right">
     <%= if logged_in?(@conn) do %>
         <%= link "Sign out", to: session_path(@conn, :delete, :access), 
-                method: :delete, class: "btn btn-danger" %><br>
+                method: :delete, class: "btn btn-danger" %>
         <%= link "#{current_user(@conn).email}", to: user_path(@conn,  
                 :show, current_user(@conn)) %>
     <% else %>
@@ -14,13 +14,13 @@
     <% end %>
     </ul>
     <ul class="nav nav-pills">
+    <li><h2>I Do ToDos</h2></li>
     <%= if logged_in?(@conn) do %>
-        <%= link "Home", to: page_path(@conn, :app), class: "btn btn-info" %>
-        <%= link "Guests", to: user_party_path(@conn, :index), class: "btn btn-info" %>
-        <%= link "Invites", to: user_party_path(@conn, :index), class: "btn btn-info" %>
-        <%= link "Website", to: user_party_path(@conn, :index), class: "btn btn-info" %>
+        <li><%= link "Home", to: page_path(@conn, :app), class: "btn" %></li>
+        <li><%= link "Guests", to: user_party_path(@conn, :index), class: "btn" %></li>
+        <li><%= link "Invites", to: user_invite_path(@conn, :index), class: "btn" %></li>
+        <li><%= link "Website", to: user_website_path(@conn, :edit), class: "btn" %></li>
     <% end %>
     </ul>
 </nav>
-<span class="logo"></span>
 </header>

@@ -13,7 +13,7 @@ defmodule IdotodosEx.PartyControllerTest do
   test "bulk upload with a csv", %{conn: conn} do
     upload = %Plug.Upload{path: "test/fixtures/testdata.csv", filename: "testdata.csv"}
     conn = post conn, party_path(conn, :bulk_upload),data: %{bulk_upload: upload}
-    assert redirected_to(conn) == party_path(conn, :index)
+    assert redirected_to(conn) == user_party_path(conn, :index)
   end
 
   test "bulk upload with a broken csv", %{conn: conn} do

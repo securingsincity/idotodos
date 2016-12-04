@@ -54,6 +54,11 @@ defmodule IdotodosEx.Router do
     resources "/users", UserController 
     resources "/app/parties", UserPartyController
     resources "/app/invites", UserInviteController
+    get "/app/invites/:id/send", UserInviteController, :send
+    post "/app/invites/:id/send", UserInviteController, :send_email
+    get "/app/website", UserWebsiteController, :edit
+    post "/app/website", UserWebsiteController, :update
+    put "/app/website", UserWebsiteController, :update
     resources "/guests", GuestController
     resources "/parties", PartyController
     resources "/restaurants", RestaurantController

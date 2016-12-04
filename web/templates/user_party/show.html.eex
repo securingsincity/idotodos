@@ -1,0 +1,11 @@
+<h2><%= @party.name %></h2>
+
+
+<%= for guest <- @party.guests do %>
+    <div class="well">
+        <p><%= guest.first_name %> <%= guest.last_name %></p>
+        <p><%= guest.email %></p> 
+    </div>
+<% end %>
+
+

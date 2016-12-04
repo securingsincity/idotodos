@@ -1,0 +1,15 @@
+<h2>Send Invite</h2>
+
+<%= form_for @conn, user_invite_path(@conn, :send_email, @invite), [as: :send_invite], fn f -> %>
+    
+    <div class="form-group">
+        <%= label f, :who, class: "control-label" %>
+        <%= select f, :who, ["All Parties": "all"], class: "form-control" %>
+        <%= error_tag f, :type %>
+    </div>
+    
+    <div class="form-group">
+        <%= submit "Submit", class: "btn btn-primary" %>
+    </div>
+
+<% end %> 

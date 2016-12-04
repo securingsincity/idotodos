@@ -13,13 +13,14 @@
 <%= for invite <- @invites do %>
 <tr>
     <td><%= invite.name %></td>
-    <td><%= invite.type %></td>
+    <td><%= format_type(invite.type) %></td>
     <td><%= invite.subject %></td>
 
     <td class="text-right">
-        <%= link "Edit", to: user_invite_path(@conn, :edit, invite), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: user_invite_path(@conn, :edit, invite), class: "btn btn-default btn-small" %>
+        
+        <%= link "Send", to: user_invite_path(@conn, :send, invite), class: "btn btn-default btn-small" %>
         <p>View Email Stats</p>
-        <p>Send</p>
     </td>
 </tr>
 <% end %>

@@ -65,7 +65,10 @@ defmodule IdotodosEx.UserInviteControllerTest do
         assert html_response(conn, 200) =~ "Edit Invite"
     end
 
-    test "should not list another user's invites" do
-        
+    test "renders send email page for an invite", %{conn: conn} do
+        user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
+        invite = Repo.insert! Map.merge(%Invite{campaign_id: user.campaign_id}, @valid_attrs)
+        conn = get conn, user_invite_path(conn, :send, invite)
+        assert html_response(conn, 200) =~ "Send Invite"
     end
 end

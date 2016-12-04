@@ -95,7 +95,7 @@ defmodule IdotodosEx.PartyController do
         |> Enum.each(&Task.await/1)
         conn
         |> put_flash(:info, "Bulk upload was successful")
-        |> redirect(to: party_path(conn, :index))
+        |> redirect(to: user_party_path(conn, :index))
       {:error, message} ->
         conn
         |> put_flash(:error, message)

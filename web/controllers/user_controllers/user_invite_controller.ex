@@ -2,6 +2,7 @@ defmodule IdotodosEx.UserInviteController do
     use IdotodosEx.Web, :controller
     alias IdotodosEx.Invite
     alias IdotodosEx.Party
+    alias IdotodosEx.Guest
     def index(conn, _params) do
         campaign_id = Guardian.Plug.current_resource(conn).campaign_id
         invites = Repo.all(
@@ -73,11 +74,15 @@ defmodule IdotodosEx.UserInviteController do
     end
 
     def send_to_all_parties(campaign_id, invite) do 
-        #parties = Repo.all(
-        #    from party in Party,
-        #    where: [campaign_id: ^campaign_id]
-        #)  
-        #|> Enum.map(fn x -> Repo.preload(x, :guests) end)
+        guests = Repo.all(
+           from guest in Guest,
+           where: [campaign_id: ^campaign_id]
+        )  
+        |> Enum.each(fn x -> 
+            if x.email !== "" && x.email !== nil do
+              IdotodosEx.Mailer.send_mail(x.email, invite.subject, invite.html)  
+            end 
+        end)
 
         
     end

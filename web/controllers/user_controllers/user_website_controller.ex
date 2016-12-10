@@ -5,18 +5,17 @@ defmodule IdotodosEx.UserWebsiteController do
     def edit(conn, _params) do
         campaign_id = Guardian.Plug.current_resource(conn).campaign_id
         case Repo.get_by(Website, %{campaign_id: campaign_id}) do
-            website ->
-                render(conn, "edit.html", website: Website.changeset(website))
             nil ->
                 changeset = Website.changeset(%Website{}, %{campaign_id: campaign_id, active: false, site_private: false})
  
                 case Repo.insert(changeset) do
-                    {:ok, website} -> render(conn, "edit.html", changeset: changeset) 
+                    {:ok, website} -> render(conn, "edit.html", website: changeset) 
                     {:error, changeset} -> 
-                        render(conn, "edit.html", changeset: changeset)
-                end 
+                        render(conn, "edit.html", website: changeset)
+                end
+            website ->
+                render(conn, "edit.html", website: Website.changeset(website, %{}))
         end
-
         
     end
 

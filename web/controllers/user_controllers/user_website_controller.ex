@@ -8,7 +8,7 @@ defmodule IdotodosEx.UserWebsiteController do
             website ->
                 render(conn, "edit.html", website: Website.changeset(website))
             {:error, _} ->
-                changeset = Website.changeset(%Website{}, %{campaign_id: campaign_id, active: false, private_rsvp: false})
+                changeset = Website.changeset(%Website{}, %{campaign_id: campaign_id, active: false, site_private: false})
  
                 case Repo.insert(changeset) do
                     {:ok, website} -> render(conn, "edit.html", changeset: changeset) 

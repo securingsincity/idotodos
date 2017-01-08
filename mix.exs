@@ -10,6 +10,9 @@ defmodule IdotodosEx.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases(),
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
+    
      deps: deps()]
   end
 
@@ -45,7 +48,9 @@ defmodule IdotodosEx.Mixfile do
       {:timex, "~> 3.0"},
       {:timex_ecto, "~> 3.0"},
       {:mailgun, "~> 0.1.2"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:excoveralls, "~> 0.5", only: :test},
+      {:mustache, "~> 0.0.2"}
     ]
   end
 

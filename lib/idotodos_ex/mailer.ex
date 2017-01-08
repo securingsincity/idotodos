@@ -4,13 +4,18 @@ defmodule IdotodosEx.Mailer do
           mode: Mix.env,
           test_file_path: "/tmp/mailgun.json"
   use Mailgun.Client, @config
-
   @from "noreply@idotodos.com"
   
-  def send_mail(to, subject, html) do
-     send_email to: to,
-             from: @from,
-             subject: subject,
-             html: html
+  def send_mail(to, subject, html, text \\ nil) do
+     email =  %{
+        to: to,
+        from: @from,
+        subject: subject,
+        html: html
+     }
+     if (text) do
+        email = Dict.merge(email, %{text: text})
+     end
+     send_email email
   end
 end

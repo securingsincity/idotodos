@@ -3,7 +3,9 @@ defmodule IdotodosEx.UserInviteControllerTest do
 
     alias IdotodosEx.Invite
     alias IdotodosEx.Repo
-
+    alias IdotodosEx.Party
+    alias IdotodosEx.Guest
+    alias IdotodosEx.UserInviteController
     @valid_attrs %{
         name: "foo",
         type: "savethedate",
@@ -70,5 +72,25 @@ defmodule IdotodosEx.UserInviteControllerTest do
         invite = Repo.insert! Map.merge(%Invite{campaign_id: user.campaign_id}, @valid_attrs)
         conn = get conn, user_invite_path(conn, :send, invite)
         assert html_response(conn, 200) =~ "Send Invite"
+    end
+
+    test "format_email returns a wrapped and mustache version of the email", %{conn: conn} do
+        user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
+        attrs = %{
+            name: "foobar",
+            max_party_size: 2,
+            guests: [
+                %{first_name: "jerry", last_name: "seinfeld", email: "james.hrisho+jerry@gmail.com"}
+            ],
+            campaign_id: user.campaign_id
+        } 
+        changeset = Party.changeset_with_guests(%Party{}, attrs)
+        party = Repo.insert!(changeset)
+        guest = Repo.get_by(Guest, email: "james.hrisho+jerry@gmail.com" )  
+        |> Repo.preload(:party)
+
+        assert guest.first_name == "jerry"
+        result = UserInviteController.format_email("<h1>Dear {{party_name}}</h1>", "foo", guest)
+        assert result == "<h1>Dear foobar</h1>"
     end
 end

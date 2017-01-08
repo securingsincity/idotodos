@@ -5,6 +5,7 @@ defmodule IdotodosEx.Invite do
     field :name, :string
     field :type, :string
     field :html, :string
+    field :email_text, :string
     field :subject, :string
     belongs_to :campaign, IdotodosEx.Campaign
     timestamps()
@@ -15,7 +16,7 @@ defmodule IdotodosEx.Invite do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :type, :html, :subject, :campaign_id])
+    |> cast(params, [:name, :type, :html, :subject, :email_text, :campaign_id])
     |> validate_required([:name, :type, :html, :subject])
   end
 

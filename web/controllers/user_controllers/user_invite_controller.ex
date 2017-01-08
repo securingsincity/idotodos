@@ -78,12 +78,22 @@ defmodule IdotodosEx.UserInviteController do
            from guest in Guest,
            where: [campaign_id: ^campaign_id]
         )  
+        |> Repo.preload(:party)
         |> Enum.each(fn x -> 
             if x.email !== "" && x.email !== nil do
-              IdotodosEx.Mailer.send_mail(x.email, invite.subject, invite.html)  
+              formatted_email = format_email(invite.html, invite.subject, x)
+              formatted_text = format_email(invite.text_email, invite.subject, x)
+              IdotodosEx.Mailer.send_mail(x.email, invite.subject, formatted_email)  
             end 
         end)
+    end
 
-        
+    def format_email(html, subject, user) do
+        Mustache.render(html, %{
+            subject: subject,
+            party_name: user.party.name,
+            first_name: user.first_name,
+            last_name: user.last_name,
+        })
     end
 end

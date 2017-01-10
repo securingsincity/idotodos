@@ -4,11 +4,7 @@ defmodule IdotodosEx.PartyInviteEmailStatusController do
     alias IdotodosEx.Repo
     def create(conn, data) do
         changeset = PartyInviteEmailStatus.changeset(%PartyInviteEmailStatus{}, data)
-        if !changeset.valid? do
-            conn 
-            |> put_status(400)
-            |> json(%{message: "Invalid Data"})    
-        else 
+        if changeset.valid? do
             case Repo.insert(changeset) do
                 {:ok, result} -> 
                     render conn, "show.json", %{data: result}
@@ -17,6 +13,10 @@ defmodule IdotodosEx.PartyInviteEmailStatusController do
                     |> put_status(400)
                     |> json(%{message: "There was an error"})
             end
+        else 
+            conn 
+            |> put_status(400)
+            |> json(%{message: "Invalid Data"})    
         end
     end
 end

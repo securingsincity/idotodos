@@ -6,13 +6,13 @@ defmodule IdotodosEx.Plugs.IsAdmin do
 
   def call(conn, _) do
     user = Guardian.Plug.current_resource(conn)
-    if !user.is_admin do
-        conn 
+    if user.is_admin do
+        conn  
+    else 
+        conn
         |> put_resp_content_type("text/plain")
         |> send_resp(404, "") 
         |> halt
-    else 
-        conn
     end
   end
 

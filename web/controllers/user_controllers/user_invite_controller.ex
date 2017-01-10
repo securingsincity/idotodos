@@ -82,8 +82,8 @@ defmodule IdotodosEx.UserInviteController do
         |> Enum.each(fn x -> 
             if x.email !== "" && x.email !== nil do
               formatted_email = format_email(invite.html, invite.subject, x)
-              formatted_text = format_email(invite.text_email, invite.subject, x)
-              IdotodosEx.Mailer.send_mail(x.email, invite.subject, formatted_email)  
+              formatted_text = format_email(invite.email_text, invite.subject, x)
+              IdotodosEx.Mailer.send_mail(x.email, invite.subject, formatted_email,formatted_text)  
             end 
         end)
     end

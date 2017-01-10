@@ -1,7 +1,6 @@
 <h2>Bulk Upload</h2>
 
-<button>Download Template</button>
-
+<%= link "Download Template", to: party_path(@conn, :download_template), class: "btn btn-default" %>
 <%= form_for @conn, party_path(@conn, :bulk_upload), [multipart: true,as: :data], fn f -> %>
   <div class="form-group">
     <%= label f, :bulk_upload, class: "control-label" %>

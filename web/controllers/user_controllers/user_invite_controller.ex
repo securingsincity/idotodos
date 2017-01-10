@@ -79,11 +79,15 @@ defmodule IdotodosEx.UserInviteController do
            where: [campaign_id: ^campaign_id]
         )  
         |> Repo.preload(:party)
-        |> Enum.each(fn x -> 
-            if x.email !== "" && x.email !== nil do
-              formatted_email = format_email(invite.html, invite.subject, x)
-              formatted_text = format_email(invite.email_text, invite.subject, x)
-              IdotodosEx.Mailer.send_mail(x.email, invite.subject, formatted_email,formatted_text)  
+        |> Enum.each(fn guest -> 
+            if guest.email !== "" && guest.email !== nil do
+              formatted_email = format_email(invite.html, invite.subject, guest)
+              formatted_text = format_email(invite.email_text, invite.subject, guest)
+              IdotodosEx.Mailer.send_mail(guest.email, invite.subject, formatted_email, formatted_text, %{
+                  invite_id: invite.id,
+                  campaign_id: campaign_id,
+                  party_id: guest.party_id
+              })  
             end 
         end)
     end

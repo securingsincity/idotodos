@@ -51,6 +51,7 @@ defmodule IdotodosEx.Router do
     get "/app", PageController, :app 
     get "/app/parties/upload", PartyController, :upload
     post "/app/parties/upload", PartyController, :bulk_upload
+    get "/app/parties-download-template", PartyController, :download_template
     resources "/users", UserController 
     resources "/app/parties", UserPartyController
     resources "/app/invites", UserInviteController

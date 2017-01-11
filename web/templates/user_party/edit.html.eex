@@ -1,0 +1,40 @@
+<h2><%= @party.name %></h2>
+
+<%= form_for @changeset, user_party_path(@conn, :update, @party), fn f -> %>
+
+  <div class="form-group">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :max_party_size, class: "control-label" %>
+    <%= number_input f, :max_party_size, class: "form-control" %>
+    <%= error_tag f, :max_party_size %>
+  </div>
+  
+  <%= inputs_for f,:guests, fn u -> %> 
+    <h3><%= show_name_or_new_guest u.data %></h3>
+     <div class="form-group">
+        <%= label u, :first_name, class: "control-label" %>
+        <%= text_input u, :first_name, class: "form-control" %>
+        <%= error_tag u, :first_name %>
+    </div>
+    <div class="form-group">
+        <%= label u, :last_name, class: "control-label" %>
+        <%= text_input u, :last_name, class: "form-control" %>
+        <%= error_tag u, :last_name %>
+    </div>
+    <div class="form-group">
+        <%= label u, :email, class: "control-label" %>
+        <%= text_input u, :email, class: "form-control" %>
+        <%= error_tag u, :email %>
+    </div>
+  <% end %>
+  <%= error_tag f, :guests %>
+  <%= link "Add Guest", to: user_party_path(@conn, :add_guest, @party.id), class: "btn btn-default btn-small" %>
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -65,6 +65,7 @@ defmodule IdotodosEx.PartyController do
   def upload(conn, _) do
     render(conn, "upload.html")
   end
+  
   def download_template(conn, _) do
 
     csv_content = File.read!("web/templates/bulk_upload_template.csv")
@@ -73,6 +74,7 @@ defmodule IdotodosEx.PartyController do
     |> put_resp_header("content-disposition", "attachment; filename=\"idotodos-bulk-upload-templates.csv\"")
     |> send_resp(200, csv_content)
   end
+
   def csv_path_to_map_of_parties(path, campaign_id) do
     try do
       result = CSV.decode( File.stream!(path) , headers: true) 

@@ -53,6 +53,7 @@ defmodule IdotodosEx.Router do
     post "/app/parties/upload", PartyController, :bulk_upload
     get "/app/parties-download-template", PartyController, :download_template
     resources "/users", UserController 
+    get "/app/parties/:id/add-guest", UserPartyController, :add_guest
     resources "/app/parties", UserPartyController
     resources "/app/invites", UserInviteController
     get "/app/invites/:id/send", UserInviteController, :send

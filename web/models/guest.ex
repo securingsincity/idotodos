@@ -25,8 +25,7 @@ defmodule IdotodosEx.Guest do
     struct
     |> cast(params, [:campaign_id, :party_id, :first_name, :last_name, :email, :middle_name, :gender, :street, :suite, :city, :state, :zip_code])
     |> validate_required([:first_name, :last_name])
-    |> update_change(:email, &String.downcase/1)
-    |> validate_format(:email, ~r/@/)
+    |> maybe_validate_email
   end
 
   def changeset_with_party(struct, params \\ %{}) do
@@ -35,5 +34,18 @@ defmodule IdotodosEx.Guest do
     |> cast(params, [:campaign_id, :party_id])
     |> cast_assoc(:party)
     |> cast_assoc(:campaign)
+  end
+
+  def maybe_validate_email(changeset) do
+    email = get_field(changeset, :email)
+    case email === "" || email === nil do
+      true -> 
+        changeset 
+        |> update_change(:email, nil)
+      false -> 
+        changeset
+        |> update_change(:email, &String.downcase/1)
+        |> validate_format(:email, ~r/@/)
+    end
   end
 end

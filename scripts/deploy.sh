@@ -7,6 +7,6 @@ if [[ $IS_TAG -gt 0 ]]; then
   mkdir build
   mv * build
   tar -czf $TRAVIS_TAG.tgz build
-  scp -P $DEPLOY_PORT $TRAVIS_TAG.tgz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+  scp  -o StrictHostKeyChecking no -P $DEPLOY_PORT $TRAVIS_TAG.tgz $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
 #   ssh $DEPLOY_USER@$DEPLOY_HOST $DEPLOY_PATH/deploy.sh
 fi

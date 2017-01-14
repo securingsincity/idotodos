@@ -13,6 +13,8 @@ env:
   - secure: KNYOwO/rueF0RTxEzh+tn6sEC00bJtVzIP4Fta5kKQP6iAeW/Lmnm02Yv75BnScPWysE//V0Mt0LVNcduqfqmJa//WLwv1gfgC77eOWpnLIy5nCi69xhe5RXbcWG/d3sV5TIT1LFPR61W3ZP6jNcQz2Qtz5CvFX/7YVI2qHPF/RCcQ4jJs6Rv6p2Id56TNFnXU4l5mVBT9hFu0bhpmGBejz7/YqBduT7GVK8+LTstW5B4pz9iSAzuPFsSxGuJNbbcjhkjtBWigDCmL3/ULkJ0skjsR4489/NQwE+ffhypcvkkqav+CCPDwMVCuYYlXJJbiM1H69uGtDwzaAFezeCSYdkql6ddQp59A7mTAbk0jSh+/yUz4GL0rpBDYFZbZ4yfy//G42Jw7kz4uGi5NXTayIFljalfvhiwSpm8zl/2dc1mhh8I6Dx+4LFMR9R0Sf0LOHaOeZW4SZLUtWrLHO5MSUUIK97DpMEeQRnLw7id0KRirjePcdSNc2RMUZJ+7GQzgMYvKCdw04d3reczxHsDG/y+Hgvo2ZydtkeTSSSwGaMB5/q9JT+g8a/o/OZyRXiNsIY5bl0XaogdUFCdpWmhfVBaN8ffdtfTSb1Bca6EvuzcRF81mESTZPkSkAl/FeoV98MZ3MfEi+HhWDNShLwYr0XmT26rFWVdUton790W2M=
 before_install:
 - openssl aes-256-cbc -K $encrypted_7b610dce0af4_key -iv $encrypted_7b610dce0af4_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
+- openssl aes-256-cbc -K $encrypted_7b610dce0af4_key -iv $encrypted_7b610dce0af4_iv
   -in deploy_key.enc -out ~/.ssh/id_rsa -d
 - chmod 600 ~/.ssh/id_rsa
 script: mix coveralls.travis

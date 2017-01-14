@@ -2,6 +2,7 @@ defmodule IdotodosEx.UserPartyController do
     use IdotodosEx.Web, :controller
 
     alias IdotodosEx.Party
+    alias IdotodosEx.PartyInviteEmailStatus
     alias IdotodosEx.Repo
     alias IdotodosEx.Guest
     def index(conn, _params) do
@@ -12,6 +13,17 @@ defmodule IdotodosEx.UserPartyController do
         ) 
         |> Repo.preload(:guests)
         render(conn, "index.html", parties: parties)            
+    end
+
+    def email_status_index(conn, %{"id" => id}) do
+        campaign_id = Guardian.Plug.current_resource(conn).campaign_id
+        party = 
+            Repo.get_by!(Party, %{id: id, campaign_id: campaign_id})
+            |> Repo.preload(:guests)
+        email_statuses = 
+            Repo.all(from party in PartyInviteEmailStatus,
+            where: [party_id: ^id])
+        render(conn, "email_status_index.html", party: party, email_statuses: email_statuses)
     end
 
     def show(conn, %{"id" => id}) do

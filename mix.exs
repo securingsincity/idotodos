@@ -50,7 +50,7 @@ defmodule IdotodosEx.Mixfile do
       {:mailgun, "~> 0.1.2"},
       {:cowboy, "~> 1.0"},
       {:excoveralls, "~> 0.5", only: :test},
-
+      {:distillery, "~> 0.10.1"},
       {:credo, ">=0.0.2", only: :dev},
       {:mustache, "~> 0.0.2"}
     ]

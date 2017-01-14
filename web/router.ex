@@ -54,6 +54,7 @@ defmodule IdotodosEx.Router do
     get "/app/parties-download-template", PartyController, :download_template
     resources "/users", UserController 
     get "/app/parties/:id/add-guest", UserPartyController, :add_guest
+    get "/app/parties/:id/email-statuses", UserPartyController, :email_status_index
     resources "/app/parties", UserPartyController
     resources "/app/invites", UserInviteController
     get "/app/invites/:id/send", UserInviteController, :send

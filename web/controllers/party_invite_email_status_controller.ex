@@ -19,4 +19,6 @@ defmodule IdotodosEx.PartyInviteEmailStatusController do
             |> json(%{message: "Invalid Data"})    
         end
     end
+
+    
 end

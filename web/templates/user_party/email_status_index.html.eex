@@ -1,0 +1,5 @@
+<h2>Email Statuses for <%= @party.name %></h2>
+
+<%= for email_status <- @email_statuses do %>
+    <li><%= email_status.event %> </li>
+<% end %>

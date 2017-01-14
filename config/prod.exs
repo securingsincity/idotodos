@@ -36,6 +36,14 @@ config :idotodos_ex, IdotodosEx.Repo,
   url: System.get_env("DATABASE_URL"),
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true
+
+config :phoenix_distillery, PhoenixDistillery.Endpoint,
+  http: [port: {:system, "PORT"}],
+  url: [host: "localhost", port: {:system, "PORT"}], # This is critical for ensuring web-sockets properly authorize.
+  cache_static_manifest: "priv/static/manifest.json",
+  server: true,
+  root: ".",
+  version: Mix.Project.config[:version]
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

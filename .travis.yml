@@ -15,3 +15,5 @@ before_install:
   -in deploy_key.enc -out ~/.ssh/id_rsa -d
 - chmod 600 ~/.ssh/id_rsa
 script: mix coveralls.travis
+after_success: 
+  - ./deploy.sh

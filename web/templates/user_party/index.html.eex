@@ -26,7 +26,7 @@
 
     <td class="text-right">
         <%= link "View", to: user_party_path(@conn, :show, party), class: "btn btn-default btn-small" %>
-        <%= link "View Statuses", to: user_party_path(@conn, :email_status_index, party), class: "btn btn-default btn-small" %>
+        <%= link "View Email Status", to: user_party_path(@conn, :email_status_index, party), class: "btn btn-default btn-small" %>
         <%= link "Edit", to: user_party_path(@conn, :edit, party), class: "btn btn-default btn-small" %>
     </td>
 </tr>

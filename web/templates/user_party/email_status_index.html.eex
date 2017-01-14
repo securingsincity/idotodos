@@ -1,5 +1,16 @@
 <h2>Email Statuses for <%= @party.name %></h2>
 
-<%= for email_status <- @email_statuses do %>
-    <li><%= email_status.event %> </li>
-<% end %>
+<table>
+    <tr>
+        <th>Event</th>
+        <th>Recipient</th>
+        <th>Timestamp</th>
+    </tr>
+    <%= for email_status <- @email_statuses do %>
+        <tr>
+            <td><%= email_status.event %></td>
+            <td><%= email_status.recipient %></td>
+            <td><%= email_status.timestamp %></td>
+        </tr>
+    <% end %>
+</table>

@@ -74,7 +74,7 @@ defmodule IdotodosEx.UserInviteControllerTest do
         assert html_response(conn, 200) =~ "Send Invite"
     end
 
-    test "format_email returns a wrapped and mustache version of the email", %{conn: conn} do
+    test "format_email returns a wrapped and mustache version of the email", %{conn: _} do
         user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
         attrs = %{
             name: "foobar",
@@ -85,7 +85,7 @@ defmodule IdotodosEx.UserInviteControllerTest do
             campaign_id: user.campaign_id
         } 
         changeset = Party.changeset_with_guests(%Party{}, attrs)
-        party = Repo.insert!(changeset)
+        Repo.insert!(changeset)
         guest = Repo.get_by(Guest, email: "james.hrisho+jerry@gmail.com" )  
         |> Repo.preload(:party)
 

@@ -13,7 +13,7 @@
         <tr>
             <td><%= email_status.event %></td>
             <td><%= email_status.recipient %></td>
-            <td><%= date_format(email_status.timestamp) %></td>
+            <td><%= date_format(email_status.inserted_at) %></td>
         </tr>
     <% end %>
     </tbody>

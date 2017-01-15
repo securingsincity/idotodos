@@ -1,6 +1,7 @@
 defmodule IdotodosEx.UserPartyView do
   use IdotodosEx.Web, :view
-
+  alias Timex
+  alias Ecto
   def show_name_or_new_guest(guest) do
     case guest.first_name do
       "" -> "New Guest"
@@ -9,13 +10,16 @@ defmodule IdotodosEx.UserPartyView do
     end
   end
 
-  def date_format(%Ecto.Date{} = date) do 
-    << Ecto.Date.to_iso8601(date) <> "T00:00:00Z" >> 
-    |> Timex.parse!("{ISO:Extended:Z}")
-    |> Timex.Format.DateTime.Formatters.Relative.format!("{MM/DD/YYYY}")
+  def date_format(%Ecto.DateTime{} = date) do 
+    date
+    |> Ecto.DateTime.to_erl
+    |> Timex.to_datetime("Etc/UTC")
+    |> Timex.to_datetime("America/New_York")
+    |> Timex.format!("%B %e, %Y %l:%M %p", :strftime)
   end 
 
-  def date_format(nil) do
-    nil
+  # def date_format(nil) do: nil
+  def date_format(date) do
+    IO.inspect date 
   end
 end

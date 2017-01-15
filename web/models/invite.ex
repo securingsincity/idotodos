@@ -17,7 +17,7 @@ defmodule IdotodosEx.Invite do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :type, :html, :subject, :email_text, :campaign_id])
+    |> cast(params, [:name, :type, :html, :from, :subject, :email_text, :campaign_id])
     |> validate_required([:name, :type, :html, :subject])
   end
 

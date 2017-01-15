@@ -1,7 +1,6 @@
 defmodule IdotodosEx.UserInviteController do
     use IdotodosEx.Web, :controller
     alias IdotodosEx.Invite
-    alias IdotodosEx.Party
     alias IdotodosEx.Guest
     def index(conn, _params) do
         campaign_id = Guardian.Plug.current_resource(conn).campaign_id
@@ -57,8 +56,7 @@ defmodule IdotodosEx.UserInviteController do
     def send(conn, %{"id" => id}) do
         campaign_id = Guardian.Plug.current_resource(conn).campaign_id
         invite = Repo.get_by!(Invite, %{id: id, campaign_id: campaign_id})
-        changeset = Invite.changeset(invite)
-
+        Invite.changeset(invite)
         render(conn, "send.html", invite: invite)
     end
 
@@ -74,7 +72,7 @@ defmodule IdotodosEx.UserInviteController do
     end
 
     def send_to_all_parties(campaign_id, invite) do 
-        guests = Repo.all(
+        Repo.all(
            from guest in Guest,
            where: [campaign_id: ^campaign_id]
         )  
@@ -83,11 +81,26 @@ defmodule IdotodosEx.UserInviteController do
             if guest.email !== "" && guest.email !== nil do
               formatted_email = format_email(invite.html, invite.subject, guest)
               formatted_text = format_email(invite.email_text, invite.subject, guest)
-              IdotodosEx.Mailer.send_mail(guest.email, invite.subject, formatted_email, formatted_text, %{
-                  invite_id: invite.id,
-                  campaign_id: campaign_id,
-                  party_id: guest.party_id
-              })  
+              case invite.from do
+                  "" -> 
+                      IdotodosEx.Mailer.send_mail(guest.email, invite.subject, formatted_email, formatted_text, %{
+                            invite_id: invite.id,
+                            campaign_id: campaign_id,
+                            party_id: guest.party_id
+                        })  
+                 _ -> 
+                    IdotodosEx.Mailer.send_mail(%{
+                        from: invite.from,
+                        to: guest.email,
+                        subject: invite.subject,
+                        html: formatted_email,
+                        text: formatted_text
+                    }, %{
+                        invite_id: invite.id,
+                        campaign_id: campaign_id,
+                        party_id: guest.party_id
+                    })
+              end
             end 
         end)
     end

@@ -4,6 +4,7 @@ defmodule IdotodosEx.Invite do
   schema "invites" do
     field :name, :string
     field :type, :string
+    field :from, :string
     field :html, :string
     field :email_text, :string
     field :subject, :string

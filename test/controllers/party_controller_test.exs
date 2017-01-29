@@ -2,6 +2,7 @@ defmodule IdotodosEx.PartyControllerTest do
   use IdotodosEx.AuthConnCase
 
   alias IdotodosEx.Party
+  alias IdotodosEx.User
   @valid_attrs %{max_party_size: 42, name: "some content"}
   @invalid_attrs %{}
 
@@ -25,7 +26,7 @@ defmodule IdotodosEx.PartyControllerTest do
 
 
   test "csv is manipulated to be a map with keys for each family" do
-    
+
     {:ok, result} = IdotodosEx.PartyController.csv_path_to_map_of_parties( "test/fixtures/testdata.csv", 4)
     assert result == %{"elaine" => [%{"bridal_party" => "maid of honor", "city" => "New York",
      "email" => "elain@gmail.com", "first_name" => "Elaine",
@@ -53,7 +54,7 @@ defmodule IdotodosEx.PartyControllerTest do
   end
 
   test "csv is broken and should be handled" do
-    
+
     {:error, result} = IdotodosEx.PartyController.csv_path_to_map_of_parties( "test/fixtures/testdata-broken.csv", 4)
     assert result == "There was an error parsing your import"
   end

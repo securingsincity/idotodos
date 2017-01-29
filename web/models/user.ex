@@ -1,5 +1,7 @@
 defmodule IdotodosEx.User do
   use IdotodosEx.Web, :model
+  alias IdotodosEx.Repo
+  alias IdotodosEx.Campaign
   @allowed_fields [
     :first_name,
     :last_name,
@@ -11,7 +13,8 @@ defmodule IdotodosEx.User do
     :suite,
     :city,
     :state,
-    :zip_code
+    :zip_code,
+    :campaign_id
   ]
   schema "users" do
     field :first_name, :string
@@ -73,5 +76,9 @@ defmodule IdotodosEx.User do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} -> put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(pass))
       _ -> changeset
     end
+  end
+
+  def get_campaign_id(user) do
+    Repo.get_by!(Campaign, %{user_id: user.id}).id
   end
 end

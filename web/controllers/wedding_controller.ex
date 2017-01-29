@@ -11,6 +11,7 @@ defmodule IdotodosEx.WeddingController do
             conn
             |> redirect(to: "/")
         wedding ->
+          wedding = wedding |> Repo.preload([:website,:user,:partner])
           render(conn, "index.html", wedding: wedding)
     end
     # render(conn, "index.html", campaign_registries: campaign_registries)

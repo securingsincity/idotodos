@@ -5,8 +5,10 @@ defmodule IdotodosEx.UserPartyController do
     alias IdotodosEx.PartyInviteEmailStatus
     alias IdotodosEx.Repo
     alias IdotodosEx.Guest
+    alias IdotodosEx.User
     def index(conn, _params) do
-        campaign_id = Guardian.Plug.current_resource(conn).campaign_id
+        user = Guardian.Plug.current_resource(conn)
+        campaign_id = User.get_campaign_id(user)
         parties = Repo.all(
             from party in Party,
             where: [campaign_id: ^campaign_id]
@@ -16,7 +18,8 @@ defmodule IdotodosEx.UserPartyController do
     end
 
     def email_status_index(conn, %{"id" => id}) do
-        campaign_id = Guardian.Plug.current_resource(conn).campaign_id
+        user = Guardian.Plug.current_resource(conn)
+        campaign_id = User.get_campaign_id(user)
         party =
             Party
             |> Repo.get_by!(%{id: id, campaign_id: campaign_id})
@@ -28,7 +31,8 @@ defmodule IdotodosEx.UserPartyController do
     end
 
     def show(conn, %{"id" => id}) do
-        campaign_id = Guardian.Plug.current_resource(conn).campaign_id
+        user = Guardian.Plug.current_resource(conn)
+        campaign_id = User.get_campaign_id(user)
         party =
             Party
             |> Repo.get_by!(%{id: id, campaign_id: campaign_id})
@@ -37,7 +41,8 @@ defmodule IdotodosEx.UserPartyController do
     end
 
     def edit(conn, %{"id" => id}) do
-        campaign_id = Guardian.Plug.current_resource(conn).campaign_id
+        user = Guardian.Plug.current_resource(conn)
+        campaign_id = User.get_campaign_id(user)
         party =
             Party
             |> Repo.get_by!(%{id: id, campaign_id: campaign_id})
@@ -47,7 +52,8 @@ defmodule IdotodosEx.UserPartyController do
     end
 
     def add_guest(conn, %{"id" => id}) do
-        campaign_id = Guardian.Plug.current_resource(conn).campaign_id
+        user = Guardian.Plug.current_resource(conn)
+        campaign_id = User.get_campaign_id(user)
         party =
             Party
             |> Repo.get_by!(%{id: id, campaign_id: campaign_id})
@@ -60,7 +66,8 @@ defmodule IdotodosEx.UserPartyController do
     end
 
     def update(conn, %{"id" => id, "party" => %{"guests"=> guests, "max_party_size"=> max_party_size, "name"=> name}}) do
-        campaign_id = Guardian.Plug.current_resource(conn).campaign_id
+        user = Guardian.Plug.current_resource(conn)
+        campaign_id = User.get_campaign_id(user)
         party =
             Party
             |> Repo.get_by!(%{id: id, campaign_id: campaign_id})

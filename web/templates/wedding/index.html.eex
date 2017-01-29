@@ -1,1 +1,3 @@
 <h2>Our Wedding</h2>
+
+<%= @wedding.user.first_name <> " " <> @wedding.user.last_name %> and <%= @wedding.partner.first_name <> " " <> @wedding.partner.last_name  %>

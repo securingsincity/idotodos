@@ -2,6 +2,7 @@ defmodule IdotodosEx.PartyController do
   use IdotodosEx.Web, :controller
 
   alias IdotodosEx.Party
+  alias IdotodosEx.User
   def index(conn, _params) do
     parties = Repo.all(Party)
     render(conn, "index.html", parties: parties)
@@ -65,7 +66,7 @@ defmodule IdotodosEx.PartyController do
   def upload(conn, _) do
     render(conn, "upload.html")
   end
-  
+
   def download_template(conn, _) do
 
     csv_content = File.read!("web/templates/bulk_upload_template.csv")
@@ -77,7 +78,7 @@ defmodule IdotodosEx.PartyController do
 
   def csv_path_to_map_of_parties(path, campaign_id) do
     try do
-      result = CSV.decode( File.stream!(path) , headers: true) 
+      result = CSV.decode( File.stream!(path) , headers: true)
       |> Enum.reduce(%{}, fn(row, acc) ->
         result = Map.get(acc, row["party_name"], [])
         row = Map.merge(row, %{"campaign_id" => campaign_id})
@@ -89,16 +90,17 @@ defmodule IdotodosEx.PartyController do
       {:error, "There was an error parsing your import"}
     end
   end
-  
+
 
 
   def bulk_upload(conn, %{"data" => %{"bulk_upload" => data}}) do
     logged_in_user = Guardian.Plug.current_resource(conn)
-    case csv_path_to_map_of_parties(data.path, logged_in_user.campaign_id) do
-      {:ok, results} -> 
+    campaign_id = User.get_campaign_id(logged_in_user)
+    case csv_path_to_map_of_parties(data.path, campaign_id) do
+      {:ok, results} ->
         results
-        |> Enum.map( fn({x, y}) -> Task.async(fn -> 
-          party = Party.changeset_with_guests(%Party{}, %{guests: y, name: x, max_party_size: length(y), campaign_id: logged_in_user.campaign_id})
+        |> Enum.map( fn({x, y}) -> Task.async(fn ->
+          party = Party.changeset_with_guests(%Party{}, %{guests: y, name: x, max_party_size: length(y), campaign_id: campaign_id})
           Repo.insert!(party)
         end)end)
         |> Enum.each(&Task.await/1)
@@ -110,6 +112,6 @@ defmodule IdotodosEx.PartyController do
         |> put_flash(:error, message)
         |> render("upload.html")
     end
-    
+
   end
 end

@@ -4,7 +4,7 @@ defmodule IdotodosEx.CampaignTest do
   alias IdotodosEx.Campaign
   alias IdotodosEx.Repo
   @valid_attrs %{
-    main_date: %{day: 17, month: 4, year: 2010}, 
+    main_date: %{day: 17, month: 4, year: 2010},
     name: "somecontent",
   }
   @invalid_attrs %{}
@@ -59,8 +59,8 @@ defmodule IdotodosEx.CampaignTest do
     {_, campaign} = Repo.insert(changeset)
     assert campaign.name == "somecontent"
     campaign = campaign |> Repo.preload(:partner) |> Repo.preload(:user)
-    assert campaign.user.campaign_id == campaign.id
-    assert campaign.partner.campaign_id == campaign.id
+    assert campaign.user.id == campaign.user_id
+    assert campaign.partner.id == campaign.partner_id
     assert campaign.user.first_name == "James"
     assert campaign.user.password_hash !== "a123123"
     assert campaign.partner.id !== nil

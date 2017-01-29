@@ -1,6 +1,7 @@
 defmodule IdotodosEx.PageController do
   use IdotodosEx.Web, :controller
   alias IdotodosEx.Repo
+  alias IdotodosEx.Campaign
   use Timex
   def index(conn, _params) do
     render conn, "index.html"
@@ -12,8 +13,9 @@ defmodule IdotodosEx.PageController do
   end
 
   def app(conn, _params) do
-    logged_in_user = conn |> Guardian.Plug.current_resource |> Repo.preload(:campaign)
-    logged_in_user = Map.merge(logged_in_user, %{formatted_date: list_date_format(logged_in_user.campaign.main_date)})
+    logged_in_user = conn |> Guardian.Plug.current_resource
+    campaign = Repo.get_by!(Campaign, %{user_id: logged_in_user.id})
+    logged_in_user = Map.merge(logged_in_user, %{formatted_date: list_date_format(campaign.main_date)})
     render conn, "app.html", user: logged_in_user
   end
 end

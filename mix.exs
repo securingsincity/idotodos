@@ -12,7 +12,7 @@ defmodule IdotodosEx.Mixfile do
      aliases: aliases(),
      test_coverage: [tool: ExCoveralls],
      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
-    
+
      deps: deps()]
   end
 
@@ -52,6 +52,8 @@ defmodule IdotodosEx.Mixfile do
       {:excoveralls, "~> 0.5", only: :test},
       {:distillery, "~> 0.10.1"},
       {:credo, ">=0.0.2", only: :dev},
+      {:molasses, "~> 0.3.0"},
+      {:poison, ">= 2.0.0", override: true},
       {:mustache, "~> 0.0.2"}
     ]
   end

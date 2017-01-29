@@ -48,7 +48,7 @@ defmodule IdotodosEx.User do
   def registration_changeset(model, params) do
     model
     |> changeset(params)
-    |> cast(params, ~w(password), [])
+    |> cast(params,[:password])
     |> validate_length(:password, min: 6, max: 100)
     |> validate_confirmation(:password, message: "Password and password confirmation must match")
     |> put_pass_hash()
@@ -56,7 +56,7 @@ defmodule IdotodosEx.User do
 
   def admin_registration_changeset(model, params) do
     model
-    |> registration_changeset(params) 
+    |> registration_changeset(params)
     |> put_change(:is_admin, true)
   end
 
@@ -67,7 +67,7 @@ defmodule IdotodosEx.User do
     |> put_change(:is_admin, false)
     |> validate_required([:first_name, :last_name])
   end
-  
+
   defp put_pass_hash(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} -> put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(pass))

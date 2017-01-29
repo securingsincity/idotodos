@@ -39,6 +39,7 @@ defmodule IdotodosEx.Router do
     get "/signout", SessionController, :delete
     get "/signup", RegistrationController, :signup
     post "/signup", RegistrationController, :create
+    get "/wedding/:name", WeddingController, :index
   end
 
   scope "/", IdotodosEx do
@@ -48,11 +49,11 @@ defmodule IdotodosEx.Router do
 
   scope "/", IdotodosEx do
     pipe_through [:browser, :browser_auth]
-    get "/app", PageController, :app 
+    get "/app", PageController, :app
     get "/app/parties/upload", PartyController, :upload
     post "/app/parties/upload", PartyController, :bulk_upload
     get "/app/parties-download-template", PartyController, :download_template
-    resources "/users", UserController 
+    resources "/users", UserController
     get "/app/parties/:id/add-guest", UserPartyController, :add_guest
     get "/app/parties/:id/email-statuses", UserPartyController, :email_status_index
     resources "/app/parties", UserPartyController
@@ -74,13 +75,13 @@ defmodule IdotodosEx.Router do
   scope "/api", IdotodosEx do
     pipe_through [:api]
     post "/party-invite-email-status", PartyInviteEmailStatusController, :create
-    
+
   end
 
   scope "/admin", IdotodosEx do
     pipe_through [:browser, :browser_auth, :browser_admin]
     resources "/campaigns", CampaignController
-    
+
   end
 
 end

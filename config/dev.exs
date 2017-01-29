@@ -14,7 +14,7 @@ config :idotodos_ex, IdotodosEx.Endpoint,
   watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
                     cd: Path.expand("../", __DIR__)]]
 
-
+config :molasses, adapter: "ecto"
 # Watch static and templates for browser reloading.
 config :idotodos_ex, IdotodosEx.Endpoint,
   live_reload: [

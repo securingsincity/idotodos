@@ -10,17 +10,18 @@ defmodule IdotodosEx.UserPartyController do
         parties = Repo.all(
             from party in Party,
             where: [campaign_id: ^campaign_id]
-        ) 
+        )
         |> Repo.preload(:guests)
-        render(conn, "index.html", parties: parties)            
+        render(conn, "index.html", parties: parties)
     end
 
     def email_status_index(conn, %{"id" => id}) do
         campaign_id = Guardian.Plug.current_resource(conn).campaign_id
-        party = 
-            Repo.get_by!(Party, %{id: id, campaign_id: campaign_id})
+        party =
+            Party
+            |> Repo.get_by!(%{id: id, campaign_id: campaign_id})
             |> Repo.preload(:guests)
-        email_statuses = 
+        email_statuses =
             Repo.all(from party in PartyInviteEmailStatus,
             where: [party_id: ^id])
         render(conn, "email_status_index.html", party: party, email_statuses: email_statuses)
@@ -28,26 +29,29 @@ defmodule IdotodosEx.UserPartyController do
 
     def show(conn, %{"id" => id}) do
         campaign_id = Guardian.Plug.current_resource(conn).campaign_id
-        party = 
-            Repo.get_by!(Party, %{id: id, campaign_id: campaign_id})
+        party =
+            Party
+            |> Repo.get_by!(%{id: id, campaign_id: campaign_id})
             |> Repo.preload(:guests)
         render(conn, "show.html", party: party)
     end
 
     def edit(conn, %{"id" => id}) do
         campaign_id = Guardian.Plug.current_resource(conn).campaign_id
-        party = 
-            Repo.get_by!(Party, %{id: id, campaign_id: campaign_id})
+        party =
+            Party
+            |> Repo.get_by!(%{id: id, campaign_id: campaign_id})
             |> Repo.preload(:guests)
         changeset = Party.changeset(party)
-        render(conn, "edit.html", party: party, changeset: changeset )
+        render(conn, "edit.html", party: party, changeset: changeset)
     end
-    
+
     def add_guest(conn, %{"id" => id}) do
         campaign_id = Guardian.Plug.current_resource(conn).campaign_id
-        party = 
-            Repo.get_by!(Party, %{id: id, campaign_id: campaign_id})
-            |> Repo.preload(:guests) 
+        party =
+            Party
+            |> Repo.get_by!(%{id: id, campaign_id: campaign_id})
+            |> Repo.preload(:guests)
             |> Repo.preload(:campaign)
         guests = party.guests ++ [%Guest{}]
         party = Map.merge(party, %{guests: guests})
@@ -57,9 +61,10 @@ defmodule IdotodosEx.UserPartyController do
 
     def update(conn, %{"id" => id, "party" => %{"guests"=> guests, "max_party_size"=> max_party_size, "name"=> name}}) do
         campaign_id = Guardian.Plug.current_resource(conn).campaign_id
-        party = 
-            Repo.get_by!(Party, %{id: id, campaign_id: campaign_id})
-            |> Repo.preload(:guests) 
+        party =
+            Party
+            |> Repo.get_by!(%{id: id, campaign_id: campaign_id})
+            |> Repo.preload(:guests)
             |> Repo.preload(:campaign)
         changeset = Party.changeset_with_guests(party, %{guests: guests, max_party_size: max_party_size, name: name})
         case Repo.update(changeset) do

@@ -15,7 +15,7 @@
     <%= radio_button f, :active, false, class: "form-control" %>
     <%= error_tag f, :active %>
   </div>
-   
+
 
   <div class="form-group">
     <%= label f, :site_private, class: "control-label" %>
@@ -23,8 +23,51 @@
     <%= radio_button f, :site_private, false, class: "form-control" %>
     <%= error_tag f, :site_private %>
   </div>
-   
-   <div class="form-group">
+
+
+  <div class="form-group">
+    <%= label f, :show_rsvp, class: "control-label" %>
+    <%= radio_button f, :show_rsvp, true, class: "form-control" %>
+    <%= radio_button f, :show_rsvp, false, class: "form-control" %>
+    <%= error_tag f, :show_rsvp %>
+  </div>
+
+
+  <div class="form-group">
+    <%= label f, :show_gallery, class: "control-label" %>
+    <%= radio_button f, :show_gallery, true, class: "form-control" %>
+    <%= radio_button f, :show_gallery, false, class: "form-control" %>
+    <%= error_tag f, :show_gallery %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :show_bridal_party, class: "control-label" %>
+    <%= radio_button f, :show_bridal_party, true, class: "form-control" %>
+    <%= radio_button f, :show_bridal_party, false, class: "form-control" %>
+    <%= error_tag f, :show_bridal_party %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :story, class: "control-label" %>
+    <%= textarea f, :story, class: "form-control" %>
+    <%= error_tag f, :story %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :images, class: "control-label" %>
+    <%= textarea f, :images, class: "form-control" %>
+    <%= error_tag f, :images %>
+  </div>
+
+
+  <div class="form-group">
+    <%= label f, :bridal_party, class: "control-label" %>
+    <%= textarea f, :bridal_party, class: "form-control" %>
+    <%= error_tag f, :bridal_party %>
+  </div>
+
+
+  <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 

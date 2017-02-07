@@ -3,6 +3,7 @@ defmodule IdotodosEx.UserWebsiteController do
     alias IdotodosEx.Website
     alias IdotodosEx.Repo
     alias IdotodosEx.User
+    alias Ecto.Changeset
     def edit(conn, _params) do
         user = Guardian.Plug.current_resource(conn)
         campaign_id = User.get_campaign_id(user)
@@ -16,16 +17,21 @@ defmodule IdotodosEx.UserWebsiteController do
                         render(conn, "edit.html", website: changeset)
                 end
             website ->
-                render(conn, "edit.html", website: Website.changeset(website, %{}))
+                images = Poison.encode!(website.images)
+                bridal_party = Poison.encode!(website.bridal_party)
+                render(conn, "edit.html", website: Website.changeset(website, %{images: images, bridal_party: bridal_party}))
         end
 
     end
 
     def update(conn, %{"website" => website_params}) do
+
         user = Guardian.Plug.current_resource(conn)
+        images = Poison.Parser.parse!(website_params["images"])
+        bridal_party = Poison.Parser.parse!(website_params["bridal_party"])
         campaign_id = User.get_campaign_id(user)
         website = Repo.get_by!(Website, %{campaign_id: campaign_id})
-        changeset = Website.changeset(website, website_params)
+        changeset = Website.changeset(website, Map.merge(website_params, %{"images" => images, "bridal_party" => bridal_party}))
         case Repo.update(changeset) do
             {:ok, _website} ->
                 conn

@@ -9,6 +9,7 @@ defmodule IdotodosEx.Campaign do
     belongs_to :partner, IdotodosEx.User
     has_many :users, IdotodosEx.User
     has_many :guests, IdotodosEx.Guest
+    has_many :registries, IdotodosEx.CampaignRegistry
     has_many :parties, IdotodosEx.Party
     timestamps()
   end

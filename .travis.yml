@@ -1,6 +1,4 @@
 language: elixir
-addons:
-  postgresql: "9.6"
 services:
 - postgresql
 elixir:
@@ -14,7 +12,8 @@ env:
   - secure: OD4ycGWtV6wqpYAR3RxzR3rWH3ykS1r47+ipmjXtpltW1cTpwlGeIa1/bpb3KU72Du3tSlrSf+XcUgaNzEMGJsT+qoQQ788TeJPCxis4ruYhWpd6YzYXIQtBIN3Q21G9gHRLv0dYeJvw+szkODRDMjcyHnUYVkugPpdwJkuhwiWppalZdYTjx5XOBC/dmcmyg5MfcF903Lyqav9pdJua7dz98pAoLpxrUjM9KFfqZ5XYkDKTOpT7/zF9PxxqiG4Mup9exL8rg8mrwJji2V8Bdlf5VGkqsDtEzJQExSaNYE3X8PYxnv6WqofwMbHnaeR0K+AL2LaNPE6VUYEl0kW0BIuCxqOBHt7R8QVMR2ISuGmP6D4NEA+IwjJ55xUIHQu8gnYkaBcWNE+5po3O/9KBdXJXd1VsELrEs4jfQe6DWY6PH1l3PUBdXdY9G/xnJsKHOo7AhhMl3qYQ7k078j83l42abbX4EMWrRQm+/E8mFZ4f9Df16z1RGOwlJrvhCyK4dGbXHPPj5jt2D/j2AeU7SFoJkmLJ+lvpiITRVyOa9fc03xC/9ThVblps6SVIIZLC8yv1GI+2kRl/V0HqkDYM97pzjpxVRf9hX4v6RRI+aZe/2tqzRo2lhEa9ryolw/Vj8wQAxCIksgrFzSdHFJExrVg0B5xOmtpyNwaB5Rdk2eQ=
   - secure: KNYOwO/rueF0RTxEzh+tn6sEC00bJtVzIP4Fta5kKQP6iAeW/Lmnm02Yv75BnScPWysE//V0Mt0LVNcduqfqmJa//WLwv1gfgC77eOWpnLIy5nCi69xhe5RXbcWG/d3sV5TIT1LFPR61W3ZP6jNcQz2Qtz5CvFX/7YVI2qHPF/RCcQ4jJs6Rv6p2Id56TNFnXU4l5mVBT9hFu0bhpmGBejz7/YqBduT7GVK8+LTstW5B4pz9iSAzuPFsSxGuJNbbcjhkjtBWigDCmL3/ULkJ0skjsR4489/NQwE+ffhypcvkkqav+CCPDwMVCuYYlXJJbiM1H69uGtDwzaAFezeCSYdkql6ddQp59A7mTAbk0jSh+/yUz4GL0rpBDYFZbZ4yfy//G42Jw7kz4uGi5NXTayIFljalfvhiwSpm8zl/2dc1mhh8I6Dx+4LFMR9R0Sf0LOHaOeZW4SZLUtWrLHO5MSUUIK97DpMEeQRnLw7id0KRirjePcdSNc2RMUZJ+7GQzgMYvKCdw04d3reczxHsDG/y+Hgvo2ZydtkeTSSSwGaMB5/q9JT+g8a/o/OZyRXiNsIY5bl0XaogdUFCdpWmhfVBaN8ffdtfTSb1Bca6EvuzcRF81mESTZPkSkAl/FeoV98MZ3MfEi+HhWDNShLwYr0XmT26rFWVdUton790W2M=
 addons:
-  ssh_known_hosts: $DEPLOY_HOST
+  - ssh_known_hosts: $DEPLOY_HOST
+  - postgresql: "9.6"
 before_install:
 - openssl aes-256-cbc -K $encrypted_7b610dce0af4_key -iv $encrypted_7b610dce0af4_iv
   -in deploy_rsa.enc -out /tmp/deploy_rsa -d

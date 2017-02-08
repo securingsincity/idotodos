@@ -18,6 +18,8 @@ before_install:
 - eval "$(ssh-agent -s)"
 - chmod 600 /tmp/deploy_rsa
 - ssh-add /tmp/deploy_rsa
+before_script:
+  - psql -c 'create database idotodos_ex_test;' -U postgres
 script: mix coveralls.travis
 after_success:
 - "./scripts/deploy.sh"

@@ -37,4 +37,8 @@ ouTp5P3HGxs7HcPDbVRJpiDz92XyOVO4eA==", #overwrite in prod.secrets
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+if System.get_env("TRAVIS") == true do
+  import_config "travis.exs"
+else
+  import_config "#{Mix.env}.exs"
+end

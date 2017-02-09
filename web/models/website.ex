@@ -8,10 +8,12 @@ defmodule IdotodosEx.Website do
     field :story, :string
     field :images, :map
     field :theme, :string
-    field :show_gallery, :boolean, default: false
     field :bridal_party, :map
+    field :info, :map
+    field :show_gallery, :boolean, default: false
     field :show_bridal_party, :boolean, default: false
     field :show_rsvp, :boolean, default: false
+    field :show_registry, :boolean, default: false
     belongs_to :campaign, IdotodosEx.Campaign
     timestamps()
   end
@@ -28,8 +30,10 @@ defmodule IdotodosEx.Website do
       :theme,
       :story,
       :images,
+      :info,
       :show_rsvp,
       :show_gallery,
+      :show_registry,
       :show_bridal_party,
       :bridal_party
     ])

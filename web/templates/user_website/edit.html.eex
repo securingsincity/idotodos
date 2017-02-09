@@ -48,6 +48,13 @@
   </div>
 
   <div class="form-group">
+    <%= label f, :show_registry, class: "control-label" %>
+    <%= radio_button f, :show_registry, true, class: "form-control" %>
+    <%= radio_button f, :show_registry, false, class: "form-control" %>
+    <%= error_tag f, :show_registry %>
+  </div>
+
+  <div class="form-group">
     <%= label f, :story, class: "control-label" %>
     <%= textarea f, :story, class: "form-control" %>
     <%= error_tag f, :story %>
@@ -57,6 +64,12 @@
     <%= label f, :images, class: "control-label" %>
     <%= textarea f, :images, class: "form-control" %>
     <%= error_tag f, :images %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :info, class: "control-label" %>
+    <%= textarea f, :info, class: "form-control" %>
+    <%= error_tag f, :info %>
   </div>
 
 

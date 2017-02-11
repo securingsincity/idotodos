@@ -18,7 +18,11 @@
         <%= if (@wedding.website.show_gallery) do %><li><a href="#gallery">Gallery</a></li><% end %>
         <%= if (@wedding.website.show_bridal_party) do %><li><a href="#bridal_party">Bridal Party</a></li><% end %>
         <%= if (@wedding.website.show_registry) do %><li><a href="#registry">Registries</a></li><% end %>
-        <%= if (@wedding.website.show_rsvp) do %><li><a href="#rsvp">RSVP</a></li><% end %>
+        <%= if @wedding.website.show_rsvp && @is_logged_in do %><li><a href="#rsvp">RSVP</a></li><% end %>
+        <%= if @is_logged_in do %>
+          <%= @current_guest.first_name <> " " <> @current_guest.last_name %>
+          <%= link "Log out", to: wedding_path(@conn, :sign_out, @wedding.name), method: :delete %>
+        <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -105,7 +109,7 @@
   <%= if (@wedding.website.show_bridal_party) do %>
   <h2 id="bridal_party">Bridal Party</h2>
     <%= if (@wedding.website.bridal_party) do %>
-      <%= for {key, value} <-@wedding.website.bridal_party do %>
+      <%= for {_, value} <-@wedding.website.bridal_party do %>
         <p><%= value["name"] %> : <%= value["role"] %> </p>
       <% end %>
     <% end %>
@@ -115,7 +119,7 @@
   <image style="width:100%; padding:0"  src="<%= @wedding.website.images["rsvp"] %>" />
   <% end %>
 
-  <%= if (@wedding.website.show_rsvp) do %>
+  <%= if @wedding.website.show_rsvp && @is_logged_in do %>
   <h2 id="rsvp">RSVP</h2>
   <blockquote>Macaroon tootsie roll cake cupcake pastry. Liquorice halvah tart tart lollipop. Chocolate caramels danish. Cake macaroon sugar plum. Chocolate bar chocolate cake brownie toffee icing jelly beans toffee. Sweet roll icing gingerbread sweet jelly beans tiramisu sweet roll cake oat cake. Carrot cake fruitcake marshmallow gummies ice cream pudding bonbon tart. Chocolate cake tart muffin icing cotton candy bear claw chocolate bar. Tootsie roll chocolate cheesecake donut chocolate pudding donut chocolate brownie. Cake liquorice tootsie roll soufflé jelly-o sesame snaps cake apple pie cake. Sweet caramels croissant fruitcake. Ice cream chocolate bar cookie sugar plum pie jelly-o gingerbread sweet. Wafer biscuit brownie lollipop jelly beans oat cake chocolate cake.
   Tiramisu jujubes caramels. Candy canes jujubes powder. Fruitcake wafer marshmallow marzipan muffin. Marshmallow jujubes pie chocolate cake liquorice tiramisu jelly beans cake gummies. Macaroon chocolate cake icing chupa chups caramels soufflé oat cake sweet roll. Tart candy chocolate bar ice cream gummi bears pudding carrot cake jelly pastry. Dessert sweet roll cotton candy sugar plum. Tiramisu gingerbread biscuit sugar plum jelly halvah. Gingerbread macaroon muffin chocolate cake jelly-o tart. Donut gummi bears brownie cookie. Pudding chupa chups donut lemon drops. Brownie jujubes chocolate bar chupa chups donut gummies.

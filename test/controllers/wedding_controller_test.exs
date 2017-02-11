@@ -15,19 +15,20 @@ defmodule IdotodosEx.WeddingControllerTest do
       assert redirected_to(conn) == IdotodosEx.Router.Helpers.page_path(conn, :index)
   end
 
-  test "wedding that does exist should show the wedding info if it's active and not private", %{conn: conn}  do
+  test "wedding that does exist should show the wedding info if it's active and not private and not signed in but no rsvp", %{conn: conn}  do
       user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
       campaign_id = User.get_campaign_id(user)
-      Repo.insert!(Website.changeset(%Website{}, %{active: true, site_private: false, campaign_id: campaign_id}))
+      Repo.insert!(Website.changeset(%Website{}, %{active: true, site_private: false, show_rsvp: true, campaign_id: campaign_id}))
       conn = get conn, wedding_path(conn,:index, "somecontent")
       assert html_response(conn, 200) =~ "Our Wedding"
+      refute html_response(conn, 200) =~ "RSVP"
   end
 
   test "wedding that does exist should login screen if it's active and is private and the session isn't set", %{conn: conn}  do
       user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
       campaign_id = User.get_campaign_id(user)
-      Repo.insert!(Website.changeset(%Website{}, %{active: true, site_private: true, campaign_id: campaign_id}))
+      Repo.insert!(Website.changeset(%Website{}, %{active: true, site_private: true,show_rsvp: true, campaign_id: campaign_id}))
       conn = get conn, wedding_path(conn,:index, "somecontent")
-      assert text_response(conn, 200) =~ "private"
+      assert html_response(conn, 200) =~ "Welcome to"
   end
 end

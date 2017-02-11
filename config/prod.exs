@@ -36,6 +36,12 @@ config :idotodos_ex, IdotodosEx.Repo,
   url: System.get_env("DATABASE_URL"),
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true
+  loggers: [{Ecto.LogEntry, :log, []}, {IdotodosEx.RepoMetrics, :record_metric, []}]
+
+config :ex_statsd,
+       host: "localhost",
+       port: 8125,
+       namespace: "idotodos"
 
 config :phoenix_distillery, PhoenixDistillery.Endpoint,
   http: [port: {:system, "PORT"}],

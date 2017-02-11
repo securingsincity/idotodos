@@ -33,7 +33,7 @@ defmodule IdotodosEx.Web do
       alias IdotodosEx.Repo
       import Ecto
       import Ecto.Query
-
+      plug DataDogPlug
       import IdotodosEx.Router.Helpers
       import IdotodosEx.Gettext
     end

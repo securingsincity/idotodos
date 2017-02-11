@@ -22,7 +22,7 @@ defmodule IdotodosEx.Mixfile do
   def application do
     [mod: {IdotodosEx, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :comeonin,
-                    :phoenix_ecto,:timex, :postgrex]]
+                    :phoenix_ecto,:timex, :postgrex, :ex_statsd]]
   end
 
   # Specifies which paths to compile per environment.
@@ -54,7 +54,8 @@ defmodule IdotodosEx.Mixfile do
       {:credo, ">=0.0.2", only: :dev},
       {:molasses, "~> 0.3.0"},
       {:poison, ">= 2.0.0", override: true},
-      {:mustache, "~> 0.0.2"}
+      {:mustache, "~> 0.0.2"},
+      {:ex_statsd, ">= 0.5.1"}
     ]
   end
 

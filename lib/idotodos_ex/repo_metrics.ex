@@ -1,4 +1,4 @@
-defmodule MyApp.Repo.Metrics do
+defmodule IdotodosEx.RepoMetrics do
 
   def record_metric(entry) do
     ExStatsD.histogram(entry.query_time + (entry.queue_time || 0), "database.query.time", tags: ["db", "perf"])

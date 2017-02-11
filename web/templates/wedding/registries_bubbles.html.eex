@@ -1,0 +1,6 @@
+<div class="col-sm-<%= @column_width %>">
+  <image style="border-radius: 50%;border:solid 8px #EEE;width: 100%; max-width: 250px" src="http://placehold.it/200x200" />
+  <p><%= @item.link %></p>
+  <p><%= @item.name %></p>
+  <p><%= @item.description %></p>
+</div>

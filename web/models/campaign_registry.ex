@@ -14,7 +14,7 @@ defmodule IdotodosEx.CampaignRegistry do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:link, :name, :description])
+    |> cast(params, [:link, :name, :description, :campaign_id])
     |> validate_required([:link, :name, :description])
   end
 end

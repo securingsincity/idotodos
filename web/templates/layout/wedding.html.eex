@@ -9,6 +9,54 @@
 
     <title>I Do ToDos</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link href="https://fonts.googleapis.com/css?family=Clicker+Script|Dancing+Script|Raleway" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Raleway', sans-serif;
+        color: #999999
+      }
+      h1,h2,h3,h4,.lead,.navbar-brand {
+        font-family: 'Dancing Script', cursive;
+      }
+      h1,h2 {
+        color: #9ed5b6;
+      }
+      .container {
+        padding-top: 2em;
+        padding-bottom: 2em;
+      }
+      strong {
+        font-weight: 900
+      }
+      .well {
+        background-color: #FDFDFD;
+        border: none:
+        webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .navbar, .nav-default, .navbar-header {
+        background-color: #FFF
+      }
+
+      .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+        margin-left: 0px;
+      }
+      @media (min-width: 768px) {
+          .navbar .navbar-nav {
+              display: inline-block;
+              float: none;
+              vertical-align: top;
+          }
+
+          .navbar .navbar-collapse {
+              text-align: center;
+          }
+          .navbar-nav>li>a, .navbar-brand {
+              padding-top: 20px;
+              padding-bottom: 20px;
+          }
+      }
+    </style>
   </head>
 
   <body>

@@ -39,6 +39,9 @@ defmodule IdotodosEx.Router do
     get "/signout", SessionController, :delete
     get "/signup", RegistrationController, :signup
     post "/signup", RegistrationController, :create
+  end
+  scope "/", IdotodosEx do
+    pipe_through :browser
     get "/wedding/:name", WeddingController, :index
   end
 

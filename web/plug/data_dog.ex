@@ -17,9 +17,26 @@ defmodule DataDogPlug do
       duration = :timer.now_diff(req_end_time, req_start_time)
 
       ExStatsD.timer(duration, "resp_time")
-
+      ExStatsD.timer(duration, get_sanitized_uri(conn) <> ".resp_time")
+      ExStatsD.increment(get_sanitized_uri(conn) <> "resp_count")
       conn
     end
   end
+
+  defp get_sanitized_uri(conn) do
+    conn.request_path
+    |> sanitize_uri
+  end
+
+  defp sanitize_uri("/"), do: "[root]"
+  defp sanitize_uri("/"<>uri), do: sanitize_uri(uri)
+  defp sanitize_uri(uri) do
+    dot_replacement = "-"
+    slash_replacement = "."
+    uri
+    |> String.replace(".", dot_replacement)
+    |> String.replace("/", slash_replacement)
+  end
+
 
 end

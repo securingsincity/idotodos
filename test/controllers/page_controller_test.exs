@@ -2,7 +2,7 @@ defmodule IdotodosEx.PageControllerTest do
   use IdotodosEx.AuthConnCase
   test "GET /", %{conn: conn} do
     conn = get conn, "/"
-    assert html_response(conn, 200) =~ "Welcome to Phoenix!"
+    assert html_response(conn, 200) =~ "For Humans"
   end
 
   test "relative_date_format should return a relative date" do

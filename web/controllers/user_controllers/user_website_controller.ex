@@ -3,7 +3,6 @@ defmodule IdotodosEx.UserWebsiteController do
     alias IdotodosEx.Website
     alias IdotodosEx.Repo
     alias IdotodosEx.User
-    alias Ecto.Changeset
     def edit(conn, _params) do
         user = Guardian.Plug.current_resource(conn)
         campaign_id = User.get_campaign_id(user)
@@ -12,7 +11,7 @@ defmodule IdotodosEx.UserWebsiteController do
                 changeset = Website.changeset(%Website{}, %{campaign_id: campaign_id, active: false, site_private: false})
 
                 case Repo.insert(changeset) do
-                    {:ok, website} -> render(conn, "edit.html", website: changeset)
+                    {:ok, _} -> render(conn, "edit.html", website: changeset)
                     {:error, changeset} ->
                         render(conn, "edit.html", website: changeset)
                 end

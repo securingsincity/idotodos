@@ -2,7 +2,6 @@ defmodule IdotodosEx.PartyControllerTest do
   use IdotodosEx.AuthConnCase
 
   alias IdotodosEx.Party
-  alias IdotodosEx.User
   @valid_attrs %{max_party_size: 42, name: "some content"}
   @invalid_attrs %{}
 

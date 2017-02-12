@@ -1,7 +1,12 @@
 {
   "skip_files": [
-    "web/views",
     "test",
-    "web/channels"
+    "web/channels",
+    "web/views",
+    "web/gettext.ex",
+    "web/web.ex",
+    "lib/idotodos_ex/endpoint.ex",
+    "lib/idotodos_ex/repo.ex",
+    "lib/idotodos_ex/repo_metrics.ex"
   ]
 }

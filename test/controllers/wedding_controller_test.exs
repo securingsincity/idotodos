@@ -97,8 +97,8 @@ defmodule IdotodosEx.WeddingControllerTest do
             campaign_id: campaign_id
         }
       changeset = Party.changeset_with_guests(%Party{}, attrs)
-      party = Repo.insert!(changeset)
-      guest = Repo.get_by!(Guest, email: "jerry@email.com")
+      Repo.insert!(changeset)
+      Repo.get_by!(Guest, email: "jerry@email.com")
       conn = post conn, wedding_path(conn,:sign_in, "somecontent", %{"login"=> %{"email"=>  "jerry@email.com"}})
       assert redirected_to(conn) == IdotodosEx.Router.Helpers.wedding_path(conn,:index, "somecontent")
   end

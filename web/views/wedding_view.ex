@@ -13,4 +13,21 @@ defmodule IdotodosEx.WeddingView do
       render IdotodosEx.WeddingView, partial <> ".html", column_width: column_width, item: item
     end)
   end
+
+  def render("party.json", %{party: party}) do
+    %{
+      party: party.id,
+      name: party.name,
+      maxGuests: party.max_party_size,
+      guests: render_many(party.guests, __MODULE__, "guest.json", as: :guest)
+    }
+  end
+
+  def render("guest.json", %{guest: guest}) do
+    %{
+      id: guest.id,
+      firstName: guest.first_name,
+      lastName: guest.last_name
+    }
+  end
 end

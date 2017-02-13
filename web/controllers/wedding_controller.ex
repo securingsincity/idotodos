@@ -21,7 +21,7 @@ defmodule IdotodosEx.WeddingController do
             _ -> wedding
           end
           case Repo.get_by(Guest, %{email: email, campaign_id: wedding.id}) do
-            nil -> render(conn, "login.html", wedding: wedding)
+            nil -> render(conn, "login.html", wedding: wedding, is_logged_in: false)
             guest ->
               conn
               |> put_session(:campaign_id, wedding.id)
@@ -59,7 +59,7 @@ defmodule IdotodosEx.WeddingController do
 
           cond do
             wedding.website.active !== true -> redirect(conn, to: "/")
-            wedding.website.site_private && !is_logged_in -> render(conn, "login.html", wedding: wedding)
+            wedding.website.site_private && !is_logged_in -> render(conn, "login.html", wedding: wedding, is_logged_in: false)
             !is_logged_in ->
               party = %Party{}
               current_guest = %Guest{}

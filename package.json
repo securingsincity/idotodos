@@ -2,7 +2,7 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "deploy": "webpack --config='webpack.prod.js'",
+    "deploy": "webpack --config='webpack.prod.js' -p",
     "watch": "webpack --watch",
     "test": " mocha --compilers js:babel-register 'client/**/*.test.js'",
     "test:watch": "mocha --compilers js:babel-register 'client/**/*.test.js' --watch",

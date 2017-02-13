@@ -7,6 +7,9 @@ var plugins = [
     minimize: true,
     debug: false
   }),
+  new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify('production')
+  }),
   new webpack.optimize.UglifyJsPlugin({
       beautify: false,
       mangle: {
@@ -22,4 +25,5 @@ var plugins = [
   new CopyWebpackPlugin([{ from: "./web/static/assets" }])
 ]
 config.plugins = plugins;
+delete config.devtool
 module.exports = config;

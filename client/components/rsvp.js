@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Button} from 'react-bootstrap'
-import _ from 'lodash'
+// import _ from 'lodash'
 import Guest from '../components/guest'
 export default class RSVP extends Component {
   constructor(props) {

@@ -10,16 +10,16 @@ defmodule IdotodosEx.UserPartyView do
     end
   end
 
-  def date_format(%Ecto.DateTime{} = date) do 
+  def date_format(%Ecto.DateTime{} = date) do
     date
     |> Ecto.DateTime.to_erl
     |> Timex.to_datetime("Etc/UTC")
     |> Timex.to_datetime("America/New_York")
     |> Timex.format!("%B %e, %Y %l:%M %p", :strftime)
-  end 
+  end
 
   # def date_format(nil) do: nil
   def date_format(date) do
-    IO.inspect date 
+
   end
 end

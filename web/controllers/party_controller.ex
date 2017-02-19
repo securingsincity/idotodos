@@ -78,12 +78,14 @@ defmodule IdotodosEx.PartyController do
 
   def csv_path_to_map_of_parties(path, campaign_id) do
     try do
-      result = CSV.decode( File.stream!(path) , headers: true)
+      result = path
+      |> File.stream!
+      |> CSV.decode(headers: true)
       |> Enum.reduce(%{}, fn(row, acc) ->
         result = Map.get(acc, row["party_name"], [])
         row = Map.merge(row, %{"campaign_id" => campaign_id})
         result = result ++ [row]
-        Map.merge(acc, %{row["party_name"] => result })
+        Map.merge(acc, %{row["party_name"] => result})
       end)
       {:ok, result}
     rescue _ ->
@@ -99,7 +101,7 @@ defmodule IdotodosEx.PartyController do
     case csv_path_to_map_of_parties(data.path, campaign_id) do
       {:ok, results} ->
         results
-        |> Enum.map( fn({x, y}) -> Task.async(fn ->
+        |> Enum.map(fn({x, y}) -> Task.async(fn ->
           party = Party.changeset_with_guests(%Party{}, %{guests: y, name: x, max_party_size: length(y), campaign_id: campaign_id})
           Repo.insert!(party)
         end)end)

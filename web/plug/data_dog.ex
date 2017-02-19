@@ -29,7 +29,7 @@ defmodule DataDogPlug do
   end
 
   defp sanitize_uri("/"), do: "[root]"
-  defp sanitize_uri("/"<>uri), do: sanitize_uri(uri)
+  defp sanitize_uri("/" <> uri), do: sanitize_uri(uri)
   defp sanitize_uri(uri) do
     dot_replacement = "-"
     slash_replacement = "."

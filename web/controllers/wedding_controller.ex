@@ -8,6 +8,28 @@ defmodule IdotodosEx.WeddingController do
 
 
   plug :put_layout, "wedding.html"
+  def rsvp(conn, %{"name" => name}) do
+    wedding = case Repo.get_by(Campaign, %{name: name}) do
+        nil ->
+            conn
+            |> redirect(to: "/")
+        wedding ->
+          wedding = wedding |> Repo.preload([:website,:user,:partner, :registries])
+
+          wedding = case wedding.website do
+            nil -> Map.merge(wedding, %{website: %Website{}})
+            _ -> wedding
+          end
+          wedding
+    end
+    campaign_id = get_session(conn, :campaign_id)
+    party_id = get_session(conn, :party_id)
+    guest_id = get_session(conn, :guest_id)
+    is_logged_in = campaign_id !== nil && party_id !== nil  && guest_id !== nil
+
+
+  end
+
   def sign_in(conn, %{"login" => %{"email" => email}, "name" => name}) do
     case Repo.get_by(Campaign, %{name: name}) do
         nil ->

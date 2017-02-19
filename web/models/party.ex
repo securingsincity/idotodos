@@ -15,7 +15,7 @@ defmodule IdotodosEx.Party do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [ :name, :max_party_size, :campaign_id])
+    |> cast(params, [:name, :max_party_size, :campaign_id])
     |> validate_required([:name, :max_party_size])
   end
 

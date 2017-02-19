@@ -15,7 +15,7 @@ defmodule IdotodosEx.PageController do
   def app(conn, _params) do
     logged_in_user = conn |> Guardian.Plug.current_resource
     campaign = Repo.get_by!(Campaign, %{user_id: logged_in_user.id})
-    logged_in_user = Map.merge(logged_in_user, %{formatted_date: list_date_format(campaign.main_date)})
-    render conn, "app.html", user: logged_in_user
+    updated_logged_in_user = Map.merge(logged_in_user, %{formatted_date: list_date_format(campaign.main_date)})
+    render conn, "app.html", user: updated_logged_in_user
   end
 end

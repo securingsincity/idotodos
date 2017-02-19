@@ -60,9 +60,9 @@ defmodule IdotodosEx.UserPartyController do
             |> Repo.preload(:guests)
             |> Repo.preload(:campaign)
         guests = party.guests ++ [%Guest{}]
-        party = Map.merge(party, %{guests: guests})
-        changeset = Party.changeset_with_guests(party, %{})
-        render(conn, "edit.html", party: party, changeset: changeset)
+        updated_party = Map.merge(party, %{guests: guests})
+        changeset = Party.changeset_with_guests(updated_party, %{})
+        render(conn, "edit.html", party: updated_party, changeset: changeset)
     end
 
     def update(conn, %{"id" => id, "party" => %{"guests"=> guests, "max_party_size"=> max_party_size, "name"=> name}}) do

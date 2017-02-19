@@ -98,13 +98,11 @@ defmodule IdotodosEx.PartyController do
   def bulk_upload(conn, %{"data" => %{"bulk_upload" => data}}) do
     logged_in_user = Guardian.Plug.current_resource(conn)
     campaign_id = User.get_campaign_id(logged_in_user)
+    curried_upload_with_campaign_id = curried_upload(campaign_id)
     case csv_path_to_map_of_parties(data.path, campaign_id) do
       {:ok, results} ->
         results
-        |> Enum.map(fn({x, y}) -> Task.async(fn ->
-          party = Party.changeset_with_guests(%Party{}, %{guests: y, name: x, max_party_size: length(y), campaign_id: campaign_id})
-          Repo.insert!(party)
-        end)end)
+        |> Enum.map(curried_upload_with_campaign_id)
         |> Enum.each(&Task.await/1)
         conn
         |> put_flash(:info, "Bulk upload was successful")
@@ -115,5 +113,13 @@ defmodule IdotodosEx.PartyController do
         |> render("upload.html")
     end
 
+  end
+
+  def curried_upload(campaign_id) do
+    fn({x, y}) -> Task.async(fn ->
+        party = Party.changeset_with_guests(%Party{}, %{guests: y, name: x, max_party_size: length(y), campaign_id: campaign_id})
+        Repo.insert!(party)
+      end)
+    end
   end
 end

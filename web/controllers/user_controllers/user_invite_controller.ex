@@ -94,35 +94,44 @@ defmodule IdotodosEx.UserInviteController do
         |> send_to_guests(campaign_id, invite)
     end
 
-    def send_to_guests(guests, campaign_id, invite) do
-       guests
-       |> Enum.each(fn guest ->
-            if guest.email !== "" && guest.email !== nil do
-              formatted_email = format_email(invite.html, invite.subject, guest)
-              formatted_text = format_email(invite.email_text, invite.subject, guest)
-              case invite.from do
-                  "" ->
-                      IdotodosEx.Mailer.send_mail(guest.email, invite.subject, formatted_email, formatted_text, %{
-                            invite_id: invite.id,
-                            campaign_id: campaign_id,
-                            party_id: guest.party_id
-                        })
-                 _ ->
-                    IdotodosEx.Mailer.send_mail(%{
-                        from: invite.from,
-                        to: guest.email,
-                        subject: invite.subject,
-                        html: formatted_email,
-                        text: formatted_text
-                    }, %{
-                        invite_id: invite.id,
-                        campaign_id: campaign_id,
-                        party_id: guest.party_id
-                    })
-              end
-            end
-        end)
+    def send_email_to_guest(guest, invite, campaign_id) do
+        formatted_email = format_email(invite.html, invite.subject, guest)
+        formatted_text = format_email(invite.email_text, invite.subject, guest)
+        case invite.from do
+            "" ->
+                IdotodosEx.Mailer.send_mail(guest.email, invite.subject, formatted_email, formatted_text, %{
+                    invite_id: invite.id,
+                    campaign_id: campaign_id,
+                    party_id: guest.party_id
+                })
+            _ ->
+            IdotodosEx.Mailer.send_mail(%{
+                from: invite.from,
+                to: guest.email,
+                subject: invite.subject,
+                html: formatted_email,
+                text: formatted_text
+            }, %{
+                invite_id: invite.id,
+                campaign_id: campaign_id,
+                party_id: guest.party_id
+            })
+        end
     end
+    def send_to_guest(campaign_id, invite) do
+        fn guest ->
+            if guest.email !== "" && guest.email !== nil do
+                send_email_to_guest(guest, invite, campaign_id)
+            end
+        end
+    end
+
+    def send_to_guests(guests, campaign_id, invite) do
+       curried_send_to_guest  = send_to_guest(campaign_id, invite)
+       guests
+       |> Enum.each(curried_send_to_guest)
+    end
+
     def send_to_all_parties(campaign_id, invite) do
         Repo.all(
            from guest in Guest,

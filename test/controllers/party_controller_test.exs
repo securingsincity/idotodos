@@ -1,6 +1,7 @@
 defmodule IdotodosEx.PartyControllerTest do
   use IdotodosEx.AuthConnCase
 
+  alias IdotodosEx.Guest
   alias IdotodosEx.Party
   @valid_attrs %{max_party_size: 42, name: "some content"}
   @invalid_attrs %{}
@@ -14,6 +15,10 @@ defmodule IdotodosEx.PartyControllerTest do
     upload = %Plug.Upload{path: "test/fixtures/testdata.csv", filename: "testdata.csv"}
     conn = post conn, party_path(conn, :bulk_upload),data: %{bulk_upload: upload}
     assert redirected_to(conn) == user_party_path(conn, :index)
+    guest = Repo.get_by(Guest, email: "georgie@gmail.com" )
+    |> Repo.preload(:party)
+
+    assert guest.first_name == "George"
   end
 
   test "bulk upload with a broken csv", %{conn: conn} do

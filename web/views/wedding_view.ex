@@ -5,13 +5,17 @@ defmodule IdotodosEx.WeddingView do
     total_width = 12
     list_count = Enum.count(list)
     list_count_less_than_columns = list_count < max_columns
-    column_width = case list_count_less_than_columns do
-      true -> round(total_width / list_count)
-      false -> round(total_width / max_columns)
+    if list_count || max_columns == 0 do
+      nil
+    else
+      column_width = case list_count_less_than_columns do
+        true -> round(total_width / list_count)
+        false -> round(total_width / max_columns)
+      end
+      Enum.map(list, fn(item) ->
+        render IdotodosEx.WeddingView, partial <> ".html", column_width: column_width, item: item
+      end)
     end
-    Enum.map(list, fn(item) ->
-      render IdotodosEx.WeddingView, partial <> ".html", column_width: column_width, item: item
-    end)
   end
 
   def render("party.json", %{party: party}) do

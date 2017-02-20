@@ -18,4 +18,8 @@ defmodule IdotodosEx.PageController do
     updated_logged_in_user = Map.merge(logged_in_user, %{formatted_date: list_date_format(campaign.main_date)})
     render conn, "app.html", user: updated_logged_in_user
   end
+
+  def letsencrypt(conn, %{"id" => id }) do
+    text conn, System.get_env("LETSENCRYPT_KEY")
+  end
 end

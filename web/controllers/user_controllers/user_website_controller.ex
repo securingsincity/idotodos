@@ -4,7 +4,10 @@ defmodule IdotodosEx.UserWebsiteController do
     alias IdotodosEx.Repo
     alias IdotodosEx.User
     def edit(conn, _params) do
-        user = Guardian.Plug.current_resource(conn)
+        user = conn
+        |> Guardian.Plug.current_resource
+        |> Repo.preload(:campaign)
+        wedding_name = user.campaign.name
         campaign_id = User.get_campaign_id(user)
         case Repo.get_by(Website, %{campaign_id: campaign_id}) do
             nil ->
@@ -19,7 +22,7 @@ defmodule IdotodosEx.UserWebsiteController do
                 images = Poison.encode!(website.images)
                 bridal_party = Poison.encode!(website.bridal_party)
                 info = Poison.encode!(website.info)
-                render(conn, "edit.html", website: Website.changeset(website, %{images: images,info: info, bridal_party: bridal_party}))
+                render(conn, "edit.html", wedding_name: wedding_name, website: Website.changeset(website, %{images: images,info: info, bridal_party: bridal_party}))
         end
 
     end

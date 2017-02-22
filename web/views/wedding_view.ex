@@ -28,11 +28,12 @@ defmodule IdotodosEx.WeddingView do
   end
 
   def render("guest.json", %{guest: guest}) do
+    attending = if guest.invite, do: guest.invite.attending, else: false
     %{
       id: guest.id,
       firstName: guest.first_name,
       lastName: guest.last_name,
-      attending: guest.invite.attending
+      attending: attending
     }
   end
 end

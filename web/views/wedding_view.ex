@@ -31,7 +31,8 @@ defmodule IdotodosEx.WeddingView do
     %{
       id: guest.id,
       firstName: guest.first_name,
-      lastName: guest.last_name
+      lastName: guest.last_name,
+      attending: guest.invite.attending
     }
   end
 end

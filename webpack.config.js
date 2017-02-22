@@ -42,5 +42,5 @@ module.exports = {
     new ExtractTextPlugin("css/app.css"),
     new CopyWebpackPlugin([{ from: "./web/static/assets" }])
   ],
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-module-eval-source-map',
 };

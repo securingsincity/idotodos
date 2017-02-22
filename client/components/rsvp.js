@@ -30,7 +30,9 @@ export default class RSVP extends Component {
             id={guest.get("id")}
             onLastNameChange={self.props.onLastNameChange}
             onFirstNameChange={self.props.onFirstNameChange}
+            setAttending={self.props.setAttending}
             firstName={guest.get("firstName")}
+            attending={guest.get("attending")}
             lastName={guest.get("lastName")} />
           })}
           {this.props.maxGuests > this.props.guests.size ? <Button onClick={this.addGuest}>Add Guest</Button>: ""}

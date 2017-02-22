@@ -36,6 +36,18 @@ export default function rsvp(state = initialState, action) {
         }
       );
       return state.set("guests", updatedGuestsWithLastNameChange);
+    case "ATTENDING_CHANGED":
+      const guestIndex = guests.findIndex(function(item) {
+        return item.get("id") === action.id;
+      })
+      if (guestIndex === -1) {
+        return state
+      }
+      const updatedGuestsWithAttendingChange = guests.update(guestIndex, function(item) {
+          return item.set("attending", action.isAttending)
+        }
+      );
+      return state.set("guests", updatedGuestsWithAttendingChange);
     case "ADD_GUEST":
       const guestsPlusOne = guests.push(Immutable.Map({id: uuidV4() }))
       return state.set("guests", guestsPlusOne)

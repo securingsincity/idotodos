@@ -10,6 +10,10 @@ export function onLastNameChange(id, name) {
   return {type: "LAST_NAME_CHANGED", id, name}
 }
 
+export function setAttending(id, isAttending) {
+  return {type: "ATTENDING_CHANGED", id, isAttending}
+}
+
 export function addGuest() {
   return {type: "ADD_GUEST"}
 }

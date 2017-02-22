@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import RSVP from '../components/rsvp.js'
-import {initialLoad, onFirstNameChange, onLastNameChange, addGuest} from '../actions/rsvp.js'
+import {initialLoad, setAttending, onFirstNameChange, onLastNameChange, addGuest} from '../actions/rsvp.js'
 const mapStateToProps = (state, ownProps) => {
   return {
     guests: state.rsvp.get("guests"),
@@ -22,6 +22,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addGuest: () => {
       dispatch(addGuest())
+    },
+    setAttending: (id, isAttending) => {
+      dispatch(setAttending(id, isAttending))
     }
   }
 }

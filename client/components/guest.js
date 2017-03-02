@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import Allergies from './allergies'
+import MealChoice from './mealChoice'
 import {FormGroup, FormControl, ControlLabel, HelpBlock, Radio} from 'react-bootstrap'
 class Guest extends Component {
   constructor(props) {
@@ -6,6 +8,8 @@ class Guest extends Component {
     this.onFirstNameChange = this.onFirstNameChange.bind(this)
     this.onLastNameChange = this.onLastNameChange.bind(this)
     this.setAttending = this.setAttending.bind(this)
+    this.setAllergies = this.setAllergies.bind(this)
+    this.setMealChoice = this.setMealChoice.bind(this)
   }
   onFirstNameChange(e) {
     this.props.onFirstNameChange(this.props.id, e.target.value);
@@ -16,10 +20,22 @@ class Guest extends Component {
   setAttending(isAttending) {
     this.props.setAttending(this.props.id, isAttending)
   }
+  setAllergies(e) {
+    this.props.setAllergies(this.props.id, e.target.value)
+  }
+  setMealChoice(e) {
+    this.props.setMealChoice(this.props.id,  e.target.value)
+  }
   render() {
     let fullName = "Your Guest"
     if (this.props.firstName && this.props.lastName) {
       fullName = this.props.firstName +" "+this.props.lastName
+    }
+    let allergies = <div />;
+    let mealChoice = <div />;
+    if (this.props.attending) {
+      allergies = <Allergies allergies={this.props.allergies} onChange={this.setAllergies}/>
+      mealChoice = <MealChoice mealChoice={this.props.mealChoice} onChange={this.setMealChoice} mealChoices={this.props.mealChoices}/>
     }
     return (
        <div>
@@ -74,7 +90,8 @@ class Guest extends Component {
           <HelpBlock></HelpBlock>
 
         </FormGroup>
-
+        {allergies}
+        {mealChoice}
       </div>
     );
   }

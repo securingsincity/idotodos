@@ -11,33 +11,34 @@ export default function rsvp(state = initialState, action) {
   // For now, don't handle any actions
   // and just return the state given to us.
   const guests = state.get("guests")
+  let guestIndex;
   switch (action.type) {
     case "FIRST_NAME_CHANGED":
-      const index = guests.findIndex(function(item) {
+      guestIndex = guests.findIndex(function(item) {
         return item.get("id") === action.id;
       })
-      if (index === -1) {
+      if (guestIndex === -1) {
         return state
       }
-      const updatedGuests = guests.update(index, function(item) {
+      const updatedGuests = guests.update(guestIndex, function(item) {
           return item.set("firstName", action.name)
         }
       );
       return state.set("guests", updatedGuests);
     case "LAST_NAME_CHANGED":
-      const userIndex = guests.findIndex(function(item) {
+      guestIndex = guests.findIndex(function(item) {
         return item.get("id") === action.id;
       })
-      if (userIndex === -1) {
+      if (guestIndex === -1) {
         return state
       }
-      const updatedGuestsWithLastNameChange = guests.update(userIndex, function(item) {
+      const updatedGuestsWithLastNameChange = guests.update(guestIndex, function(item) {
           return item.set("lastName", action.name)
         }
       );
       return state.set("guests", updatedGuestsWithLastNameChange);
     case "ATTENDING_CHANGED":
-      const guestIndex = guests.findIndex(function(item) {
+      guestIndex = guests.findIndex(function(item) {
         return item.get("id") === action.id;
       })
       if (guestIndex === -1) {
@@ -48,6 +49,30 @@ export default function rsvp(state = initialState, action) {
         }
       );
       return state.set("guests", updatedGuestsWithAttendingChange);
+    case "ALLERGIES_CHANGED":
+      guestIndex = guests.findIndex(function(item) {
+        return item.get("id") === action.id;
+      })
+      if (guestIndex === -1) {
+        return state
+      }
+      const updatedGuestsWithAllergyChange = guests.update(guestIndex, function(item) {
+          return item.set("allergies", action.allergies)
+        }
+      );
+      return state.set("guests", updatedGuestsWithAllergyChange);
+    case "MEAL_CHOICE_CHANGED":
+      guestIndex = guests.findIndex(function(item) {
+        return item.get("id") === action.id;
+      })
+      if (guestIndex === -1) {
+        return state
+      }
+      const updatedGuestsWithMealChoiceChange = guests.update(guestIndex, function(item) {
+          return item.set("mealChoice", action.mealChoice)
+        }
+      );
+      return state.set("guests", updatedGuestsWithMealChoiceChange);
     case "ADD_GUEST":
       const guestsPlusOne = guests.push(Immutable.Map({id: uuidV4() }))
       return state.set("guests", guestsPlusOne)

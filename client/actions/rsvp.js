@@ -14,6 +14,14 @@ export function setAttending(id, isAttending) {
   return {type: "ATTENDING_CHANGED", id, isAttending}
 }
 
+export function setAllergies(id, allergies) {
+  return {type: "ALLERGIES_CHANGED", id, allergies}
+}
+
+export function setMealChoice(id, mealChoice) {
+  return {type: "MEAL_CHOICE_CHANGED", id, mealChoice}
+}
+
 export function addGuest() {
   return {type: "ADD_GUEST"}
 }

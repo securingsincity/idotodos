@@ -7,9 +7,9 @@
 <div class="row">
 <% end %>
 <div class="col-sm-<%= @column_width %>">
-  <a href="<%= @item.link %>" target="_blank" ><image style="border-radius: 50%;border:solid 8px #EEE;width: 100%; max-width: 200px" src="<%= registry_image(@conn, @item.name) %>" /></a>
-  <p><%= @item.description %></p>
+ <image style="border:solid 8px #EEE;width: 100%; max-width: 250px" src="<%= @item["thumb"] %>" /></a>
 </div>
+
 
 <%= if (@index + 1 === @list_count) do %>
  </div>

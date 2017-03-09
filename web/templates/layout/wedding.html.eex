@@ -9,7 +9,7 @@
 
     <title>I Do ToDos</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <link href="https://fonts.googleapis.com/css?family=Clicker+Script|Dancing+Script|Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Clicker+Script|Dancing+Script|Raleway:300,400,700,900" rel="stylesheet">
     <style>
       body {
         font-family: 'Raleway', sans-serif;
@@ -21,12 +21,15 @@
       h1,h2 {
         color: #9ed5b6;
       }
+      .row {
+        margin-bottom:10px;
+      }
       .container {
         padding-top: 2em;
         padding-bottom: 2em;
       }
       strong {
-        font-weight: 900
+        font-weight: 700
       }
       .well {
         background-color: #FDFDFD;

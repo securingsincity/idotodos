@@ -87,8 +87,11 @@
       </div>
     <% end %>
   </div>
-  <%= if (@wedding.website.show_gallery) do %>
+  <%= if (@wedding.website.show_gallery &&  @wedding.website.images &&  @wedding.website.images["gallery"]) do %>
+    <div class="container">
     <h2 id="gallery">Gallery</h2>
+    <%= responsive_bubbles(@conn, @wedding.website.images["gallery"], 4, "gallery_image") %>
+    </div>
   <% end %>
 
   <%= if @wedding.website.show_registry do %>
@@ -99,20 +102,16 @@
 
     <div class="container">
       <h2 id="registry">Registry</h2>
-      <div class="row">
-      <%= responsive_bubbles(@wedding.registries, 3,"registries_bubbles") %>
-      </div>
-      </div>
+        <%= responsive_bubbles(@conn, @wedding.registries, 3,"registries_bubbles") %>
+    </div>
   <% end %>
 
 
-  <%= if (@wedding.website.show_bridal_party) do %>
-  <h2 id="bridal_party">Bridal Party</h2>
-    <%= if (@wedding.website.bridal_party) do %>
-      <%= for {_, value} <-@wedding.website.bridal_party do %>
-        <p><%= value["name"] %> : <%= value["role"] %> </p>
-      <% end %>
-    <% end %>
+  <%= if (@wedding.website.show_bridal_party && @wedding.website.bridal_party)  do %>
+    <div class="container">
+      <h2 id="bridal_party">Bridal Party</h2>
+      <%= responsive_bubbles(@conn, Map.values(@wedding.website.bridal_party), 2,"bridal_party_no_image") %>
+    </div>
   <% end %>
 
   <%= if (@wedding.website.images["rsvp"]) do %>

@@ -104,7 +104,6 @@ defmodule IdotodosEx.WeddingController do
               end)
               party = Map.merge(party, %{guests: updated_guests})
               current_guest = Repo.get!(Guest, guest_id)
-              IO.inspect wedding.registries
               render(conn, "index.html", wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in)
           end
     end

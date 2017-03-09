@@ -6,7 +6,8 @@ defmodule IdotodosEx.PageControllerTest do
   end
 
   test "relative_date_format should return a relative date" do
-    year_future = Ecto.Date.cast!({2018,3,1})
+    %{month: month, year: year} = DateTime.utc_now
+    year_future = Ecto.Date.cast!({year + 1,month + 1,1})
 
     result = IdotodosEx.PageController.list_date_format(year_future)
     assert result == "in 1 year"

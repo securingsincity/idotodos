@@ -7,7 +7,7 @@
 <div class="row">
 <% end %>
 <div class="col-sm-<%= @column_width %>">
- <image style="border:solid 8px #EEE;width: 100%; max-width: 250px" src="<%= @item["thumb"] %>" /></a>
+ <a href="<%= @item["thumb"] %>"  class="gallery-item"><image style="border:solid 8px #EEE;width: 100%; max-width: 250px" src="<%= @item["thumb"] %>" /></a>
 </div>
 
 

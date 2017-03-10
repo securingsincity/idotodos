@@ -24,7 +24,11 @@ module.exports = {
             {
               loader: "sass-loader",
               options: {
-                includePaths: ['./node_modules/bootstrap-sass/assets/stylesheets', './web/static/css']
+                includePaths: [
+                  './node_modules/bootstrap-sass/assets/stylesheets',
+                  './node_modules/magnific-popup/dist',
+                  './web/static/css'
+                ]
               }
             }
           ]
@@ -39,6 +43,11 @@ module.exports = {
     ]
   },
   plugins: [
+     new webpack.ProvidePlugin({
+      jQuery: 'jquery',
+      $: 'jquery',
+      jquery: 'jquery'
+    }),
     new ExtractTextPlugin("css/app.css"),
     new CopyWebpackPlugin([{ from: "./web/static/assets" }])
   ],

@@ -160,7 +160,7 @@ defmodule IdotodosEx.WeddingControllerTest do
       |> put_session(:party_id, party.id)
       |> put_session(:campaign_id, campaign_id)
       |> put_session(:guest_id, guest.id)
-      conn = delete conn, wedding_path(conn,:index, "somecontent")
+      conn = get conn, wedding_path(conn,:sign_out, "somecontent")
       assert redirected_to(conn) == IdotodosEx.Router.Helpers.wedding_path(conn,:index, "somecontent")
   end
 

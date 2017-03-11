@@ -58,7 +58,7 @@ defmodule IdotodosEx.WeddingController do
        {:error, _} -> conn |> redirect(to: "/")
        {:ok, wedding} ->
           case Repo.get_by(Guest, %{email: email, campaign_id: wedding.id}) do
-            nil -> render(conn, "login.html", wedding: wedding, is_logged_in: false)
+            nil -> render(conn, "login.html", wedding: wedding, is_logged_in: false, theme: wedding.website.theme)
             guest ->
               conn
               |> put_session(:campaign_id, wedding.id)
@@ -89,11 +89,11 @@ defmodule IdotodosEx.WeddingController do
 
           cond do
             wedding.website.active !== true -> redirect(conn, to: "/")
-            wedding.website.site_private && !is_logged_in -> render(conn, "login.html", wedding: wedding, is_logged_in: false)
+            wedding.website.site_private && !is_logged_in -> render(conn, "login.html", wedding: wedding, is_logged_in: false, theme: wedding.website.theme)
             !is_logged_in ->
               party = %Party{}
               current_guest = %Guest{}
-              render(conn, "index.html", wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in)
+              render(conn, "index.html", wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
             true ->
               party = Party
               |> Repo.get!(party_id)
@@ -104,7 +104,7 @@ defmodule IdotodosEx.WeddingController do
               end)
               party = Map.merge(party, %{guests: updated_guests})
               current_guest = Repo.get!(Guest, guest_id)
-              render(conn, "index.html", wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in)
+              render(conn, "index.html", wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
           end
     end
     # render(conn, "index.html", campaign_registries: campaign_registries)

@@ -1,0 +1,15 @@
+<div class="container-fluid text-center">
+  <p> this is the portsmouth theme </p>
+  <h1>Welcome to <%= @wedding.user.first_name <> " " <> @wedding.user.last_name %> and <%= @wedding.partner.first_name <> " " <> @wedding.partner.last_name  %> Wedding</h1>
+  <p>Please login with your email address</p>
+  <%= form_for @conn, wedding_path(@conn, :sign_in, @wedding.name), [as: :login], fn f -> %>
+    <div class="form-group">
+      <%= label f, :email, class: "control-label" %>
+      <%= text_input f, :email, class: "form-control" %>
+      <%= error_tag f, :email %>
+    </div>
+    <div class="form-group">
+      <%= submit "Submit", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>

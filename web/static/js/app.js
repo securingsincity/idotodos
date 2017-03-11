@@ -13,13 +13,15 @@
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
 import $ from "jquery";
-require('magnific-popup')
-$('.gallery-item').magnificPopup({
-  type: 'image',
-  gallery:{
-    enabled:true
-  }
-});
+if ($('.gallery-item')) {
+  require('magnific-popup')
+  $('.gallery-item').magnificPopup({
+    type: 'image',
+    gallery:{
+      enabled:true
+    }
+  });
+}
 
 // Import local files
 //

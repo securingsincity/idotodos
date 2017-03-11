@@ -45,7 +45,7 @@ defmodule IdotodosEx.Router do
     pipe_through :browser
     get "/wedding/:name", WeddingController, :index
     post "/wedding/:name", WeddingController, :sign_in
-    delete "/wedding/:name", WeddingController, :sign_out
+    get "/wedding/:name/sign-out", WeddingController, :sign_out
   end
 
   scope "/", IdotodosEx do

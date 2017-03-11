@@ -56,6 +56,12 @@
   </div>
 
   <div class="form-group">
+    <%= label f, :theme, class: "control-label" %>
+    <%= select f, :theme, ["Select Your Theme", "Cambridge": "cambridge", "Portsmouth": "portsmouth"], class: "form-control" %>
+    <%= error_tag f, :theme %>
+  </div>
+
+  <div class="form-group">
     <%= label f, :story, class: "control-label" %>
     <%= textarea f, :story, class: "form-control" %>
     <%= error_tag f, :story %>

@@ -14,14 +14,12 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="#wedding">Wedding <span class="sr-only">(current)</span></a></li>
         <li><a href="#info">Our Story</a></li>
-        <a class="navbar-brand" class="text-center" href="#">I Do To Dos</a>
         <%= if (@wedding.website.show_gallery) do %><li><a href="#gallery">Gallery</a></li><% end %>
         <%= if (@wedding.website.show_bridal_party) do %><li><a href="#bridal_party">Bridal Party</a></li><% end %>
         <%= if (@wedding.website.show_registry) do %><li><a href="#registry">Registries</a></li><% end %>
         <%= if @wedding.website.show_rsvp && @is_logged_in do %><li><a href="#rsvp">RSVP</a></li><% end %>
         <%= if @is_logged_in do %>
-          <%= @current_guest.first_name <> " " <> @current_guest.last_name %>
-          <%= link "Log out", to: wedding_path(@conn, :sign_out, @wedding.name), method: :delete %>
+           <p class="navbar-text"><%= @current_guest.first_name <> " " <> @current_guest.last_name %> <%= link "Log out", to: wedding_path(@conn, :sign_out, @wedding.name), class: "navbar-link" %></p>
         <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -90,7 +88,7 @@
   <%= if (@wedding.website.show_gallery &&  @wedding.website.images &&  @wedding.website.images["gallery"]) do %>
     <div class="container">
     <h2 id="gallery">Gallery</h2>
-    <%= responsive_bubbles(@conn, @wedding.website.images["gallery"], 4, "gallery_image") %>
+    <%= IdotodosEx.WeddingView.responsive_bubbles(@conn, @wedding.website.images["gallery"], 4, "gallery_image") %>
     </div>
   <% end %>
 
@@ -102,7 +100,7 @@
 
     <div class="container">
       <h2 id="registry">Registry</h2>
-        <%= responsive_bubbles(@conn, @wedding.registries, 3,"registries_bubbles") %>
+        <%= IdotodosEx.WeddingView.responsive_bubbles(@conn, @wedding.registries, 3,"registries_bubbles") %>
     </div>
   <% end %>
 
@@ -110,7 +108,7 @@
   <%= if (@wedding.website.show_bridal_party && @wedding.website.bridal_party)  do %>
     <div class="container">
       <h2 id="bridal_party">Bridal Party</h2>
-      <%= responsive_bubbles(@conn, Map.values(@wedding.website.bridal_party), 2,"bridal_party_no_image") %>
+      <%= IdotodosEx.WeddingView.responsive_bubbles(@conn, Map.values(@wedding.website.bridal_party), 2,"bridal_party_no_image") %>
     </div>
   <% end %>
 

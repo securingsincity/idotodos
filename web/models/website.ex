@@ -7,7 +7,7 @@ defmodule IdotodosEx.Website do
     field :site_private, :boolean, default: false
     field :story, :string
     field :images, :map
-    field :theme, :string
+    field :theme, :string, default: "cambridge"
     field :bridal_party, :map
     field :info, :map
     field :show_gallery, :boolean, default: false

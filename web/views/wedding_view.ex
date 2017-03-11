@@ -15,18 +15,12 @@ defmodule IdotodosEx.WeddingView do
       list
       |> Enum.with_index
       |> Enum.map(fn({item, index}) ->
-        render IdotodosEx.WeddingView, partial <> ".html", conn: conn, column_width: column_width, item: item, index: index, max_columns: max_columns,list_count: list_count
+        render IdotodosEx.WeddingSharedView, partial <> ".html", conn: conn, column_width: column_width, item: item, index: index, max_columns: max_columns,list_count: list_count
       end)
     end
   end
 
-  def registry_image(conn, name) do
-    case name do
-      "Honeyfund" -> static_path(conn, "/images/honeyfund.png")
-      "Crate and Barrel" -> static_path(conn, "/images/crateandbarrel.png")
-      "Amazon" -> static_path(conn, "/images/amazon.png")
-    end
-  end
+
 
   def render("party.json", %{party: party}) do
     %{

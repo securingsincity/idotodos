@@ -46,43 +46,18 @@
     </div>
     <%=  if @wedding.website.info do %>
       <div class="row">
-        <div class="col-sm-4" id="hotels">
-          <%= if @wedding.website.info["hotels"] do %>
-            <h3>Hotels</h3>
-            <%= for obj <- @wedding.website.info["hotels"] do %>
-            <div class="well">
-              <p><strong><%= obj["name"] %></strong></p>
-              <p><%= obj["address"] %></p>
-              <p></p>
-            </div>
-            <% end %>
-          <% end %>
-        </div>
-        <div class="col-sm-4" id="restaurants">
-          <%= if @wedding.website.info["restaurants"] do %>
-            <h3>Restaurants</h3>
-            <%= for obj <- @wedding.website.info["restaurants"] do %>
-            <div class="well">
-              <p><strong><%= obj["name"] %></strong></p>
-              <p><%= obj["address"] %></p>
-              <p></p>
-            </div>
-            <% end %>
-          <% end %>
-        </div>
-        <div class="col-sm-4" id="things_to_do">
-          <%= if @wedding.website.info["things_to_do"] do %>
-          <h3>Things To Do</h3>
-            <%= for obj <- @wedding.website.info["things_to_do"] do %>
-            <div class="well">
-              <p><strong><%= obj["name"] %></strong></p>
-              <p><%= obj["address"] %></p>
-              <p></p>
-            </div>
-            <% end %>
-          <% end %>
-        </div>
+        <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["accommodations"]) %></div>
       </div>
+      <div class="row">
+        <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["transportation"]) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["long_distance_travel"]) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["attractions"]) %></div>
+      </div>
+
     <% end %>
   </div>
   <%= if (@wedding.website.show_gallery &&  @wedding.website.images &&  @wedding.website.images["gallery"]) do %>

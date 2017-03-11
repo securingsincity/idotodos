@@ -12,7 +12,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#wedding">Wedding <span class="sr-only">(current)</span></a></li>
+        <li><a href="#wedding">Wedding</a></li>
         <li><a href="#info">Our Story</a></li>
         <%= if (@wedding.website.show_gallery) do %><li><a href="#gallery">Gallery</a></li><% end %>
         <%= if (@wedding.website.show_bridal_party) do %><li><a href="#bridal_party">Bridal Party</a></li><% end %>
@@ -26,5 +26,73 @@
   </div><!-- /.container-fluid -->
 </nav>
 <div class="container-fluid text-center content">
-this is the portsmouth theme
+<%= if (@wedding.website.images["main"]) do %>
+    <image style="width:100%; padding:0" src="<%= @wedding.website.images["main"] %>" />
+  <% end %>
+    <div class="container">
+      <h2 id="wedding">Our Wedding</h2>
+      <div class="lead text-center"><%= @wedding.user.first_name <> " " <> @wedding.user.last_name %> and <%= @wedding.partner.first_name <> " " <> @wedding.partner.last_name  %></div>
+
+      <div class="text-center"><%= @wedding.website.story %></div>
+    </div>
+
+    <%= if (@wedding.website.images["our_story"]) do %>
+    <image style="width:100%; padding:0"  src="<%= @wedding.website.images["our_story"] %>" />
+    <% end %>
+  <div class="container">
+    <h2 id="info">Info</h2>
+    <div class="row">
+      <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["big_day"]) %></div>
+    </div>
+    <%=  if @wedding.website.info do %>
+      <div class="row">
+        <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["accommodations"]) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["transportation"]) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["long_distance_travel"]) %></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["attractions"]) %></div>
+      </div>
+
+    <% end %>
+  </div>
+  <%= if (@wedding.website.show_gallery &&  @wedding.website.images &&  @wedding.website.images["gallery"]) do %>
+    <div class="container">
+    <h2 id="gallery">Gallery</h2>
+    <%= IdotodosEx.WeddingView.responsive_bubbles(@conn, @wedding.website.images["gallery"], 4, "gallery_image") %>
+    </div>
+  <% end %>
+
+  <%= if @wedding.website.show_registry do %>
+    <%= if (@wedding.website.images["registry"]) do %>
+      <image style="width:100%; padding:0" src="<%= @wedding.website.images["registry"] %>" />
+    <% end %>
+
+
+    <div class="container">
+      <h2 id="registry">Registry</h2>
+        <%= IdotodosEx.WeddingView.responsive_bubbles(@conn, @wedding.registries, 3,"registries_bubbles") %>
+    </div>
+  <% end %>
+
+
+  <%= if (@wedding.website.show_bridal_party && @wedding.website.bridal_party)  do %>
+    <div class="container">
+      <h2 id="bridal_party">Bridal Party</h2>
+      <%= IdotodosEx.WeddingView.responsive_bubbles(@conn, Map.values(@wedding.website.bridal_party), 2,"bridal_party_no_image") %>
+    </div>
+  <% end %>
+
+  <%= if (@wedding.website.images["rsvp"]) do %>
+  <image style="width:100%; padding:0"  src="<%= @wedding.website.images["rsvp"] %>" />
+  <% end %>
+
+  <%= if @wedding.website.show_rsvp && @is_logged_in do %>
+  <h2 id="rsvp">RSVP</h2>
+  <div id="rsvp-app" class="container"></div>
+  <% end %>
 </div>

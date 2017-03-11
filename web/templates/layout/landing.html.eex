@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>I Do To Dos</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Arimo|Roboto:300,400,700,900" rel="stylesheet">
+
+    <style>
+    h1,h2 {
+      font-size: 40px;
+      line-height: 40px;
+      letter-spacing: -1px;
+      font-family: 'Dancing Script', serif;
+      font-weight: 400;
+      color: #FFF;
+
+    }
+    h1 {
+      text-shadow: 2px 2px 10px black
+    }
+    .centered-header {
+        font-family: Roboto;
+
+    }
+    h2 {
+      color: #432142;
+    }
+
+
+p {
+  font-size: 15px;
+  line-height: 19px;
+  letter-spacing: 0px;
+  font-family: 'Roboto', serif;
+  font-weight: 400;
+  color: #432142;
+}
+
+.forget-me-not {
+  color: #FFF0F0;
+}
+.white {
+
+}
+.white-background {
+  background-color: #FFFFFF;
+}
+.forget-me-not-background {
+  background-color: #FFF0F0;
+}
+
+.pink-pig {
+  color: #FFD7DF;
+}
+.pink-pig-background {
+  background-color: #FFD7DF;
+}
+.blush {
+  color: #C0476E;
+}
+.blush-background {
+  background-color: #C0476E;
+}
+.voodoo {
+  color: #432142;
+}
+.voodoo-background {
+  background-color: #432142;
+}
+.revolver {
+  color: #2A0C2A;
+}
+.revolver-background {
+  background-color: #2A0C2A;
+}
+.hero {
+    background: url(https://s3.amazonaws.com/idotodos/kristin-graham-6.png);
+    height: 700px;
+    background-repeat-y: no-repeat;
+    background-size: cover;
+}
+body, header {
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+}
+.header {
+  border-bottom: 0px;
+}
+.main {
+  margin-top: 20px
+}
+    </style>
+  </head>
+
+  <body class="">
+    <div class="container-fluid hero white">
+      <header class="header">
+        <nav role="navigation">
+            <ul class="nav nav-pills pull-right">
+            <%= if logged_in?(@conn) do %>
+                <%= link "Sign out", to: session_path(@conn, :delete, :access),
+                        method: :delete, class: "btn btn-danger" %>
+                <%= link "#{current_user(@conn).email}", to: user_path(@conn,
+                        :show, current_user(@conn)) %>
+            <% else %>
+                <%= link "Sign in", to: session_path(@conn, :new),
+                        class: "white" %>
+            <% end %>
+            </ul>
+            <ul class="nav nav-pills">
+            <li><h1>I Do ToDos</h1></li>
+            <%= if logged_in?(@conn) do %>
+                <li><%= link "Home", to: page_path(@conn, :app), class: "btn" %></li>
+                <li><%= link "Guests", to: user_party_path(@conn, :index), class: "btn" %></li>
+                <li><%= link "Invites", to: user_invite_path(@conn, :index), class: "btn" %></li>
+                <li><%= link "Website", to: user_website_path(@conn, :edit), class: "btn" %></li>
+            <% end %>
+            </ul>
+        </nav>
+      </header>
+      <div class="container" style="margin-top: 150px;">
+        <h1 class="text-center centered-header">Fall in love with Wedding Planning</h1>
+        <h1 class="text-center centered-header" >Coming Soon</h1>
+      </div>
+
+    </div>
+    <div class="white-background voodoo">
+
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+      <main class="main voodoo">
+        <%= render @view_module, @view_template, assigns %>
+      </main>
+
+    </div> <!-- /container -->
+    <nav class="navbar-fixed-bottom">
+      <div class="revolver-background  forget-me-not text-center">
+        2017 - I Do Todos
+      </div>
+    </nav>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

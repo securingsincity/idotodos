@@ -12,7 +12,7 @@
     <% end %>
     </ul>
     <ul class="nav nav-pills">
-    <li><h2>I Do To Dos</h2></li>
+    <li><h2>I Do ToDos</h2></li>
     <%= if logged_in?(@conn) do %>
         <li><%= link "Home", to: page_path(@conn, :app), class: "btn" %></li>
         <li><%= link "Guests", to: user_party_path(@conn, :index), class: "btn" %></li>

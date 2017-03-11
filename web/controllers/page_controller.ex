@@ -4,7 +4,8 @@ defmodule IdotodosEx.PageController do
   alias IdotodosEx.Campaign
   use Timex
   def index(conn, _params) do
-    render conn, "index.html"
+    render conn, "index.html",
+    layout: {IdotodosEx.LayoutView, "landing.html"}
   end
   def list_date_format(%Ecto.Date{} = date) do
     << Ecto.Date.to_iso8601(date) <> "T00:00:00Z" >>

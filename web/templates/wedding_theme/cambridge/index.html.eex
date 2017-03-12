@@ -8,10 +8,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      <a class="navbar-brand" href="#"><%= @wedding.user.first_name <> " " <> @wedding.user.last_name %> and <%= @wedding.partner.first_name <> " " <> @wedding.partner.last_name  %></a>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right">
         <li class="active"><a href="#wedding">Wedding <span class="sr-only">(current)</span></a></li>
         <li><a href="#info">Our Story</a></li>
         <%= if (@wedding.website.show_gallery) do %><li><a href="#gallery">Gallery</a></li><% end %>
@@ -25,20 +26,22 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-<div class="container-fluid text-center">
+
   <%= if (@wedding.website.images["main"]) do %>
     <image style="width:100%; padding:0" src="<%= @wedding.website.images["main"] %>" />
   <% end %>
+<div class="container-fluid text-center">
     <div class="container">
       <h2 id="wedding">Our Wedding</h2>
       <div class="lead text-center"><%= @wedding.user.first_name <> " " <> @wedding.user.last_name %> and <%= @wedding.partner.first_name <> " " <> @wedding.partner.last_name  %></div>
 
       <div class="text-center"><%= @wedding.website.story %></div>
     </div>
-
+</div>
     <%= if (@wedding.website.images["our_story"]) do %>
     <image style="width:100%; padding:0"  src="<%= @wedding.website.images["our_story"] %>" />
     <% end %>
+<div class="container-fluid text-center">
   <div class="container">
     <h2 id="info">Info</h2>
     <div class="row">
@@ -66,12 +69,13 @@
     <%= IdotodosEx.WeddingView.responsive_bubbles(@conn, @wedding.website.images["gallery"], 4, "gallery_image") %>
     </div>
   <% end %>
+</div>
 
   <%= if @wedding.website.show_registry do %>
     <%= if (@wedding.website.images["registry"]) do %>
       <image style="width:100%; padding:0" src="<%= @wedding.website.images["registry"] %>" />
     <% end %>
-
+<div class="container-fluid text-center">
 
     <div class="container">
       <h2 id="registry">Registry</h2>
@@ -86,11 +90,11 @@
       <%= IdotodosEx.WeddingView.responsive_bubbles(@conn, Map.values(@wedding.website.bridal_party), 2,"bridal_party_no_image") %>
     </div>
   <% end %>
-
+</div>
   <%= if (@wedding.website.images["rsvp"]) do %>
   <image style="width:100%; padding:0"  src="<%= @wedding.website.images["rsvp"] %>" />
   <% end %>
-
+<div class="container-fluid text-center">
   <%= if @wedding.website.show_rsvp && @is_logged_in do %>
   <h2 id="rsvp">RSVP</h2>
   <div id="rsvp-app" class="container"></div>

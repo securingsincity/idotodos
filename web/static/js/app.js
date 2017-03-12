@@ -12,8 +12,10 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
-require('bootstrap')
 import $ from "jquery";
+window.jQuery = $;
+window.$ = $;
+require('bootstrap')
 if ($('.gallery-item')) {
   require('magnific-popup')
   $('.gallery-item').magnificPopup({

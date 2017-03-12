@@ -1,6 +1,10 @@
 .content {
-  color: red;
   margin-top: 60px;
+  padding-left: 40px;
+  padding-right: 40px;
+  border: 2px solid #CCC;
+  border-radius: 5px;
+  background-color: white;
 }
 
 .row {
@@ -9,4 +13,35 @@
 .container {
   padding-top: 2em;
   padding-bottom: 2em;
+
+}
+.navbar-default {
+    background-color: #ffffff;
+    border-color: #e7e7e7;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #999999;
+  background-image: url("/images/k+gbackground.png");
+  background-size: contain;
+}
+h1,h2,h3, .lead,.navbar-brand {
+  font-family: 'Amatic SC', cursive;
+}
+.navbar-default .navbar-link {
+    color: #337ab7;
+}
+
+@media (min-width: 768px) {
+  .navbar-right {
+      float: right !important;
+      margin-right: 0px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
 }

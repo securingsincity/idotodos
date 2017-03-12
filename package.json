@@ -9,6 +9,7 @@
     "cover": "nyc mocha --compilers js:babel-register 'client/**/*.test.js'"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "bootstrap-sass": "^3.3.7",
     "immutable": "^3.8.1",
     "jquery": "^3.1.1",

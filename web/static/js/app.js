@@ -12,6 +12,7 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
+require('bootstrap')
 import $ from "jquery";
 if ($('.gallery-item')) {
   require('magnific-popup')
@@ -22,6 +23,7 @@ if ($('.gallery-item')) {
     }
   });
 }
+
 
 // Import local files
 //

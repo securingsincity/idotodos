@@ -13,8 +13,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="#wedding">Wedding <span class="sr-only">(current)</span></a></li>
-        <li><a href="#info">Our Story</a></li>
+        <li><a href="#wedding">Wedding</a></li>
         <%= if (@wedding.website.show_gallery) do %><li><a href="#gallery">Gallery</a></li><% end %>
         <%= if (@wedding.website.show_bridal_party) do %><li><a href="#bridal_party">Bridal Party</a></li><% end %>
         <%= if (@wedding.website.show_registry) do %><li><a href="#registry">Registries</a></li><% end %>
@@ -36,6 +35,10 @@
       <div class="lead text-center"><%= @wedding.user.first_name <> " " <> @wedding.user.last_name %> and <%= @wedding.partner.first_name <> " " <> @wedding.partner.last_name  %></div>
 
       <div class="text-center"><%= @wedding.website.story %></div>
+      <h2 id="info">Info</h2>
+    <div class="row">
+      <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["big_day"]) %></div>
+    </div>
     </div>
 </div>
     <%= if (@wedding.website.images["our_story"]) do %>
@@ -43,10 +46,6 @@
     <% end %>
 <div class="container-fluid text-center">
   <div class="container">
-    <h2 id="info">Info</h2>
-    <div class="row">
-      <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["big_day"]) %></div>
-    </div>
     <%=  if @wedding.website.info do %>
       <div class="row">
         <div class="col-sm-12 text-center"><%=  if @wedding.website.info, do: raw(@wedding.website.info["accommodations"]) %></div>

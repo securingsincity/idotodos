@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import RSVP from '../components/rsvp.js'
-import {initialLoad, setAttending, onFirstNameChange, onLastNameChange, addGuest, setMealChoice, setAllergies} from '../actions/rsvp.js'
+import {initialLoad, sendRSVP, setAttending, onFirstNameChange, onLastNameChange, addGuest, setMealChoice, setAllergies, setShuttle} from '../actions/rsvp.js'
 const mapStateToProps = (state, ownProps) => {
   return {
     guests: state.rsvp.get("guests"),
@@ -9,6 +9,7 @@ const mapStateToProps = (state, ownProps) => {
     mealChoices: state.rsvp.get("mealChoices"),
     mealChoice: state.rsvp.get("mealChoice"),
     allergies: state.rsvp.get("allergies"),
+    shuttle: state.rsvp.get("shuttle")
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -24,6 +25,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addGuest: () => {
       dispatch(addGuest())
+    },
+    sendRSVP: () => {
+      dispatch(sendRSVP());
+    },
+    setShuttle: (shuttle) => {
+      dispatch(setShuttle(shuttle))
     },
     setAttending: (id, isAttending) => {
       dispatch(setAttending(id, isAttending))

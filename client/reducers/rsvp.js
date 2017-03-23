@@ -6,6 +6,7 @@ const initialState = fromJS({
   guests: [],
   songChoices: [],
   maxGuests: 0,
+  shuttle: false,
 })
 export default function rsvp(state = initialState, action) {
   // For now, don't handle any actions
@@ -61,6 +62,8 @@ export default function rsvp(state = initialState, action) {
         }
       );
       return state.set("guests", updatedGuestsWithAllergyChange);
+    case "SHUTTLE_CHANGED":
+      return state.set("shuttle", action.shuttle);
     case "MEAL_CHOICE_CHANGED":
       guestIndex = guests.findIndex(function(item) {
         return item.get("id") === action.id;
@@ -74,7 +77,7 @@ export default function rsvp(state = initialState, action) {
       );
       return state.set("guests", updatedGuestsWithMealChoiceChange);
     case "ADD_GUEST":
-      const guestsPlusOne = guests.push(Immutable.Map({id: uuidV4() }))
+      const guestsPlusOne = guests.push(Immutable.Map({id: uuidV4(), attending: true }))
       return state.set("guests", guestsPlusOne)
     case "INITIAL_LOAD":
       const withGuests = state.set("guests", Immutable.fromJS(action.guests))

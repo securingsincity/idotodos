@@ -7,12 +7,12 @@ class Allergies extends Component {
         <FormGroup
           controlId="formBasicText"
         >
-          <ControlLabel className="col-sm-2 control-label">Please List Any Allergies</ControlLabel>
+          <ControlLabel className="col-sm-2 control-label">Please List Any Dietary Restrictions</ControlLabel>
           <div className="col-sm-10">
             <FormControl
               type="text"
               value={this.props.allergies}
-              placeholder="Enter text"
+              placeholder="Please List Any Dietary Restrictions"
               onChange={this.props.onChange}
             />
           </div>

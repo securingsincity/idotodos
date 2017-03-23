@@ -25,7 +25,7 @@ defmodule IdotodosEx.WeddingView do
   def render("party.json", %{party: party}) do
     %{
       party: party.id,
-      name: party.name,
+      name: HtmlSanitizeEx.strip_tags(party.name),
       maxGuests: party.max_party_size,
       guests: render_many(party.guests, __MODULE__, "guest.json", as: :guest)
     }
@@ -35,8 +35,8 @@ defmodule IdotodosEx.WeddingView do
     attending = if guest.invite, do: guest.invite.attending, else: false
     %{
       id: guest.id,
-      firstName: guest.first_name,
-      lastName: guest.last_name,
+      firstName: HtmlSanitizeEx.strip_tags(guest.first_name),
+      lastName: HtmlSanitizeEx.strip_tags(guest.last_name),
       attending: attending
     }
   end

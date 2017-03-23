@@ -3,6 +3,7 @@ import {Button} from 'react-bootstrap'
 // import _ from 'lodash'
 import Guest from '../components/guest'
 import SongRequest from '../components/songRequest'
+import Shuttle from '../components/shuttle'
 
 export default class RSVP extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export default class RSVP extends Component {
     this.addGuest = this.addGuest.bind(this)
   }
   onClick() {
+    this.props.sendRSVP()
   }
   addGuest() {
     this.props.addGuest()
@@ -25,7 +27,6 @@ export default class RSVP extends Component {
     return (
       <div className="col-sm-12">
         <form className="form-horizontal">
-          max guests: {this.props.maxGuests}
           {this.props.guests.map(function(guest) {
             return <Guest
             key={guest.get("id")}
@@ -42,6 +43,7 @@ export default class RSVP extends Component {
             allergies={guest.get("allergies")}
             lastName={guest.get("lastName")} />
           })}
+          <Shuttle shuttle={this.props.shuttle} setShuttle={ this.props.setShuttle}/>
           <SongRequest />
           {this.props.maxGuests > this.props.guests.size ? <Button onClick={this.addGuest}>Add Guest</Button>: ""}
 

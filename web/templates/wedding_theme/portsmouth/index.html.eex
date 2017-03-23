@@ -18,7 +18,6 @@
         <%= if (@wedding.website.show_bridal_party) do %><li><a href="#bridal_party">Bridal Party</a></li><% end %>
         <%= if (@wedding.website.show_registry) do %><li><a href="#registry">Registries</a></li><% end %>
         <%= if @wedding.website.show_rsvp && @is_logged_in do %><li><a href="#rsvp">RSVP</a></li><% end %>
-
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <%= if @is_logged_in do %>

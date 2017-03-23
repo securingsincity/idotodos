@@ -25,3 +25,13 @@ export function setMealChoice(id, mealChoice) {
 export function addGuest() {
   return {type: "ADD_GUEST"}
 }
+
+export function setShuttle(shuttle) {
+  return {type: "SHUTTLE_CHANGED", shuttle}
+}
+
+export function sendRSVP() {
+  return (dispatch, getState) => {
+    console.log(getState().rsvp.toJS());
+  }
+}

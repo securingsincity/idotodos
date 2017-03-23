@@ -24,7 +24,7 @@ class Guest extends Component {
     this.props.setAllergies(this.props.id, e.target.value)
   }
   setMealChoice(e) {
-    this.props.setMealChoice(this.props.id,  e.target.value)
+    this.props.setMealChoice(this.props.id,  e.value)
   }
   render() {
     let fullName = "Your Guest"
@@ -48,7 +48,7 @@ class Guest extends Component {
             <FormControl
               type="text"
               value={this.props.firstName}
-              placeholder="Enter text"
+              placeholder="First Name"
               onChange={this.onFirstNameChange}
             />
           </div>
@@ -64,7 +64,7 @@ class Guest extends Component {
           <FormControl
             type="text"
             value={this.props.lastName}
-            placeholder="Enter text"
+            placeholder="Last Name"
             onChange={this.onLastNameChange}
           />
           </div>

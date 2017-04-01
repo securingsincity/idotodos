@@ -31,7 +31,9 @@ h1,h2,h3, .lead,.navbar-brand {
 .navbar-default .navbar-link {
     color: #337ab7;
 }
-
+.btn {
+  margin-right: 20px;
+}
 @media (min-width: 768px) {
   .navbar-right {
       float: right !important;

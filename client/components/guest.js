@@ -42,12 +42,14 @@ class Guest extends Component {
        <h4>{fullName}</h4>
         <FormGroup
           controlId="formBasicText"
+          className={this.props.guestErrors.get('firstName') ? "has-error" : ""}
         >
           <ControlLabel className="col-sm-2 control-label">First Name</ControlLabel>
           <div className="col-sm-10">
             <FormControl
               type="text"
               value={this.props.firstName}
+
               placeholder="First Name"
               onChange={this.onFirstNameChange}
             />
@@ -58,6 +60,7 @@ class Guest extends Component {
 
         <FormGroup
           controlId="formBasicText"
+          className={this.props.guestErrors.get('lastName') ? "has-error" : ""}
         >
           <ControlLabel className="col-sm-2 control-label">Last Name</ControlLabel>
           <div className="col-sm-10">

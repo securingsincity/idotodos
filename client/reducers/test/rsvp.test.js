@@ -6,8 +6,9 @@ describe('RSVP Reducers', () => {
   it('Default should return initial state', () => {
     const initialState = fromJS({
       guests: [],
-      songChoices: [],
       maxGuests: 0,
+      shuttle: false,
+      songs: [],
     })
     expect(rsvp(undefined, {})).to.deep.equal(initialState)
   });
@@ -27,7 +28,7 @@ describe('RSVP Reducers', () => {
     const expected = fromJS({
       guests,
       maxGuests,
-      songChoices: []
+      songs: []
     })
     expect(result.get("guests")).to.deep.equal(expected.get("guests"));
     expect(result.get("maxGuests")).to.deep.equal(expected.get("maxGuests"));

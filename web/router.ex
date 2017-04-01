@@ -23,7 +23,9 @@ defmodule IdotodosEx.Router do
   pipeline :api do
     plug :accepts, ["json"]
   end
-
+  pipeline :auth_api do
+    plug :fetch_session
+  end
   pipeline :mailgun do
     plug :accepts, ["html"]
     # add a mailgun webhook plug
@@ -45,6 +47,7 @@ defmodule IdotodosEx.Router do
     pipe_through :browser
     get "/wedding/:name", WeddingController, :index
     post "/wedding/:name", WeddingController, :sign_in
+
     get "/wedding/:name/sign-out", WeddingController, :sign_out
   end
 
@@ -77,12 +80,15 @@ defmodule IdotodosEx.Router do
     resources "/campaign_registries", CampaignRegistryController
     resources "/registries", RegistryController
   end
-
+  scope "/api", IdotodosEx do
+    pipe_through [:api, :auth_api]
+    post "/wedding/:name/rsvp", WeddingController, :rsvp
+  end
   scope "/api", IdotodosEx do
     pipe_through [:api]
     post "/party-invite-email-status", PartyInviteEmailStatusController, :create
-
   end
+
 
   scope "/admin", IdotodosEx do
     pipe_through [:browser, :browser_auth, :browser_admin]

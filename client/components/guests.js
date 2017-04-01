@@ -12,7 +12,7 @@ class Guests extends Component {
     const guests = this.props.fields.map(function (guest, index) {
       const guestData = guestsData[index]
       let fullName = "Your Guest"
-      if (guestData.firstName && guestData.lastName) {
+      if (guestData && guestData.firstName && guestData.lastName) {
         fullName = guestData.firstName + " " + guestData.lastName
       }
       return (
@@ -20,9 +20,10 @@ class Guests extends Component {
           <h4>{fullName}</h4>
           <Field component={FormControlInput} name={`${guest}.firstName`} label={'First Name'} />
           <Field component={FormControlInput} name={`${guest}.lastName`} label={'Last Name'} />
-          <Field component={Allergies} name={`${guest}.allergies`} />
           <Field component={YesNo} name={`${guest}.attending`} label="Attending" />
-          {(guestData.id) ? <div /> : (<Button className="margin-bottom-20" onClick={() => fields.remove(index)}>Remove Guest</Button>)}
+          {(guestData && guestData.attending) ? (<Field component={Allergies} name={`${guest}.allergies`} />) : ''}
+          {(guestData && guestData.attending) ? (<Field component={YesNo} name={`${guest}.shuttle`} label="RSVP To Shuttle"/>) : ''}
+          {(guestData && guestData.id) ? <div /> : (<Button className="margin-bottom-20" onClick={() => fields.remove(index)}>Remove Guest</Button>)}
         </div>
       )
     }, this)
@@ -33,7 +34,7 @@ class Guests extends Component {
         {guests}
         {
           (!_.isEmpty(this.props.guests) && (this.props.maxGuests > this.props.guests.length)) ?
-            (<Button className="margin-bottom-20" onClick={() => this.props.fields.push({ attending: true })}>Add Guest</Button>)
+            (<Button className="margin-bottom-20" onClick={() => this.props.fields.push({ attending: true, shuttle: false, allergies: '' })}>Add Guest</Button>)
             : ''
         }
       </div>

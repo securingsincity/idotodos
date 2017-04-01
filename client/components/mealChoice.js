@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {FormGroup, FormControl, ControlLabel, HelpBlock, Radio} from 'react-bootstrap'
+import {FormGroup, FormControl, ControlLabel, HelpBlock} from 'react-bootstrap'
 import Select from 'react-select'
 class MealChoice extends Component {
   render() {

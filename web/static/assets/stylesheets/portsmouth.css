@@ -47,3 +47,13 @@ h1,h2,h3, .lead,.navbar-brand {
     margin-right: 1em;
   }
 }
+.guest-wrapper {
+    padding: 10px 15px;
+    background-color: #EEEEEE;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}

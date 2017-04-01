@@ -4,9 +4,9 @@
   "scripts": {
     "deploy": "webpack --config='webpack.prod.js' -p",
     "watch": "webpack --watch",
-    "test": " mocha --compilers js:babel-register 'client/**/*.test.js'",
-    "test:watch": "mocha --compilers js:babel-register 'client/**/*.test.js' --watch",
-    "cover": "nyc mocha --compilers js:babel-register 'client/**/*.test.js'"
+    "test": " mocha --compilers js:babel-register --require ignore-styles --require ./scripts/setupTests.js 'client/**/*.test.js'",
+    "test:watch": "npm test -- --watch",
+    "cover": "nyc npm test"
   },
   "dependencies": {
     "axios": "^0.15.3",
@@ -26,6 +26,7 @@
     "react-redux": "^5.0.2",
     "react-select": "^1.0.0-rc.3",
     "redux": "^3.6.0",
+    "redux-form": "^6.6.1",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^5.0.1",
     "uuid": "^3.0.1"
@@ -33,6 +34,7 @@
   "devDependencies": {
     "babel-brunch": "~6.0.0",
     "babel-core": "^6.22.1",
+    "babel-eslint": "^7.2.1",
     "babel-loader": "^6.2.10",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.22.0",
@@ -44,11 +46,21 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-brunch": "~2.0.0",
     "css-loader": "^0.26.1",
+    "enzyme": "^2.8.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "file-loader": "^0.10.0",
+    "ignore-styles": "^5.0.1",
     "javascript-brunch": "~2.0.0",
+    "jsdom": "^9.12.0",
     "mocha": "^3.2.0",
     "nyc": "^10.1.2",
+    "react-addons-test-utils": "^15.4.2",
+    "sinon": "^2.1.0",
     "style-loader": "^0.13.1",
     "uglify-js-brunch": "~2.0.1",
     "url-loader": "^0.5.7",

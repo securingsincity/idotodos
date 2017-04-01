@@ -6,10 +6,6 @@ import { debounce } from 'lodash'
 import 'react-select/dist/react-select.css'
 import { FormGroup, ControlLabel } from 'react-bootstrap'
 
-const options = [
-    { value: 'one', label: 'One' },
-    { value: 'two', label: 'Two' }
-];
 export function parseTracks(items){
   return items.map((item) => {
     return {
@@ -32,7 +28,7 @@ const loadOptions = debounce((input, callback) => {
     const tracks = parseTracks(response.data.tracks.items);
     callback(null, {options: tracks})
   })
-  .catch(function (error) {
+  .catch(function () {
     callback(null, [])
   });
 }, 500)
@@ -46,7 +42,7 @@ class SongRequest extends Component {
         >
           <ControlLabel className="col-sm-2 control-label">Song Requests</ControlLabel>
           <div className="col-sm-10">
-            <Select.AsyncCreatable autoload={false} multi={true} delimiter={'%'} value={this.props.songs.toJS()} onChange={this.props.requestSong} loadOptions={loadOptions} />
+            <Select.AsyncCreatable autoload={false} multi={true} delimiter={'%'} value={this.props.input.value} onChange={this.props.input.onChange} loadOptions={loadOptions} />
         </div>
         </FormGroup>
       </div>

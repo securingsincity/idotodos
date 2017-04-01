@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux'
 import rsvp from './rsvp'
-import errors from './errors'
+import { reducer as formReducer } from 'redux-form'
+
 export default combineReducers({
   rsvp: rsvp,
-  errors: errors,
+  form: formReducer,
 })
 

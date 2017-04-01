@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {FormGroup, FormControl, ControlLabel, HelpBlock, Radio} from 'react-bootstrap'
+import { FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap'
 class Allergies extends Component {
   render() {
     return (
@@ -11,9 +11,9 @@ class Allergies extends Component {
           <div className="col-sm-10">
             <FormControl
               type="text"
-              value={this.props.allergies}
+              value={this.props.input.value}
               placeholder="Please List Any Dietary Restrictions"
-              onChange={this.props.onChange}
+              onChange={this.props.input.onChange}
             />
           </div>
           <FormControl.Feedback />

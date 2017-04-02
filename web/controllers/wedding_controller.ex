@@ -31,7 +31,8 @@ defmodule IdotodosEx.WeddingController do
     changeset = GuestInviteStatus.changeset(invite, values_to_change)
     case Repo.insert_or_update(changeset) do
         {:ok, guest_invite} -> guest_invite
-        {:error, changeset} ->
+        {:error, _} ->
+          nil
     end
   end
 

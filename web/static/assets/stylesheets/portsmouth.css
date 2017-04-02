@@ -20,7 +20,7 @@
     border-color: #e7e7e7;
 }
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Chivo','Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #999999;
   background-image: url("/images/k+gbackground.png");
   background-size: contain;
@@ -49,7 +49,7 @@ h1,h2,h3, .lead,.navbar-brand {
 }
 .guest-wrapper {
     padding: 10px 15px;
-    background-color: #EEEEEE;
+    background-color: #EFEFEF;
     margin-bottom: 10px;
     border-radius: 10px;
 }
@@ -57,3 +57,38 @@ h1,h2,h3, .lead,.navbar-brand {
 .margin-bottom-20 {
   margin-bottom: 20px;
 }
+.modal-footer {
+  border-top: none;
+  text-align: center;
+}
+
+.modal-header {
+  padding: 0px 15px;
+  border-bottom: none;
+}
+.no-button {
+  color:#000;
+  background-color: white;
+  border: 1px #999 solid;
+}
+.no-button:hover {
+  background-color: #EDEDED;
+}
+.yes-button {
+
+}
+.btn {
+  border-radius: 5px;
+  padding:8px 40px 8px 40px;
+  text-align: center;
+  min-width: 150px;
+}
+.btn-primary,.btn-success {
+  background-color: #49B882;
+  border: none;
+}
+.btn-primary:hover, .btn-primary:active:hover, .btn-primary:active:focus, .btn-primary:focus, .btn-primary:active,
+.btn-success:hover, .btn-success:active:hover, .btn-success:active:focus, .btn-success:focus, .btn-success:active {
+  background-color: #54D194;
+}
+

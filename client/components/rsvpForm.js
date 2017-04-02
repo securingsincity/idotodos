@@ -8,17 +8,18 @@ import {validateForm} from '../utils/validation'
 class RSVP extends Component {
   render() {
     const someGuestsAreAttending = _.some(this.props.guests, (guest) => guest.attending)
-    const { handleSubmit } = this.props
+    // const { handleSubmit } = this.props
     return (
       <div className="col-sm-12">
-        <form className="form-horizontal" onSubmit={handleSubmit}>
+        <form className="form-horizontal">
           <FieldArray name="guests" component={Guests} guests={this.props.guests} maxGuests={this.props.maxGuests}/>
           {(someGuestsAreAttending) ?
             (<div className="text-left">
                 <Field component={SongRequest} name="songs" />
             </div>): <div />}
           <div className="row">
-            <Button bsStyle="success" type="submit">RSVP <span className="glyphicon glyphicon-menu-right" aria-hidden="true"></span></Button>
+            {this.props.submitFailed ? <div className="alert alert-danger">There was an issue submitting your form please retry</div> : ''}
+            <Button bsStyle="success" disabled={this.props.submitting} onClick={this.props.showConfirmModal}>RSVP <span className="glyphicon glyphicon-menu-right" aria-hidden="true"></span></Button>
           </div>
         </form>
       </div>

@@ -9,7 +9,7 @@
 
     <title>I Do ToDos</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <link href="https://fonts.googleapis.com/css?family=Roboto|Amatic+SC|Dancing+Script|Raleway:300,400,700,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Chivo|Amatic+SC|Dancing+Script|Raleway:300,400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="<%= static_path(@conn, "/stylesheets/" <> @theme <> ".css") %>">
   </head>
 

@@ -32,7 +32,6 @@ defmodule IdotodosEx.WeddingController do
     case Repo.insert_or_update(changeset) do
         {:ok, guest_invite} -> guest_invite
         {:error, changeset} ->
-            IO.inspect changeset
     end
   end
 
@@ -89,10 +88,19 @@ defmodule IdotodosEx.WeddingController do
             {:ok, updated_party} ->
                 updated_party.guests
                 |> Enum.each(fn(guest) ->
+
                   invite_stuff = guests
-                  |> Enum.find(%{}, fn(update)-> guest.id == update["id"] end)
-                  upsert_guest_invite_status(guest, %{
+                  |> Enum.find(%{}, fn(update) ->
+                    case update["id"] do
+                      nil ->
+                        guest.first_name == update["firstName"] && guest.last_name == update["lastName"]
+                      id ->
+                        guest.id == id
+                    end
+                  end)
+                    upsert_guest_invite_status(guest, %{
                     attending: invite_stuff["attending"],
+                    allergies: invite_stuff["allergies"],
                     responded: true,
                     song_requests: format_songs(songs),
                     shuttle: invite_stuff["shuttle"],
@@ -156,10 +164,10 @@ defmodule IdotodosEx.WeddingController do
             !is_logged_in ->
               party = %Party{}
               current_guest = %Guest{}
-              render(conn, "index.html", wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
+              render(conn, "index.html", name: name, wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
             true ->
               [party, current_guest]= update_party_with_guest_invites(party_id, guest_id)
-              render(conn, "index.html", wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
+              render(conn, "index.html", name: name, wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
           end
     end
   end

@@ -33,11 +33,13 @@ defmodule IdotodosEx.WeddingView do
 
   def render("guest.json", %{guest: guest}) do
     attending = if guest.invite, do: guest.invite.attending, else: false
+    responded = if guest.invite, do: guest.invite.responded, else: false
     %{
       id: guest.id,
       firstName: HtmlSanitizeEx.strip_tags(guest.first_name),
       lastName: HtmlSanitizeEx.strip_tags(guest.last_name),
-      attending: attending
+      attending: attending,
+      responded: responded
     }
   end
 

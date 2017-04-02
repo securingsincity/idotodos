@@ -22,14 +22,14 @@ defmodule IdotodosEx.WeddingController do
           {:ok, wedding}
     end
   end
-  def create_guest_invite_status(guest, values \\ %{attending: false, responded: false, shuttle: false}) do
+  def update_guest_invite_status(guest, invite, values \\ %{attending: false, responded: false, shuttle: false}) do
     values_to_change = Map.merge(%{
       campaign_id: guest.campaign_id,
       guest_id: guest.id,
       party_id: guest.party_id
     }, values)
-    changeset = GuestInviteStatus.changeset(%GuestInviteStatus{}, values_to_change)
-    case Repo.insert(changeset) do
+    changeset = GuestInviteStatus.changeset(invite, values_to_change)
+    case Repo.insert_or_update(changeset) do
         {:ok, guest_invite} -> guest_invite
         {:error, changeset} ->
             IO.inspect changeset
@@ -39,7 +39,7 @@ defmodule IdotodosEx.WeddingController do
   def get_or_create_guest_invite_status(guest, values \\ %{attending: false, responded: false, shuttle: false}) do
     case Repo.get_by(GuestInviteStatus, %{guest_id: guest.id}) do
       nil ->
-        create_guest_invite_status(guest,values)
+        update_guest_invite_status(guest,%GuestInviteStatus{},values)
       invite -> invite
     end
   end
@@ -47,19 +47,9 @@ defmodule IdotodosEx.WeddingController do
   def upsert_guest_invite_status(guest, values \\ %{attending: false, responded: false, shuttle: false}) do
     case Repo.get_by(GuestInviteStatus, %{guest_id: guest.id}) do
       nil ->
-        create_guest_invite_status(guest,values)
+        update_guest_invite_status(guest,%GuestInviteStatus{}, values)
       invite ->
-        values_to_change = Map.merge(%{
-          campaign_id: guest.campaign_id,
-          guest_id: guest.id,
-          party_id: guest.party_id
-        }, values)
-        changeset = GuestInviteStatus.changeset(invite, values_to_change)
-        case Repo.update(changeset) do
-            {:ok, guest_invite} -> guest_invite
-            {:error, _} ->
-                nil
-        end
+        update_guest_invite_status(guest, invite, values)
     end
   end
 
@@ -75,15 +65,18 @@ defmodule IdotodosEx.WeddingController do
     guests_with_ids ++ guests_without_ids
   end
 
+  def format_songs(songs) do
+    songs
+    |> Enum.map(fn(song) -> song["value"] end)
+    |> Enum.join(";")
+  end
+
   def rsvp(conn, %{"name" => name, "guests" => guests, "songs" => songs}) do
     wedding = case get_wedding(name) do
        {:error, _} -> conn |> redirect(to: "/")
        {:ok, wedding} -> wedding
     end
-    campaign_id = get_session(conn, :campaign_id)
-    party_id = get_session(conn, :party_id)
-    guest_id = get_session(conn, :guest_id)
-    is_logged_in = campaign_id !== nil && party_id !== nil  && guest_id !== nil
+    [campaign_id, party_id, guest_id, is_logged_in] = get_session_data(conn)
     case is_logged_in do
       true -> #do something
         party = Party
@@ -101,7 +94,7 @@ defmodule IdotodosEx.WeddingController do
                   upsert_guest_invite_status(guest, %{
                     attending: invite_stuff["attending"],
                     responded: true,
-                    # song_requests: songs,
+                    song_requests: format_songs(songs),
                     shuttle: invite_stuff["shuttle"],
                   })
                 end)
@@ -144,16 +137,19 @@ defmodule IdotodosEx.WeddingController do
       |> redirect(to: wedding_path(conn, :index, name))
   end
 
+  def get_session_data(conn) do
+    campaign_id = get_session(conn, :campaign_id)
+    party_id = get_session(conn, :party_id)
+    guest_id = get_session(conn, :guest_id)
+    is_logged_in = campaign_id !== nil && party_id !== nil  && guest_id !== nil
+    [campaign_id, party_id, guest_id, is_logged_in]
+  end
 
   def index(conn, %{"name" =>  name}) do
     case get_wedding(name) do
        {:error, _} -> conn |> redirect(to: "/")
        {:ok, wedding} ->
-          campaign_id = get_session(conn, :campaign_id)
-          party_id = get_session(conn, :party_id)
-          guest_id = get_session(conn, :guest_id)
-          is_logged_in = campaign_id !== nil && party_id !== nil  && guest_id !== nil
-
+          [campaign_id, party_id, guest_id, is_logged_in] = get_session_data(conn)
           cond do
             wedding.website.active !== true -> redirect(conn, to: "/")
             wedding.website.site_private && !is_logged_in -> render(conn, "login.html", wedding: wedding, is_logged_in: false, theme: wedding.website.theme)
@@ -162,19 +158,22 @@ defmodule IdotodosEx.WeddingController do
               current_guest = %Guest{}
               render(conn, "index.html", wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
             true ->
-              party = Party
-              |> Repo.get!(party_id)
-              |> Repo.preload([:guests])
-
-              updated_guests = Enum.map(party.guests, fn(guest) ->
-                Map.merge(guest, %{invite: get_or_create_guest_invite_status(guest)})
-              end)
-              party = Map.merge(party, %{guests: updated_guests})
-              current_guest = Repo.get!(Guest, guest_id)
+              [party, current_guest]= update_party_with_guest_invites(party_id, guest_id)
               render(conn, "index.html", wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
           end
     end
-    # render(conn, "index.html", campaign_registries: campaign_registries)
   end
 
+  def update_party_with_guest_invites(party_id,guest_id) do
+    party = Party
+    |> Repo.get!(party_id)
+    |> Repo.preload([:guests])
+
+    updated_guests = Enum.map(party.guests, fn(guest) ->
+      Map.merge(guest, %{invite: get_or_create_guest_invite_status(guest)})
+    end)
+    party = Map.merge(party, %{guests: updated_guests})
+    current_guest = Repo.get!(Guest, guest_id)
+    [party, current_guest]
+  end
 end

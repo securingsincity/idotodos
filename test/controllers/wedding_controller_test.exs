@@ -115,7 +115,7 @@ defmodule IdotodosEx.WeddingControllerTest do
       assert html_response(conn, 200) =~ "Welcome to"
   end
 
-  test "wedding that does exist should the wedding and rsvp if it's active and is private and the session is set", %{conn: conn}  do
+  test "wedding that does exist should  showthe wedding and rsvp if it's active and is private and the session is set", %{conn: conn}  do
       user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
       campaign_id = User.get_campaign_id(user)
 
@@ -124,7 +124,7 @@ defmodule IdotodosEx.WeddingControllerTest do
             name: "foobar",
             max_party_size: 2,
             guests: [
-                %{first_name: "jerry", last_name: "seinfeld", email: "jerry@email.com"}
+                %{first_name: "jerry", last_name: "seinfeld", email: "jerry@email.com", campaign_id: campaign_id}
             ],
             campaign_id: campaign_id
         }
@@ -182,5 +182,13 @@ defmodule IdotodosEx.WeddingControllerTest do
       Repo.get_by!(Guest, email: "jerry@email.com")
       conn = post conn, wedding_path(conn,:sign_in, "somecontent", %{"login"=> %{"email"=>  "jerry@email.com"}})
       assert redirected_to(conn) == IdotodosEx.Router.Helpers.wedding_path(conn,:index, "somecontent")
+  end
+
+  test "format_songs with no songs" do
+      assert WeddingController.format_songs([]) == ""
+  end
+
+  test "format_songs with songs" do
+      assert WeddingController.format_songs([%{"value"=> "His Clothes were lined with gold by bitter ambience"}, %{"value" => "hi, my name is by foo bar"}]) == "His Clothes were lined with gold by bitter ambience;hi, my name is by foo bar"
   end
 end

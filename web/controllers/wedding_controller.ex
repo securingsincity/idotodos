@@ -3,6 +3,7 @@ defmodule IdotodosEx.WeddingController do
   alias IdotodosEx.Campaign
   alias IdotodosEx.Guest
   alias IdotodosEx.Party
+  alias IdotodosEx.User
   alias IdotodosEx.Repo
   alias IdotodosEx.Website
   alias IdotodosEx.GuestInviteStatus
@@ -71,6 +72,32 @@ defmodule IdotodosEx.WeddingController do
     |> Enum.join(";")
   end
 
+  def send_confirmation_to_guest(guest) do
+    if guest.email !== "" && guest.email !== nil do
+      IdotodosEx.Mailer.send_mail(guest.email, "RSVP Confirmation", "You RSVP'd for the wedding", "You RSVP'd for the wedding", %{
+        campaign_id: guest.campaign_id,
+        party_id: guest.party_id
+      })
+    end
+  end
+
+
+  def send_rsvp_to_users(party) do
+    # invites = Repo.get!(GuestInviteStatus, party_id: party.id) |> Repo.preload[:guest]
+    query = from u in User,
+        where: u.campaign_id == ^party.campaign_id
+    users = Repo.all(query)
+    #users = Repo.get_by!(User, campaign_id: party.campaign_id)
+    Enum.each(users, fn(user) ->
+      if user.email !== "" && user.email !== nil do
+        IdotodosEx.Mailer.send_mail(user.email, ~s("RSVP Confirmation: #{party.name}"), ~s("#{party.name} has rsvp'd'"),  ~s("#{party.name} has rsvp'd'"), %{
+          campaign_id: party.campaign_id,
+          party_id: party.id
+        })
+      end
+    end)
+
+  end
   def rsvp(conn, %{"name" => name, "guests" => guests, "songs" => songs}) do
     wedding = case get_wedding(name) do
        {:error, _} -> conn |> redirect(to: "/")
@@ -99,14 +126,16 @@ defmodule IdotodosEx.WeddingController do
                         guest.id == id
                     end
                   end)
-                    upsert_guest_invite_status(guest, %{
+                  upsert_guest_invite_status(guest, %{
                     attending: invite_stuff["attending"],
                     allergies: invite_stuff["allergies"],
                     responded: true,
                     song_requests: format_songs(songs),
                     shuttle: invite_stuff["shuttle"],
                   })
+                  send_confirmation_to_guest(guest)
                 end)
+                send_rsvp_to_users(updated_party)
                 json(conn, %{
                   success: true,
                   guests: %{},

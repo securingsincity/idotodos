@@ -1,0 +1,19 @@
+
+<%= if (rem(@index, @max_columns) == 0 && @index >= @max_columns) do %>
+</div>
+<% end %>
+
+<%= if (rem(@index, @max_columns) == 0) do %>
+<div class="row">
+<% end %>
+<div class="col-sm-<%= @column_width %>">
+  <%= if @item["image"] do %>
+    <div class="row"><image style="border:solid 8px #EEE;width: 100%; max-width: 200px" src="<%= @item["image"] %>" /></div>
+  <% end %>
+  <strong><%= @item["role"] %></strong> <br />
+  <span><%= @item["name"] %></span><br />
+</div>
+
+<%= if (@index + 1 === @list_count) do %>
+ </div>
+<% end %>

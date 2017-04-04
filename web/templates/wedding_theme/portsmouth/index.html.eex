@@ -32,10 +32,10 @@
     <image style="width:100%; padding:0" src="<%= @wedding.website.images["main"] %>" />
   <% end %>
     <div class="">
-      <h2>Our Wedding</h2>
-      <div class="lead text-center"><%= @wedding.user.first_name <> " " <> @wedding.user.last_name %> and <%= @wedding.partner.first_name <> " " <> @wedding.partner.last_name  %></div>
+      <h2>Our Story</h2>
+      <h2><%= @wedding.user.first_name <> " " <> @wedding.user.last_name %> and <%= @wedding.partner.first_name <> " " <> @wedding.partner.last_name  %></h2>
 
-      <div class="text-center"><%= @wedding.website.story %></div>
+      <div class="text-center"><%= raw(@wedding.website.story) %></div>
     </div>
 
     <%= if (@wedding.website.images["our_story"]) do %>

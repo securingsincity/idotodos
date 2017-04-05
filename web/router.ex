@@ -19,7 +19,9 @@ defmodule IdotodosEx.Router do
   pipeline :browser_admin do
     plug IdotodosEx.Plugs.IsAdmin
   end
-
+  pipeline :browser_basic_auth do
+    plug BasicAuth, use_config: {:idotodos_ex, :basic_auth}
+  end
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -50,7 +52,10 @@ defmodule IdotodosEx.Router do
 
     get "/wedding/:name/sign-out", WeddingController, :sign_out
   end
-
+  scope "/wedding-admin", IdotodosEx do
+    pipe_through [:browser, :browser_basic_auth]
+    get "/:id", GuestController, :view_invites
+  end
   scope "/", IdotodosEx do
     pipe_through :mailgun
     post "/party-invite-email-status", PartyInviteEmailStatusController, :create

@@ -56,7 +56,8 @@ defmodule IdotodosEx.Mixfile do
       {:poison, ">= 2.0.0", override: true},
       {:mustache, "~> 0.0.2"},
       {:html_sanitize_ex, "~> 1.0.0"},
-      {:ex_statsd, ">= 0.5.1"}
+      {:ex_statsd, ">= 0.5.1"},
+      {:basic_auth, "~> 2.0.0"}
     ]
   end
 

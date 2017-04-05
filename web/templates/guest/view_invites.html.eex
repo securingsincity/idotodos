@@ -1,0 +1,26 @@
+<table class="table table-bordered table-hover">
+  <thead>
+    <th>Party Name</th>
+    <th>Guest Name</th>
+    <th>Responded</th>
+    <th>Attending</th>
+    <th>Allergies</th>
+    <th>Needs Shuttle</th>
+    <th>Song Requests</th>
+  </thead>
+  <tbody>
+  <%= for party <- @parties do %>
+    <%= for guest <- party.guests do %>
+      <tr>
+        <td><%= party.name %></td>
+        <td><%= guest.first_name <> " " <> guest.last_name %></td>
+        <td><%= Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:responded, false) |>  yesNo %></td>
+        <td><%= Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:attending) |> yesNo %></td>
+        <td><%= Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:allergies, '') %></td>
+        <td><%= Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:shuttle) |> yesNo %></td>
+        <td><%= Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:song_requests, "") %></td>
+      </tr>
+    <% end  %>
+  <% end  %>
+  <tbody>
+</table>

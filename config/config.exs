@@ -11,6 +11,11 @@ config :idotodos_ex,
   mailgun_domain: System.get_env("MAILGUN_DOMAIN"),
   mailgun_key: System.get_env("MAILGUN_API_KEY")
 
+config :idotodos_ex, basic_auth: [
+  username: {:system, "BASIC_AUTH_USERNAME"},
+  password: {:system, "BASIC_AUTH_PASSWORD"},
+  realm:    "TEMP_ADMIN"
+]
 # Configures the endpoint
 config :idotodos_ex, IdotodosEx.Endpoint,
   url: [host: "localhost"],

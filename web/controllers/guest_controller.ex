@@ -2,6 +2,8 @@ defmodule IdotodosEx.GuestController do
   use IdotodosEx.Web, :controller
 
   alias IdotodosEx.Guest
+  alias IdotodosEx.Party
+  alias IdotodosEx.GuestInviteStatus
 
   def index(conn, _params) do
     guests = Repo.all(Guest)
@@ -61,5 +63,14 @@ defmodule IdotodosEx.GuestController do
     conn
     |> put_flash(:info, "Guest deleted successfully.")
     |> redirect(to: guest_path(conn, :index))
+  end
+
+  def view_invites(conn, %{"id" => campaign_id}) do
+    query = from p in Party,
+    preload: [guests: :invite_statuses],
+    where: p.campaign_id == ^campaign_id
+    parties = Repo.all(query)
+    conn
+    |> render("view_invites.html", parties: parties)
   end
 end

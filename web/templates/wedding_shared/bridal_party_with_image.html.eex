@@ -8,7 +8,7 @@
 <% end %>
 <div class="col-sm-<%= @column_width %>">
   <%= if @item["image"] do %>
-    <div class="row"><image style="border:solid 8px #EEE;width: 100%; max-width: 200px" src="<%= @item["image"] %>" /></div>
+    <div class="row"><image style="border:solid 8px #EEE; width: auto; height: auto; max-width: 200px; max-height: 200px;" src="<%= @item["image"] %>" /></div>
   <% end %>
   <strong><%= @item["role"] %></strong> <br />
   <span><%= @item["name"] %></span><br />

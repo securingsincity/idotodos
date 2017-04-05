@@ -85,7 +85,7 @@
   <%= if (@wedding.website.show_bridal_party && @wedding.website.bridal_party)  do %>
     <div class="">
       <h2 id="bridal_party">Bridal Party</h2>
-      <%= IdotodosEx.WeddingView.responsive_bubbles(@conn, Map.values(@wedding.website.bridal_party), 2,"bridal_party_no_image") %>
+      <%= IdotodosEx.WeddingView.responsive_bubbles(@conn, Map.values(@wedding.website.bridal_party), 2,"bridal_party_with_image") %>
     </div>
   <% end %>
 

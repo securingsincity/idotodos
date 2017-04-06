@@ -148,7 +148,7 @@ defmodule IdotodosEx.UserInviteControllerTest do
         file_contents = File.read!(file_path)
         assert file_contents =~ "\"subject\":\"hi james\""
         assert file_contents =~ "\"to\":\"james.hrisho+elaine@gmail.com\""
-        assert file_contents =~ "\"from\":\"noreply@idotodos.com\""
+        assert file_contents =~ "\"from\":\"IDoToDos Team <noreply@idotodos.com>\""
     end
 
     test "send email to 1 guests", %{conn: conn} do

@@ -26,9 +26,9 @@ export default class RSVP extends React.Component {
     const hasResponded = this.props.responded
     let content = <RSVPForm onSubmit={this.submit} {...this.props} />
     if (hasResponded) {
-      content = <div>Thanks! We've sent the information off to the bride and groom</div>
+      content = <div>Thanks! We've sent the information off to the happy couple.</div>
     } else if (alreadyResponded) {
-      content = <div>You've already responded if you need to change your RSVP please contact the bride and groom</div>
+      content = <div>You've already responded if you need to change your RSVP please contact the happy couple.</div>
     }
     return (
       <div>

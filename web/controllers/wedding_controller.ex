@@ -7,7 +7,7 @@ defmodule IdotodosEx.WeddingController do
   alias IdotodosEx.Repo
   alias IdotodosEx.Website
   alias IdotodosEx.GuestInviteStatus
-
+  import Logger
 
   plug :put_layout, "wedding.html"
 
@@ -72,25 +72,60 @@ defmodule IdotodosEx.WeddingController do
     |> Enum.join(";")
   end
 
-  def send_confirmation_to_guest(guest) do
+  def send_confirmation_to_guest(party, guest, wedding) do
+    wedding_name = wedding.user.first_name <> " " <> wedding.user.last_name <> " and " <> wedding.partner.first_name <> " " <> wedding.partner.last_name
     if guest.email !== "" && guest.email !== nil do
-      IdotodosEx.Mailer.send_mail(guest.email, "RSVP Confirmation", "You RSVP'd for the wedding", "You RSVP'd for the wedding", %{
+      guests_response = Enum.map(party.guests, fn(guest) -> guest_invite_email(guest) end)
+      Logger.info "sending confirmation email to #{guest.email}"
+      email = ~s"""
+      <div>
+      <p>Thanks for responding to the wedding invite! Here's what you sent to #{wedding_name}:</p>
+      #{guests_response}
+      <p>Song Requests: #{Enum.at(party.guests, 0).invite_status.song_requests}</p>
+      </div>
+      """
+
+      IdotodosEx.Mailer.send_mail(guest.email, "RSVP Confirmation: #{wedding_name} ",email,email, %{
         campaign_id: guest.campaign_id,
         party_id: guest.party_id
       })
     end
   end
 
-
+  def yes_no(value) do
+    case value do
+      true -> "Yes"
+      _ -> "No"
+    end
+  end
+  def guest_invite_email(guest) do
+    ~s"""
+    <h2>#{guest.first_name <> " " <> guest.last_name}</h2>
+    <p>
+      <p>Attending: #{yes_no(guest.invite_status.attending)}</p>
+      <p>Allergies: #{guest.invite_status.allergies}</p>
+      <p>Shuttle Request: #{yes_no(guest.invite_status.shuttle)}</li>
+    </p>
+    """
+  end
   def send_rsvp_to_users(party) do
     # invites = Repo.get!(GuestInviteStatus, party_id: party.id) |> Repo.preload[:guest]
     query = from u in User,
         where: u.campaign_id == ^party.campaign_id
     users = Repo.all(query)
-    #users = Repo.get_by!(User, campaign_id: party.campaign_id)
+    guests_response = Enum.map(party.guests, fn(guest) -> guest_invite_email(guest) end)
+    email = ~s"""
+    <div>
+    <p>#{party.name} has responded to your wedding invite:</p>
+    #{guests_response}
+    <p>Song Requests: #{Enum.at(party.guests, 0).invite_status.song_requests}</p>
+    </div>
+    """
+
     Enum.each(users, fn(user) ->
       if user.email !== "" && user.email !== nil do
-        IdotodosEx.Mailer.send_mail(user.email, ~s("RSVP Confirmation: #{party.name}"), ~s("#{party.name} has rsvp'd'"),  ~s("#{party.name} has rsvp'd'"), %{
+        Logger.info "sending rsvp email to #{user.email}"
+        IdotodosEx.Mailer.send_mail(user.email, ~s(Wedding Invitation Response: #{party.name}), email ,email, %{
           campaign_id: party.campaign_id,
           party_id: party.id
         })
@@ -114,8 +149,8 @@ defmodule IdotodosEx.WeddingController do
         changeset = Party.changeset_with_guests(party, %{guests: party_guests})
         case Repo.update(changeset) do
             {:ok, updated_party} ->
-                updated_party.guests
-                |> Enum.each(fn(guest) ->
+                updated_guests = updated_party.guests
+                |> Enum.map(fn(guest) ->
 
                   invite_stuff = guests
                   |> Enum.find(%{}, fn(update) ->
@@ -126,16 +161,22 @@ defmodule IdotodosEx.WeddingController do
                         guest.id == id
                     end
                   end)
-                  upsert_guest_invite_status(guest, %{
+                  invite = upsert_guest_invite_status(guest, %{
                     attending: invite_stuff["attending"],
                     allergies: invite_stuff["allergies"],
                     responded: true,
                     song_requests: format_songs(songs),
                     shuttle: invite_stuff["shuttle"],
                   })
-                  send_confirmation_to_guest(guest)
+
+
+                  Map.merge(guest, %{invite_status: invite})
                 end)
-                send_rsvp_to_users(updated_party)
+                updated_party_with_new_guests = Map.merge(updated_party, %{guests: updated_guests})
+                send_rsvp_to_users(updated_party_with_new_guests)
+                Enum.each(updated_party_with_new_guests.guests, fn(guest) ->
+                  send_confirmation_to_guest(updated_party_with_new_guests, guest, wedding)
+                end)
                 json(conn, %{
                   success: true,
                   guests: %{},

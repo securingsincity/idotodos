@@ -4,19 +4,19 @@ defmodule IdotodosEx.Mailer do
           mode: Mix.env,
           test_file_path: "/tmp/mailgun.json"
   use Mailgun.Client, @config
-  @from "noreply@idotodos.com"
-  
+  @from "IDoToDos Team <noreply@idotodos.com>"
+
 
   def send_mail(email, variables \\ %{}) do
      if variables do
         custom_variables = Enum.map(variables, fn {k, v} -> {"v:#{k}", v} end)
         email = Dict.merge(email, custom_variables)
         send_email email
-     else 
+     else
         send_email email
      end
   end
-  
+
   def send_mail(to, subject, html, text, variables \\ %{}) do
      email =  %{
         to: to,
@@ -29,7 +29,7 @@ defmodule IdotodosEx.Mailer do
         custom_variables = Enum.map(variables, fn {k, v} -> {"v:#{k}", v} end)
         email = Dict.merge(email, custom_variables)
         send_email email
-     else 
+     else
         send_email email
      end
   end

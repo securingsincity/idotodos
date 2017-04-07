@@ -73,4 +73,51 @@ defmodule IdotodosEx.GuestController do
     conn
     |> render("view_invites.html", parties: parties)
   end
+
+  def yes_no(value) do
+    case value do
+      true -> "Yes"
+      false -> "No"
+      _ -> ""
+    end
+  end
+
+  def view_invites_as_csv(conn, %{"id" => campaign_id}) do
+    query = from p in Party,
+    preload: [guests: :invite_statuses],
+    where: p.campaign_id == ^campaign_id
+    parties = Repo.all(query)
+    headers = [[
+      "Party Name",
+      "Guest Name",
+      "Responded",
+      "Attending",
+      "Allergies",
+      "Needs Shuttle",
+      "Song Requests",
+    ]]
+    csv_content = parties
+    |> Enum.reduce(headers,fn(party, acc) ->
+      results = Enum.map(party.guests, fn(guest) ->
+        [
+          party.name,
+          guest.first_name <> " " <> guest.last_name,
+          Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:responded, false) |>  yes_no,
+          Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:attending) |> yes_no,
+          Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:allergies, ''),
+          Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:shuttle) |> yes_no,
+          Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:song_requests, ""),
+        ]
+      end)
+      acc ++ results
+    end)
+    |> CSV.encode
+    |> Enum.to_list
+    |> to_string
+
+    conn
+    |> put_resp_content_type("text/csv")
+    |> put_resp_header("content-disposition", "attachment; filename=\"view_invites.csv\"")
+    |> send_resp(200, csv_content)
+  end
 end

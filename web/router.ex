@@ -55,6 +55,7 @@ defmodule IdotodosEx.Router do
   scope "/wedding-admin", IdotodosEx do
     pipe_through [:browser, :browser_basic_auth]
     get "/:id", GuestController, :view_invites
+    get "/download/:id", GuestController, :view_invites_as_csv
   end
   scope "/", IdotodosEx do
     pipe_through :mailgun

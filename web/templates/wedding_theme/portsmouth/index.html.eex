@@ -17,17 +17,22 @@
         <%= if (@wedding.website.show_gallery) do %><li><a href="#gallery">Gallery</a></li><% end %>
         <%= if (@wedding.website.show_bridal_party) do %><li><a href="#bridal_party">Bridal Party</a></li><% end %>
         <%= if (@wedding.website.show_registry) do %><li><a href="#registry">Registries</a></li><% end %>
-        <%= if @wedding.website.show_rsvp && @is_logged_in do %><li><a href="#rsvp">RSVP</a></li><% end %>
+        <%= if @wedding.website.show_rsvp do %><li><a href="#rsvp">RSVP</a></li><% end %>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <%= if @is_logged_in do %>
            <p class="navbar-text navbar-right"><%= @current_guest.first_name <> " " <> @current_guest.last_name %> <%= link "Log out", to: wedding_path(@conn, :sign_out, @wedding.name), class: "navbar-link" %></p>
+        <%= else %>
+           <p class="navbar-text navbar-right"><a href="#rsvp">Sign In</a></p>
         <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
 <div class="container text-center content">
+   <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+   <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
 <%= if (@wedding.website.images["main"]) do %>
     <image style="width:100%; padding:0" src="<%= @wedding.website.images["main"] %>" />
   <% end %>
@@ -94,7 +99,32 @@
   <% end %>
 
   <%= if @wedding.website.show_rsvp && @is_logged_in do %>
-  <h2 id="rsvp">RSVP</h2>
-  <div id="rsvp-app" class=""></div>
+    <h2 id="rsvp">RSVP</h2>
+    <div id="rsvp-app" class=""></div>
   <% end %>
+  <%= if @wedding.website.show_rsvp && !@is_logged_in do %>
+    <h2 id="rsvp">RSVP</h2>
+    <div id="rsvp-login">
+       <p>Please login with your email address</p>
+      <%= form_for @conn, wedding_path(@conn, :sign_in, @wedding.name), [as: :login], fn f -> %>
+        <div class="form-horizontal">
+          <div class="row">
+            <div class="col-sm-offset-2 col-sm-8">
+              <div class="form-group row">
+                <%= label f, :email, class: "col-sm-2 control-label" %>
+                <div class="col-sm-10">
+                  <%= text_input f, :email, class: "form-control" %>
+                </div>
+                <%= error_tag f, :email %>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <%= submit "Submit", class: "btn btn-primary" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
 </div>

@@ -193,18 +193,37 @@ defmodule IdotodosEx.WeddingController do
   end
 
   def sign_in(conn, %{"login" => %{"email" => email}, "name" => name}) do
-    case get_wedding(name) do
+    wedding = case get_wedding(name) do
        {:error, _} -> conn |> redirect(to: "/")
-       {:ok, wedding} ->
-          case Repo.get_by(Guest, %{email: email, campaign_id: wedding.id}) do
-            nil -> render(conn, "login.html", wedding: wedding, is_logged_in: false, theme: wedding.website.theme)
-            guest ->
-              conn
-              |> put_session(:campaign_id, wedding.id)
-              |> put_session(:party_id, guest.party_id)
-              |> put_session(:guest_id, guest.id)
-              |> redirect(to: wedding_path(conn, :index, name))
-          end
+       {:ok, wedding} -> wedding
+    end
+    case Repo.get_by(Guest, %{email: email, campaign_id: wedding.id}) do
+      nil ->
+        case wedding.website.site_private do
+          false ->
+            party = %Party{}
+            current_guest = %Guest{}
+            conn
+            |> put_flash(:error, "Wrong email address. Make sure to use the email address that your RSVP was sent to")
+            |> render("index.html", name: name,
+              wedding: wedding,
+              party: party,
+              current_guest: current_guest,
+              is_logged_in: false,
+              theme: wedding.website.theme
+            )
+          true ->
+            conn
+            |> put_flash(:error, "Wrong email address. Make sure to use the email address that your RSVP was sent to.")
+            |> render("login.html", wedding: wedding, is_logged_in: false, theme: wedding.website.theme)
+        end
+      guest ->
+        conn
+        |> put_session(:campaign_id, wedding.id)
+        |> put_session(:party_id, guest.party_id)
+        |> put_session(:guest_id, guest.id)
+        |> put_flash(:info, "Welcome! Scroll down to the bottom of the page to RSVP")
+        |> redirect(to: wedding_path(conn, :index, name))
     end
   end
 
@@ -237,7 +256,7 @@ defmodule IdotodosEx.WeddingController do
               current_guest = %Guest{}
               render(conn, "index.html", name: name, wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
             true ->
-              [party, current_guest]= update_party_with_guest_invites(party_id, guest_id)
+              [party, current_guest] = update_party_with_guest_invites(party_id, guest_id)
               render(conn, "index.html", name: name, wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
           end
     end

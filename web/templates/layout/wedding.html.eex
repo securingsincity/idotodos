@@ -16,10 +16,12 @@
   <body>
         <%= render( Module.concat(IdotodosEx.WeddingTheme, String.capitalize(@theme) <> "View"), @view_template, assigns) %>
         <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+        <script>
+          window.weddingName = "<%= @wedding.name %>"
+        </script>
         <%= if @wedding.website.show_rsvp && @is_logged_in do %>
           <script>
             window.data = <%= raw(Phoenix.View.render(IdotodosEx.WeddingView, "party.json", party: @party) |> Poison.encode!(pretty: false))%>
-            window.weddingName = "<%= @name %>"
           </script>
           <script src="<%= static_path(@conn, "/js/rsvp.js") %>"></script>
         <% end %>

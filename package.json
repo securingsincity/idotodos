@@ -5,8 +5,8 @@
     "deploy": "webpack --config='webpack.prod.js' -p",
     "watch": "webpack --watch",
     "test": " mocha 'client/**/*.test.js'",
-    "test:watch": "npm test -- --watch",
-    "cover": "nyc npm test"
+    "test:watch": "yarn test -- --watch",
+    "cover": "nyc yarn test"
   },
   "dependencies": {
     "axios": "^0.15.3",
@@ -37,6 +37,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "@types/history": "^4.5.0",
     "@types/lodash": "^4.14.62",
     "@types/node": "^7.0.12",
     "@types/react": "^15.0.21",

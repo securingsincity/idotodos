@@ -1,6 +1,7 @@
 dist: trusty
 sudo: false
 language: elixir
+cache: yarn
 elixir:
 - 1.3.4
 env:
@@ -16,8 +17,8 @@ addons:
   postgresql: "9.5"
 before_script:
   - psql -c 'create database idotodos_ex_test;' -U postgres
-  - npm install
+  - yarn install
 script:
  - mix coveralls.travis
- - npm run test
- - npm run deploy
+ - yarn test
+ - yarn deploy

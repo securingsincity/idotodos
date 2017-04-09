@@ -16,6 +16,12 @@ env:
 addons:
   ssh_known_hosts: $DEPLOY_HOST
   postgresql: "9.5"
+  apt:
+    sources:
+      - sourceline: 'deb https://dl.yarnpkg.com/debian/ stable main'
+        key_url: 'https://dl.yarnpkg.com/debian/pubkey.gpg'
+    packages:
+      - yarn
 before_script:
   - psql -c 'create database idotodos_ex_test;' -U postgres
   - yarn install

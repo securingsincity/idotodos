@@ -23,6 +23,7 @@ defmodule IdotodosEx.GuestView do
       [false, _] -> ""
       [true, true] -> "Yes"
       [true, false] -> "No"
+      [_, _] -> ""
     end
   end
 end

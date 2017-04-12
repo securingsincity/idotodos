@@ -1,3 +1,8 @@
+<div class="row">
+  <div class="col-sm-3">
+    <%= link "Download as a Spreadsheet", to: guest_path(@conn, :view_invites_as_csv, @campaign_id ), class: "btn btn-default" %>
+  </div>
+</div>
 <table class="table table-bordered table-hover">
   <thead>
     <th>Party Name</th>

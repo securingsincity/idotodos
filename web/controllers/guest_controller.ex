@@ -71,7 +71,7 @@ defmodule IdotodosEx.GuestController do
     where: p.campaign_id == ^campaign_id
     parties = Repo.all(query)
     conn
-    |> render("view_invites.html", parties: parties)
+    |> render("view_invites.html", parties: parties, campaign_id: campaign_id)
   end
 
   def yes_no(value) do
@@ -90,6 +90,7 @@ defmodule IdotodosEx.GuestController do
     headers = [[
       "Party Name",
       "Guest Name",
+      "Guest Email",
       "Responded",
       "Attending",
       "Allergies",
@@ -102,8 +103,9 @@ defmodule IdotodosEx.GuestController do
         [
           party.name,
           guest.first_name <> " " <> guest.last_name,
-          Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:responded, false) |>  yes_no,
-          Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:attending) |> yes_no,
+          guest.email,
+          guest |> IdotodosEx.GuestView.has_responded |> yes_no,
+          IdotodosEx.GuestView.is_attending(guest),
           Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:allergies, ''),
           Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:shuttle) |> yes_no,
           Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:song_requests, ""),

@@ -2,6 +2,7 @@
   <thead>
     <th>Party Name</th>
     <th>Guest Name</th>
+    <th>Email</th>
     <th>Responded</th>
     <th>Attending</th>
     <th>Allergies</th>
@@ -14,8 +15,9 @@
       <tr>
         <td class="col-sm-2" ><%= party.name %></td>
         <td class="col-sm-2" ><%= guest.first_name <> " " <> guest.last_name %></td>
-        <td class="col-sm-1" ><%= Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:responded, false) |>  yesNo %></td>
-        <td class="col-sm-1" ><%= Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:attending) |> yesNo %></td>
+        <td class="col-sm-2" ><%= guest.email %></td>
+        <td class="col-sm-1" ><%= has_responded(guest) |>  yesNo %></td>
+        <td class="col-sm-1" ><%= is_attending(guest) %></td>
         <td class="col-sm-2" ><%= Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:allergies, '') %></td>
         <td class="col-sm-1" ><%= Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:shuttle) |> yesNo %></td>
         <td class="col-sm-2" ><%= Map.get(guest,:invite_statuses, []) |> Enum.at(0, %{}) |> Map.get(:song_requests, "") %></td>

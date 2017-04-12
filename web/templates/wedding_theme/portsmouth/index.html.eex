@@ -23,7 +23,7 @@
         <%= if @is_logged_in do %>
            <p class="navbar-text navbar-right"><%= @current_guest.first_name <> " " <> @current_guest.last_name %> <%= link "Log out", to: wedding_path(@conn, :sign_out, @wedding.name), class: "navbar-link" %></p>
         <%= else %>
-           <p class="navbar-text navbar-right"><a href="#rsvp">Sign In</a></p>
+           <%= if @wedding.website.show_rsvp do %><p class="navbar-text navbar-right"><a href="#rsvp">Sign In</a></p><% end %>
         <% end %>
       </ul>
     </div><!-- /.navbar-collapse -->

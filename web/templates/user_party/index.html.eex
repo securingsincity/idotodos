@@ -19,13 +19,14 @@
         <ul>
     <%= for guest <- party.guests do %>
         <li><%= guest.first_name %> <%= guest.last_name %></li>
-        
+
     <% end %>
         </ul>
     </td>
 
     <td class="text-right">
         <%= link "View", to: user_party_path(@conn, :show, party), class: "btn btn-default btn-small" %>
+        <%= link "Delete", to: user_party_path(@conn, :delete, party), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-small" %>
         <%= link "View Email Status", to: user_party_path(@conn, :email_status_index, party), class: "btn btn-default btn-small" %>
         <%= link "Edit", to: user_party_path(@conn, :edit, party), class: "btn btn-default btn-small" %>
     </td>

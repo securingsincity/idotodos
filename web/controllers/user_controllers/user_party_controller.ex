@@ -83,4 +83,20 @@ defmodule IdotodosEx.UserPartyController do
                 render(conn, "edit.html", party: party, changeset: changeset)
         end
     end
+
+    def delete(conn, %{"id" => id}) do
+        user = Guardian.Plug.current_resource(conn)
+        campaign_id = User.get_campaign_id(user)
+        party = case Repo.get_by(Party, %{id: id, campaign_id: campaign_id}) do
+            nil -> redirect(conn, to: user_party_path(conn, :index))
+            party -> party
+        end
+
+        from(g in Guest, where: [campaign_id: ^campaign_id, party_id: ^party.id]) |> Repo.delete_all
+        from(g in PartyInviteEmailStatus, where: [campaign_id: ^campaign_id, party_id: ^party.id]) |> Repo.delete_all
+        Repo.delete!(party)
+        conn
+        |> put_flash(:info, "Party deleted successfully.")
+        |> redirect(to: user_party_path(conn, :index))
+    end
 end

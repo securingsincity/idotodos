@@ -1,6 +1,6 @@
 
 import { creators } from '../actions/rsvp'
-
+import { assign } from 'lodash'
 const initialState = {
   responded: false,
   showConfirmModal: false,
@@ -8,13 +8,13 @@ const initialState = {
 export default function rsvp(state = initialState, action) {
   switch (action.type) {
     case creators.RESPONDED:
-      return Object.assign({}, state, {responded: true})
+      return assign({}, state, {responded: true})
       break;
     case creators.SHOW_CONFIRM_MODAL:
-      return Object.assign({}, state, {showConfirmModal: true})
+      return assign({}, state, {showConfirmModal: true})
       break;
     case creators.HIDE_CONFIRM_MODAL:
-      return Object.assign({}, state, {showConfirmModal: false})
+      return assign({}, state, {showConfirmModal: false})
       break;
     default:
       return state

@@ -197,7 +197,12 @@ defmodule IdotodosEx.WeddingController do
        {:error, _} -> conn |> redirect(to: "/")
        {:ok, wedding} -> wedding
     end
-    case Repo.get_by(Guest, %{email: email, campaign_id: wedding.id}) do
+
+    email  = String.downcase(email)
+    result = from g in Guest,
+    where: fragment("lower(?)", g.email) == ^email and g.campaign_id == ^wedding.id
+    result = result |> first|> Repo.one
+    case result do
       nil ->
         case wedding.website.site_private do
           false ->

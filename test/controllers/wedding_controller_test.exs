@@ -184,6 +184,27 @@ defmodule IdotodosEx.WeddingControllerTest do
       assert redirected_to(conn) == IdotodosEx.Router.Helpers.wedding_path(conn,:index, "somecontent")
   end
 
+
+  test "wedding sigining in with valid user with whatever case", %{conn: conn}  do
+      user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
+      campaign_id = User.get_campaign_id(user)
+
+      Repo.insert!(Website.changeset(%Website{}, %{active: true, site_private: true,show_rsvp: true, campaign_id: campaign_id}))
+      attrs = %{
+            name: "foobar",
+            max_party_size: 2,
+            guests: [
+                %{first_name: "jerry", last_name: "seinfeld", email: "jerry@email.com",campaign_id: campaign_id}
+            ],
+            campaign_id: campaign_id
+        }
+      changeset = Party.changeset_with_guests(%Party{}, attrs)
+      Repo.insert!(changeset)
+      Repo.get_by!(Guest, email: "jerry@email.com")
+      conn = post conn, wedding_path(conn,:sign_in, "somecontent", %{"login"=> %{"email"=>  "jERRy@email.com"}})
+      assert redirected_to(conn) == IdotodosEx.Router.Helpers.wedding_path(conn,:index, "somecontent")
+  end
+
   test "format_songs with no songs" do
       assert WeddingController.format_songs([]) == ""
   end

@@ -16,6 +16,11 @@ config :idotodos_ex, basic_auth: [
   password: {:system, "BASIC_AUTH_PASSWORD"},
   realm:    "TEMP_ADMIN"
 ]
+
+config :spotify_ex, client_id: System.get_env("SPOTIFY_CLIENT_ID"),
+                    secret_key: System.get_env("SPOTIFY_CLIENT_SECRET"),
+                    scopes: ["playlist-read-private", "playlist-modify-private", "playlist-modify-public"],
+                    callback_url: System.get_env("SPOTIFY_CALLBACK_URL")
 # Configures the endpoint
 config :idotodos_ex, IdotodosEx.Endpoint,
   url: [host: "localhost"],

@@ -4,6 +4,7 @@ defmodule IdotodosEx.Campaign do
   schema "campaigns" do
     field :main_date, Ecto.Date
     field :name, :string
+    field :spotify_playlist, :string
     has_one :website, IdotodosEx.Website
     belongs_to :user, IdotodosEx.User
     belongs_to :partner, IdotodosEx.User
@@ -19,7 +20,7 @@ defmodule IdotodosEx.Campaign do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:main_date, :name])
+    |> cast(params, [:main_date, :name, :spotify_playlist])
     |> validate_required([:main_date, :name])
     |> validate_format(:name, ~r/^([^\\\/][A-z0-9\-\+]+$)/)
   end

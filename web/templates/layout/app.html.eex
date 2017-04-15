@@ -98,6 +98,6 @@ body, header {
       </div>
     </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-    <script src="<%= static_path(@conn, "/js/admin.js") %>"></script>
+   <!-- <script src="<%= static_path(@conn, "/js/admin.js") %>"></script> -->
   </body>
 </html>

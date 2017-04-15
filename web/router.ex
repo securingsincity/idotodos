@@ -44,6 +44,9 @@ defmodule IdotodosEx.Router do
     get "/signout", SessionController, :delete
     get "/signup", RegistrationController, :signup
     post "/signup", RegistrationController, :create
+    get "/authorize", SpotifyAuthController, :authorize
+    get "/authenticate",SpotifyAuthController, :authenticate
+
   end
   scope "/", IdotodosEx do
     pipe_through :browser
@@ -56,6 +59,8 @@ defmodule IdotodosEx.Router do
     pipe_through [:browser, :browser_basic_auth]
     get "/:id", GuestController, :view_invites
     get "/download/:id", GuestController, :view_invites_as_csv
+    get "/:id/playlist", UserWeddingController, :playlist
+    post "/:id/playlist", UserWeddingController, :add_to_playlist
   end
   scope "/", IdotodosEx do
     pipe_through :mailgun

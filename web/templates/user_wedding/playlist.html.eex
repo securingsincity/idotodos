@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-sm-6">
+    <iframe src="https://embed.spotify.com/?uri=spotify:user:<%= @profile.id %>:playlist:<%= @playlist.id %>&view=coverart" frameborder="0" allowtransparency="true"></iframe>
+  </div>
+  <div class="col-sm-6">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <th>Song Name</th>
+        <th>Add to Spotify</th>
+      </thead>
+      <tbody>
+      <%= for song <- @songs do %>
+        <tr>
+            <td class="col-sm-2" ><%= song %></td>
+            <td class="col-sm-2" ><%= link "View", to: user_wedding_path(@conn, :add_to_playlist, @campaign_id ,playlist_id: @playlist.id, song: song), method: :post, class: "btn btn-default btn-small" %></td>
+        </tr>
+      <% end %>
+      <tbody>
+
+    </table>
+  </div>
+</div>

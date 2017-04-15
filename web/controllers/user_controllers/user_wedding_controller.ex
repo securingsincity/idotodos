@@ -18,7 +18,15 @@ defmodule IdotodosEx.UserWeddingController do
         _ -> true
       end
     end)
-    {:ok, profile} = Spotify.Profile.me(conn)
+    |> Enum.reduce([], fn (value, acc)->
+      values = String.split(value, ";", trim: true)
+      acc ++ values
+    end)
+
+    profile = case Spotify.Profile.me(conn) do
+      {:ok, profile = %{:id => id }} -> profile
+      {:ok, _} -> redirect(conn, to: spotify_auth_path(conn, :authorize))
+    end
     campaign =  Repo.get!(Campaign, campaign_id)
     playlist = case campaign.spotify_playlist do
       nil ->
@@ -26,8 +34,11 @@ defmodule IdotodosEx.UserWeddingController do
         Repo.update!(Campaign.changeset(campaign, %{spotify_playlist: playlist.id}))
         playlist
       playlist_id ->
-        {:ok, playlist} = Spotify.Playlist.get_playlist(conn, profile.id, playlist_id)
-        playlist
+        case Spotify.Playlist.get_playlist(conn, profile.id, playlist_id) do
+          {:ok, result} -> result
+          {:error, _} -> redirect(conn, to: spotify_auth_path(conn, :authenticate))
+          %{"error" => _} -> redirect(conn, to: spotify_auth_path(conn, :authenticate))
+        end
     end
     conn
     |> render("playlist.html", songs: song_requests, campaign_id: campaign_id, playlist: playlist, profile: profile)

@@ -5,6 +5,7 @@ defmodule IdotodosEx.SpotifyAuthController do
     {conn, path} = case Spotify.Authentication.authenticate(conn, params) do
       {:ok, conn} -> redirect(conn, to: user_wedding_path(conn, :playlist, 1))
       {:error, reason, conn} -> redirect(conn, to: "/error/")
+      {:error, conn} -> redirect(conn, to: "/error/")
     end
 
     redirect conn, to: path

@@ -25,6 +25,10 @@
           ga('send', 'pageview');
 
         </script>
+        <script src="https://cdn.ravenjs.com/3.14.1/raven.min.js"></script>
+        <script>
+          Raven.config('https://db1d088935d5441281f442b9308a820e@sentry.io/158744').install()
+        </script>
         <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
         <script>
           window.weddingName = "<%= @wedding.name %>"

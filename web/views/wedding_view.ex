@@ -55,6 +55,17 @@ defmodule IdotodosEx.WeddingView do
     %{errors: errors}
   end
 
+  def render("error.json", %{message: message}) do
+    %{
+      errors: [
+        %{
+          title: message,
+          detail: message
+        }
+      ]
+    }
+  end
+
   def render_detail({message, values}) do
     Enum.reduce values, message, fn {k, v}, acc ->
       String.replace(acc, "%{#{k}}", to_string(v))

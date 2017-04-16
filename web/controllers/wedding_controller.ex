@@ -134,61 +134,65 @@ defmodule IdotodosEx.WeddingController do
 
   end
   def rsvp(conn, %{"name" => name, "guests" => guests, "songs" => songs}) do
-    wedding = case get_wedding(name) do
-       {:error, _} -> conn |> redirect(to: "/")
-       {:ok, wedding} -> wedding
-    end
-    [campaign_id, party_id, guest_id, is_logged_in] = get_session_data(conn)
-    case is_logged_in do
-      true -> #do something
-        party = Party
-          |> Repo.get_by!(%{id: party_id, campaign_id: campaign_id})
-          |> Repo.preload(:guests)
-          |> Repo.preload(:campaign)
-        party_guests = update_party_with_guests(guests, party)
-        changeset = Party.changeset_with_guests(party, %{guests: party_guests})
-        case Repo.update(changeset) do
-            {:ok, updated_party} ->
-                updated_guests = updated_party.guests
-                |> Enum.map(fn(guest) ->
+    with {:ok, wedding} <- get_wedding(name) do
+      [campaign_id, party_id, guest_id, is_logged_in] = get_session_data(conn)
+      case is_logged_in do
+        true -> #do something
+          party = Party
+            |> Repo.get_by!(%{id: party_id, campaign_id: campaign_id})
+            |> Repo.preload(:guests)
+            |> Repo.preload(:campaign)
+          party_guests = update_party_with_guests(guests, party)
+          changeset = Party.changeset_with_guests(party, %{guests: party_guests})
+          case Repo.update(changeset) do
+              {:ok, updated_party} ->
+                  updated_guests = updated_party.guests
+                  |> Enum.map(fn(guest) ->
 
-                  invite_stuff = guests
-                  |> Enum.find(%{}, fn(update) ->
-                    case update["id"] do
-                      nil ->
-                        guest.first_name == update["firstName"] && guest.last_name == update["lastName"]
-                      id ->
-                        guest.id == id
-                    end
+                    invite_stuff = guests
+                    |> Enum.find(%{}, fn(update) ->
+                      case update["id"] do
+                        nil ->
+                          guest.first_name == update["firstName"] && guest.last_name == update["lastName"]
+                        id ->
+                          guest.id == id
+                      end
+                    end)
+                    invite = upsert_guest_invite_status(guest, %{
+                      attending: invite_stuff["attending"],
+                      allergies: invite_stuff["allergies"],
+                      responded: true,
+                      song_requests: format_songs(songs),
+                      shuttle: invite_stuff["shuttle"],
+                    })
+
+
+                    Map.merge(guest, %{invite_status: invite})
                   end)
-                  invite = upsert_guest_invite_status(guest, %{
-                    attending: invite_stuff["attending"],
-                    allergies: invite_stuff["allergies"],
-                    responded: true,
-                    song_requests: format_songs(songs),
-                    shuttle: invite_stuff["shuttle"],
+                  updated_party_with_new_guests = Map.merge(updated_party, %{guests: updated_guests})
+                  send_rsvp_to_users(updated_party_with_new_guests)
+                  Enum.each(updated_party_with_new_guests.guests, fn(guest) ->
+                    send_confirmation_to_guest(updated_party_with_new_guests, guest, wedding)
+                  end)
+                  json(conn, %{
+                    success: true,
+                    guests: %{},
+                    songs: songs
                   })
-
-
-                  Map.merge(guest, %{invite_status: invite})
-                end)
-                updated_party_with_new_guests = Map.merge(updated_party, %{guests: updated_guests})
-                send_rsvp_to_users(updated_party_with_new_guests)
-                Enum.each(updated_party_with_new_guests.guests, fn(guest) ->
-                  send_confirmation_to_guest(updated_party_with_new_guests, guest, wedding)
-                end)
-                json(conn, %{
-                  success: true,
-                  guests: %{},
-                  songs: songs
-                })
-            {:error, changeset} ->
-                render(conn, "error.json", changeset: changeset)
-        end
-      false ->
-        party = %Party{}
-        current_guest = %Guest{}
-        render(conn, "index.html", wedding: wedding, party: party, current_guest: current_guest, is_logged_in: is_logged_in, theme: wedding.website.theme)
+              {:error, changeset} ->
+                  conn
+                  |> put_status(400)
+                  |> render("error.json", changeset: changeset)
+          end
+        false ->
+          conn
+          |> put_status(401)
+          |> render("error.json", message: "User must be logged in")
+      end
+    else
+      {:error, _} -> conn
+        |> put_status(400)
+        |> render("error.json", message: "No wedding with that name")
     end
   end
 

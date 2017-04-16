@@ -213,6 +213,103 @@ defmodule IdotodosEx.WeddingControllerTest do
       assert WeddingController.format_songs([%{"value"=> "His Clothes were lined with gold by bitter ambience"}, %{"value" => "hi, my name is by foo bar"}]) == "His Clothes were lined with gold by bitter ambience;hi, my name is by foo bar"
   end
 
+
+  test "RSVP: user can't log in if no session data", %{conn: conn} do
+       user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
+      campaign_id = User.get_campaign_id(user)
+
+      Repo.insert!(Website.changeset(%Website{}, %{active: true, site_private: true,show_rsvp: true, campaign_id: campaign_id}))
+      attrs = %{
+            name: "foobar",
+            max_party_size: 2,
+            guests: [
+                %{first_name: "jerry", last_name: "seinfeld", email: "jerry@email.com",campaign_id: campaign_id}
+            ],
+            campaign_id: campaign_id
+        }
+      changeset = Party.changeset_with_guests(%Party{}, attrs)
+      party = Repo.insert!(changeset)
+      guest = Repo.get_by!(Guest, email: "jerry@email.com")
+      WeddingController.get_or_create_guest_invite_status(guest)
+
+      # now we post with the relative data
+      request = Poison.decode!(~s({
+          "party": #{party.id},
+          "name": "#{party.name}",
+          "songs": [{"value": "His Clothes were lined with gold by bitter ambience"}, {"value": "hi, my name is by foo bar"}],
+          "guests": [{
+              "responded": false,
+              "firstName": "Jerry",
+              "lastName": "Seinfeld",
+              "id": #{guest.id},
+              "attending": true,
+              "allergies": "mushrooms",
+              "shuttle": true
+          },
+          {
+              "firstName": "Shmoopy",
+              "lastName": "Seinfeld",
+              "attending": true,
+              "allergies": "chicken",
+              "shuttle": false
+          }]
+      }))
+      response  = post conn, wedding_path(conn, :rsvp, "somecontent"), request
+      assert response.resp_body =~ "error"
+  end
+
+
+
+  test "RSVP: wrong wedding name", %{conn: conn} do
+       user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
+      campaign_id = User.get_campaign_id(user)
+
+      Repo.insert!(Website.changeset(%Website{}, %{active: true, site_private: true,show_rsvp: true, campaign_id: campaign_id}))
+      attrs = %{
+            name: "foobar",
+            max_party_size: 2,
+            guests: [
+                %{first_name: "jerry", last_name: "seinfeld", email: "jerry@email.com",campaign_id: campaign_id}
+            ],
+            campaign_id: campaign_id
+        }
+      changeset = Party.changeset_with_guests(%Party{}, attrs)
+      party = Repo.insert!(changeset)
+      guest = Repo.get_by!(Guest, email: "jerry@email.com")
+      WeddingController.get_or_create_guest_invite_status(guest)
+
+      # now we post with the relative data
+      request = Poison.decode!(~s({
+          "party": #{party.id},
+          "name": "#{party.name}",
+          "songs": [{"value": "His Clothes were lined with gold by bitter ambience"}, {"value": "hi, my name is by foo bar"}],
+          "guests": [{
+              "responded": false,
+              "firstName": "Jerry",
+              "lastName": "Seinfeld",
+              "id": #{guest.id},
+              "attending": true,
+              "allergies": "mushrooms",
+              "shuttle": true
+          },
+          {
+              "firstName": "Shmoopy",
+              "lastName": "Seinfeld",
+              "attending": true,
+              "allergies": "chicken",
+              "shuttle": false
+          }]
+      }))
+      conn = conn
+      |> put_session(:party_id, party.id)
+      |> put_session(:campaign_id, campaign_id)
+      |> put_session(:guest_id, guest.id)
+      response  = post conn, wedding_path(conn, :rsvp, "someboguscontent"), request
+      assert response.resp_body =~ "No wedding with that name"
+  end
+
+
+
   test "RSVP: wedding with one user should be able to create a user and their relative invite status", %{conn: conn}  do
 
       user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
@@ -275,6 +372,58 @@ defmodule IdotodosEx.WeddingControllerTest do
       assert guest_invite_status2.allergies == "chicken"
       assert guest_invite_status2.attending == true
       assert guest_invite_status2.responded == true
+  end
+
+
+  test "RSVP: invalid guest should be caught", %{conn: conn}  do
+
+      user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
+      campaign_id = User.get_campaign_id(user)
+
+      Repo.insert!(Website.changeset(%Website{}, %{active: true, site_private: true,show_rsvp: true, campaign_id: campaign_id}))
+      attrs = %{
+            name: "foobar",
+            max_party_size: 2,
+            guests: [
+                %{first_name: "jerry", last_name: "seinfeld", email: "jerry@email.com",campaign_id: campaign_id}
+            ],
+            campaign_id: campaign_id
+        }
+      changeset = Party.changeset_with_guests(%Party{}, attrs)
+      party = Repo.insert!(changeset)
+      guest = Repo.get_by!(Guest, email: "jerry@email.com")
+      WeddingController.get_or_create_guest_invite_status(guest)
+
+      # now we post with the relative data
+      request = Poison.decode!(~s({
+          "party": #{party.id},
+          "name": "#{party.name}",
+          "songs": [{"value": "His Clothes were lined with gold by bitter ambience"}, {"value": "hi, my name is by foo bar"}],
+          "guests": [{
+              "responded": false,
+              "firstName": "Jerry",
+              "lastName": "Seinfeld",
+              "id": #{guest.id},
+              "attending": true,
+              "allergies": "mushrooms",
+              "shuttle": true
+          },
+          {
+              "firstName": "",
+              "lastName": "",
+              "attending": true,
+              "allergies": "chicken",
+              "shuttle": false
+          }]
+      }))
+      conn = conn
+      |> put_session(:party_id, party.id)
+      |> put_session(:campaign_id, campaign_id)
+      |> put_session(:guest_id, guest.id)
+      response = post conn, wedding_path(conn, :rsvp, "somecontent"), request
+
+      assert response.status == 400
+
   end
 
   test "RSVP: wedding with two users user should be able to update users and their relative invite status", %{conn: conn}  do

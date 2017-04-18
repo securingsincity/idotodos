@@ -28,6 +28,7 @@
         <script src="https://cdn.ravenjs.com/3.14.1/raven.min.js"></script>
         <script>
           Raven.config('https://db1d088935d5441281f442b9308a820e@sentry.io/158744').install()
+
         </script>
         <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
         <script>
@@ -36,6 +37,9 @@
         <%= if @wedding.website.show_rsvp && @is_logged_in do %>
           <script>
             window.data = <%= raw(Phoenix.View.render(IdotodosEx.WeddingView, "party.json", party: @party) |> Poison.encode!(pretty: false))%>
+            Raven.setUserContext({
+                email: "<%= @current_guest.email %>"
+            });
           </script>
           <script src="<%= static_path(@conn, "/js/rsvp.js") %>"></script>
         <% end %>

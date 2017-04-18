@@ -38,6 +38,7 @@ if (typeof Object.assign != 'function') {
     return to;
   };
 }
+require('es6-promise').polyfill();
 
 window.jQuery = $;
 window.$ = $;

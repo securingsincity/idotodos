@@ -17,8 +17,8 @@ defmodule IdotodosEx.AuthConnCase do
   alias IdotodosEx.Repo
   alias IdotodosEx.User
   alias IdotodosEx.Campaign
-  
-  
+
+
   using do
     quote do
       # Import conveniences for testing with connections
@@ -30,9 +30,9 @@ defmodule IdotodosEx.AuthConnCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-
+      import IdotodosEx.Factories
       import IdotodosEx.Router.Helpers
-      
+
       # The default endpoint for testing
       @endpoint IdotodosEx.Endpoint
     end
@@ -40,17 +40,17 @@ defmodule IdotodosEx.AuthConnCase do
 
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(IdotodosEx.Repo)
-    
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(IdotodosEx.Repo, {:shared, self()})
     end
-    
-    changeset = Campaign.registration_changeset(%Campaign{}, %{ main_date: %{day: 17, month: 4, year: 2018}, 
+
+    changeset = Campaign.registration_changeset(%Campaign{}, %{ main_date: %{day: 17, month: 4, year: 2018},
     name: "somecontent", user: %{first_name: "James", gender: "male", last_name: "Hrisho", email: "james.hrisho@gmail.com", password: "a123123"}, partner: %{first_name: "sara", last_name: "noonan"}})
     Repo.insert!(changeset)
     user = Repo.get_by!(User, email: "james.hrisho@gmail.com")
     conn = IdotodosEx.AuthHelpers.sign_in(Phoenix.ConnTest.build_conn(), user)
-    
+
     {:ok, conn: conn}
   end
 end

@@ -22,6 +22,7 @@ defmodule IdotodosEx.ModelCase do
       import Ecto.Changeset
       import Ecto.Query
       import IdotodosEx.ModelCase
+      import IdotodosEx.Factories
     end
   end
 

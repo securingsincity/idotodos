@@ -21,8 +21,6 @@ defmodule IdotodosEx.UserPartyControllerTest do
         conn = get conn, user_party_path(conn, :index)
         assert html_response(conn, 200) =~ "Your Guests"
         assert html_response(conn, 200) =~ "jerry seinfeld"
-
-
     end
 
     test "should not list another user's parties and guests" do

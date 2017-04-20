@@ -21,7 +21,7 @@ defmodule IdotodosEx.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {IdotodosEx, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :comeonin,
+     applications: [:phoenix,:ex_machina, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :comeonin,
                     :phoenix_ecto,:timex, :postgrex, :ex_statsd, :spotify_ex]]
   end
 
@@ -47,6 +47,7 @@ defmodule IdotodosEx.Mixfile do
       {:comeonin, "~> 2.5"},
       {:timex, "~> 3.0"},
       {:timex_ecto, "~> 3.0"},
+      {:ex_machina, "~> 2.0"},
       {:mailgun, "~> 0.1.2"},
       {:cowboy, "~> 1.0"},
       {:excoveralls, "~> 0.5", only: :test},

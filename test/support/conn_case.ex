@@ -24,7 +24,7 @@ defmodule IdotodosEx.ConnCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-
+      import IdotodosEx.Factories
       import IdotodosEx.Router.Helpers
 
       # The default endpoint for testing

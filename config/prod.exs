@@ -20,7 +20,8 @@ config :idotodos_ex, IdotodosEx.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
-
+config :sentry,
+  environment_name: Mix.env || :prod
 
 config :guardian, Guardian,
   allowed_algos: ["HS512"], # optional

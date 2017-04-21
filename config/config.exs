@@ -16,6 +16,10 @@ config :idotodos_ex, basic_auth: [
   password: {:system, "BASIC_AUTH_PASSWORD"},
   realm:    "TEMP_ADMIN"
 ]
+config :sentry,
+  included_environments: ~w(prod test dev)a,
+  dsn: System.get_env("SENTRY_DSN"),
+  use_error_logger: true
 
 config :spotify_ex, client_id: System.get_env("SPOTIFY_CLIENT_ID"),
                     secret_key: System.get_env("SPOTIFY_CLIENT_SECRET"),

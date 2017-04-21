@@ -1,5 +1,7 @@
 defmodule IdotodosEx.Router do
   use IdotodosEx.Web, :router
+  use Plug.ErrorHandler
+  use Sentry.Plug
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -9,6 +11,7 @@ defmodule IdotodosEx.Router do
     plug :put_secure_browser_headers
     plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource
+
   end
 
   pipeline :browser_auth do

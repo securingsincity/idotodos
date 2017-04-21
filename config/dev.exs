@@ -13,6 +13,9 @@ config :idotodos_ex, IdotodosEx.Endpoint,
   check_origin: false,
   watchers: [node: ["node_modules/webpack/bin/webpack.js", "--watch", "--color"]]
 
+config :sentry,
+	  environment_name: Mix.env || :dev
+
 config :molasses, adapter: "ecto"
 # Watch static and templates for browser reloading.
 config :idotodos_ex, IdotodosEx.Endpoint,

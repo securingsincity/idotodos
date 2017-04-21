@@ -4,7 +4,7 @@ language: elixir
 yarn: true
 cache: yarn
 elixir:
-- 1.3.4
+- 1.4.1
 env:
   matrix:
   - MIX_ENV=test

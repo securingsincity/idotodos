@@ -32,4 +32,7 @@ defmodule IdotodosEx.Campaign do
     |> cast_assoc(:user, required: true, with: &IdotodosEx.User.registration_changeset(&1,&2))
   end
 
+  def couple_name(wedding) do
+    ~s(#{wedding.user.first_name} #{wedding.user.last_name} and #{wedding.partner.first_name} #{wedding.partner.last_name})
+  end
 end

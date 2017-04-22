@@ -6,6 +6,11 @@ defmodule IdotodosEx.Schema.Types do
   object :campaign do
     field :id, :id
     field :name, :string
+    field :wedding_name, :string do
+      resolve fn campaign, _, _ ->
+        {:ok, Campaign.couple_name(campaign)}
+      end
+    end
     field :user, :user
     field :partner, :user
     field :parties, list_of(:party)
@@ -128,12 +133,27 @@ defmodule IdotodosEx.Schema.Types do
         end)
       end
     end
+    field :invite_statuses, list_of(:guest_invite_status) do
+      resolve fn parent, _, _ ->
+        batch({IdotodosEx.Schema.Helpers, :has_many_from_party, GuestInviteStatus}, parent.id, fn batch_results ->
+          {:ok, Map.get(batch_results, parent.id)}
+        end)
+      end
+    end
   end
 
   object :guest do
     field :id, :id
     field :first_name, :string
     field :last_name, :string
+    field :email, :string
+    field :middle_name, :string
+    field :gender, :string
+    field :street, :string
+    field :suite, :string
+    field :city, :string
+    field :state, :string
+    field :zip_code, :string
     field :invite_statuses, list_of(:guest_invite_status) do
       resolve fn parent, _, _ ->
         batch({IdotodosEx.Schema.Helpers, :has_many_from_guest, GuestInviteStatus}, parent.id, fn batch_results ->

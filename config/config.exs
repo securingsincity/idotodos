@@ -17,7 +17,7 @@ config :idotodos_ex, basic_auth: [
   realm:    "TEMP_ADMIN"
 ]
 config :sentry,
-  included_environments: ~w(prod test dev)a,
+  included_environments: ~w(prod)a,
   dsn: System.get_env("SENTRY_DSN"),
   use_error_logger: true
 

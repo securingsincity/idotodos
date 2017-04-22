@@ -35,9 +35,14 @@ defmodule IdotodosEx.Router do
     plug :accepts, ["html"]
     # add a mailgun webhook plug
   end
-
+  forward "/graphiql",
+    Absinthe.Plug.GraphiQL,
+    schema: IdotodosEx.Schema
+  forward "/graphql", Absinthe.Plug,
+      schema: IdotodosEx.Schema
   scope "/", IdotodosEx do
     pipe_through :browser # Use the default browser stack
+
     get "/.well-known/acme-challenge/:id", PageController, :letsencrypt
     get "/", PageController, :index
     resources "/users", UserController, only: [:new, :create]
@@ -101,6 +106,8 @@ defmodule IdotodosEx.Router do
   scope "/api", IdotodosEx do
     pipe_through [:api]
     post "/party-invite-email-status", PartyInviteEmailStatusController, :create
+
+
   end
 
 

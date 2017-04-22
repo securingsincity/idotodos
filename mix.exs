@@ -21,7 +21,7 @@ defmodule IdotodosEx.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {IdotodosEx, []},
-     applications: [:sentry, :phoenix,:ex_machina, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :comeonin,
+     applications: [:sentry, :phoenix,:absinthe, :ex_machina, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext, :comeonin,
                     :phoenix_ecto,:timex, :postgrex, :ex_statsd, :spotify_ex]]
   end
 
@@ -61,7 +61,9 @@ defmodule IdotodosEx.Mixfile do
       {:sentry, "~> 2.0"}, # Sentry error tracking
       {:basic_auth, "~> 2.0.0"},
       {:plug, "~> 1.3.0", override: true},
-      {:spotify_ex, "~> 2.0.5"}
+      {:spotify_ex, "~> 2.0.5"},
+      {:absinthe, "~> 1.3.0-rc.0"},
+      {:absinthe_plug, "~> 1.3.0-rc.0"},
     ]
   end
 

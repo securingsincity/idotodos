@@ -1,7 +1,7 @@
 defmodule IdotodosEx.Schema.Types do
   use Absinthe.Schema.Notation
   alias IdotodosEx.{
-    Repo, Campaign, Party, GuestInviteStatus, Guest
+    Campaign, Party, GuestInviteStatus, Guest
   }
   object :campaign do
     field :id, :id

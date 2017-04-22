@@ -3,10 +3,10 @@ defmodule IdotodosEx.UserResolver do
   def all(_args, %{context: %{current_user: current_user, is_admin: is_admin}}) do
     case is_admin do
       true ->
-        {:ok, Repo.all(User)|> Repo.preload(@preload) }
+        {:ok, Repo.all(User)}
       false ->
         campaign_id = current_user.campaign_id
-        {:ok, Repo.all(User, %{campaign_id: campaign_id}) |> Repo.preload(@preload)}
+        {:ok, Repo.all(User, %{campaign_id: campaign_id})}
     end
   end
 

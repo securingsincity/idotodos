@@ -1,4 +1,5 @@
 defmodule IdotodosEx.Schema.Helpers do
+  alias IdotodosEx.Repo
   def by_id(model, ids) do
     import Ecto.Query
     model
@@ -6,4 +7,29 @@ defmodule IdotodosEx.Schema.Helpers do
     |> Repo.all
     |> Map.new(&{&1.id, &1})
   end
+
+  def has_many_of_guests(model, ids) do
+    import Ecto.Query
+    model
+    |> where([m], m.guest_id in ^ids)
+    |> Repo.all
+    |> Map.new(&{&1.id, &1})
+  end
+
+  def has_many_from_guest(model, ids) do
+    import Ecto.Query
+    model
+    |> where([m], m.guest_id in ^ids)
+    |> Repo.all
+    |> Map.new(&{&1.id, &1})
+  end
+
+  def has_many_from_party(model, ids) do
+    import Ecto.Query
+    model
+    |> where([m], m.party_id in ^ids)
+    |> Repo.all
+    |> Map.new(&{&1.id, &1})
+  end
+
 end

@@ -1,15 +1,19 @@
 defmodule IdotodosEx.Schema.Types do
   use Absinthe.Schema.Notation
-  alias IdotodosEx.Repo
+  alias IdotodosEx.{
+    Repo, Campaign, Party, GuestInviteStatus, Guest
+  }
   object :campaign do
     field :id, :id
     field :name, :string
     field :user, :user
     field :partner, :user
     field :parties, list_of(:party)
+    field :guests, list_of(:guest)
+    # field :registries, list_of(:registries)
     field :website, :website
     field :invites, list_of(:invite)
-    # field :main_date, :date
+    field :main_date, :string
   end
 
   object :guest_invite_status do
@@ -45,9 +49,10 @@ defmodule IdotodosEx.Schema.Types do
     field :show_rsvp, :boolean
     field :show_registry, :boolean
     field :campaign, :campaign do
-      resolve fn guest, _, _ ->
-        campaign = guest |> Ecto.assoc(:campaign) |> Repo.one
-        {:ok, campaign}
+      resolve fn parent, _,_ ->
+        batch({IdotodosEx.Schema.Helpers, :by_id, Campaign}, parent.campaign_id, fn batch_results ->
+          {:ok, Map.get(batch_results, parent.campaign_id)}
+        end)
       end
     end
     # field :info, :json
@@ -110,19 +115,17 @@ defmodule IdotodosEx.Schema.Types do
     field :max_party_size, :integer
     field :name, :string
     field :campaign, :campaign do
-      resolve fn guest, _, _ ->
-        campaign = guest |> Ecto.assoc(:campaign) |> Repo.one
-        {:ok, campaign}
+      resolve fn parent, _,_ ->
+        batch({IdotodosEx.Schema.Helpers, :by_id, Campaign}, parent.campaign_id, fn batch_results ->
+          {:ok, Map.get(batch_results, parent.campaign_id)}
+        end)
       end
     end
     field :guests, list_of(:guest) do
-      resolve fn party, _, _ ->
-        guests =
-          party
-          |> Ecto.assoc(:guests)
-          |> Repo.all
-
-        {:ok, guests}
+      resolve fn parent, _, _ ->
+        batch({IdotodosEx.Schema.Helpers, :has_many_from_party, Guest}, parent.id, fn batch_results ->
+          {:ok, Map.get(batch_results, parent.id)}
+        end)
       end
     end
   end
@@ -132,21 +135,24 @@ defmodule IdotodosEx.Schema.Types do
     field :first_name, :string
     field :last_name, :string
     field :invite_statuses, list_of(:guest_invite_status) do
-      resolve fn guest, _, _ ->
-        guest_invites = guest |> Ecto.assoc(:invite_statuses) |> Repo.all
-        {:ok, guest_invites}
+      resolve fn parent, _, _ ->
+        batch({IdotodosEx.Schema.Helpers, :has_many_from_guest, GuestInviteStatus}, parent.id, fn batch_results ->
+          {:ok, Map.get(batch_results, parent.id)}
+        end)
       end
     end
     field :party, :party do
-      resolve fn guest, _, _ ->
-        party = guest |> Ecto.assoc(:party) |> Repo.one
-        {:ok, party}
+      resolve fn parent, _,_ ->
+        batch({IdotodosEx.Schema.Helpers, :by_id, Party}, parent.party_id, fn batch_results ->
+          {:ok, Map.get(batch_results, parent.party_id)}
+        end)
       end
     end
     field :campaign, :campaign do
-      resolve fn guest, _, _ ->
-        campaign = guest |> Ecto.assoc(:campaign) |> Repo.one
-        {:ok, campaign}
+      resolve fn parent, _,_ ->
+        batch({IdotodosEx.Schema.Helpers, :by_id, Campaign}, parent.campaign_id, fn batch_results ->
+          {:ok, Map.get(batch_results, parent.campaign_id)}
+        end)
       end
     end
   end
@@ -155,5 +161,12 @@ defmodule IdotodosEx.Schema.Types do
     field :id, :id
     field :first_name, :string
     field :last_name, :string
+    field :campaign, :campaign do
+      resolve fn parent, _,_ ->
+        batch({IdotodosEx.Schema.Helpers, :by_id, Campaign}, parent.campaign_id, fn batch_results ->
+          {:ok, Map.get(batch_results, parent.campaign_id)}
+        end)
+      end
+    end
   end
 end

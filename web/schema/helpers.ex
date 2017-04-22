@@ -8,6 +8,15 @@ defmodule IdotodosEx.Schema.Helpers do
     |> Map.new(&{&1.id, &1})
   end
 
+  def campaign_by_id(model, ids) do
+    import Ecto.Query
+    model
+    |> where([m], m.id in ^ids)
+    |> Repo.all
+    |> Repo.preload([:user, :partner, :parties, :website, :guests])
+    |> Map.new(&{&1.id, &1})
+  end
+
   def has_many_of_guests(model, ids) do
     import Ecto.Query
     model

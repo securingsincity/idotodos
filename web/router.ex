@@ -22,6 +22,9 @@ defmodule IdotodosEx.Router do
   pipeline :browser_admin do
     plug IdotodosEx.Plugs.IsAdmin
   end
+  pipeline :graphql do
+    plug IdotodosEx.Plugs.GuardianAbsinthe
+  end
   pipeline :browser_basic_auth do
     plug BasicAuth, use_config: {:idotodos_ex, :basic_auth}
   end
@@ -35,11 +38,7 @@ defmodule IdotodosEx.Router do
     plug :accepts, ["html"]
     # add a mailgun webhook plug
   end
-  forward "/graphiql",
-    Absinthe.Plug.GraphiQL,
-    schema: IdotodosEx.Schema
-  forward "/graphql", Absinthe.Plug,
-      schema: IdotodosEx.Schema
+
   scope "/", IdotodosEx do
     pipe_through :browser # Use the default browser stack
 
@@ -77,6 +76,7 @@ defmodule IdotodosEx.Router do
 
   scope "/", IdotodosEx do
     pipe_through [:browser, :browser_auth]
+
     get "/app", PageController, :app
     get "/app/parties/upload", PartyController, :upload
     post "/app/parties/upload", PartyController, :bulk_upload
@@ -102,6 +102,12 @@ defmodule IdotodosEx.Router do
   scope "/api", IdotodosEx do
     pipe_through [:api, :auth_api]
     post "/wedding/:name/rsvp", WeddingController, :rsvp
+  end
+
+  scope "/", Absinthe do
+    pipe_through [:api, :auth_api, :browser_auth, :graphql]
+    forward "/graphiql", Plug.GraphiQL, schema: IdotodosEx.Schema
+    forward "/graphql", Plug, schema: IdotodosEx.Schema
   end
   scope "/api", IdotodosEx do
     pipe_through [:api]

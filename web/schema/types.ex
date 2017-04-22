@@ -163,7 +163,7 @@ defmodule IdotodosEx.Schema.Types do
     field :last_name, :string
     field :campaign, :campaign do
       resolve fn parent, _,_ ->
-        batch({IdotodosEx.Schema.Helpers, :by_id, Campaign}, parent.campaign_id, fn batch_results ->
+        batch({IdotodosEx.Schema.Helpers, :campaign_by_id, Campaign}, parent.campaign_id, fn batch_results ->
           {:ok, Map.get(batch_results, parent.campaign_id)}
         end)
       end

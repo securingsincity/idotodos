@@ -20,20 +20,25 @@ defmodule IdotodosEx.Party do
   end
 
   def changeset_with_guests(struct, params) do
+    params = AtomicMap.convert(params)
+
+    guests = Map.get(params, :guests, [])
+    |> Enum.map(fn(guest)-> Map.put(guest, :campaign_id, get_campaign_id(struct, params))end)
+
+    params = Map.put(params, :guests, guests)
     struct
     |> changeset(params)
     |> cast_assoc(:guests)
     |> validate_max_party_size
-    |> cast_guests_with_campaign_id
     |> cast_assoc(:campaign)
   end
 
-  def cast_guests_with_campaign_id(changeset) do
-    guests = get_field(changeset, :guests)
-    |> Enum.map(fn(guest) -> Map.put(guest, :campaign_id, get_field(changeset, :campaign_id)) end)
-    put_assoc(changeset, :guests, guests)
+  def get_campaign_id(struct, params) do
+    case  Map.get(struct, :campaign_id, nil) do
+      nil -> params.campaign_id
+      campaign_id -> campaign_id
+    end
   end
-
   def validate_max_party_size(changeset) do
     guests = get_field(changeset, :guests)
     max_party_size = get_field(changeset, :max_party_size)

@@ -320,7 +320,7 @@ defmodule IdotodosEx.WeddingControllerTest do
             name: "foobar",
             max_party_size: 2,
             guests: [
-                %{first_name: "jerry", last_name: "seinfeld", email: "jerry@email.com",campaign_id: campaign_id}
+                %{first_name: "jerry", last_name: "seinfeld", email: "jerry@email.com"}
             ],
             campaign_id: campaign_id
         }
@@ -328,7 +328,7 @@ defmodule IdotodosEx.WeddingControllerTest do
       party = Repo.insert!(changeset)
       guest = Repo.get_by!(Guest, email: "jerry@email.com")
       WeddingController.get_or_create_guest_invite_status(guest)
-
+      assert guest.campaign_id == campaign_id
       # now we post with the relative data
       request = Poison.decode!(~s({
           "party": #{party.id},
@@ -360,9 +360,11 @@ defmodule IdotodosEx.WeddingControllerTest do
       jerry = Enum.at(party_with_guests.guests, 0)
       schmoopy = Enum.at(party_with_guests.guests, 1)
       assert jerry.first_name == "Jerry"
+      assert jerry.campaign_id == campaign_id
       assert jerry.last_name == "Seinfeld"
       assert schmoopy.first_name == "Shmoopy"
       assert schmoopy.last_name == "Seinfeld"
+      assert schmoopy.campaign_id == campaign_id
 
       guest_invite_status = Repo.get_by!(GuestInviteStatus, guest_id: jerry.id)
       guest_invite_status2 = Repo.get_by!(GuestInviteStatus, guest_id: schmoopy.id)

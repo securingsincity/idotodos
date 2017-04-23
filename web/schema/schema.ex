@@ -42,5 +42,13 @@ defmodule IdotodosEx.Schema do
       arg :guests, list_of(:guest_input)
       resolve &IdotodosEx.PartyResolver.update/2
     end
+
+
+
+    # @todo "Remove guest"
+    # @todo "Remove party"
+    # @todo manage invites
+    # @todo manage registries
+    # @todo update the website?
   end
 end

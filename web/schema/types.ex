@@ -129,14 +129,14 @@ defmodule IdotodosEx.Schema.Types do
     field :guests, list_of(:guest) do
       resolve fn parent, _, _ ->
         batch({IdotodosEx.Schema.Helpers, :has_many_from_party, Guest}, parent.id, fn batch_results ->
-          {:ok, Map.get(batch_results, parent.id)}
+          {:ok, Map.get(batch_results, parent.id, [])}
         end)
       end
     end
     field :invite_statuses, list_of(:guest_invite_status) do
       resolve fn parent, _, _ ->
         batch({IdotodosEx.Schema.Helpers, :has_many_from_party, GuestInviteStatus}, parent.id, fn batch_results ->
-          {:ok, Map.get(batch_results, parent.id)}
+          {:ok, Map.get(batch_results, parent.id, [])}
         end)
       end
     end
@@ -157,7 +157,7 @@ defmodule IdotodosEx.Schema.Types do
     field :invite_statuses, list_of(:guest_invite_status) do
       resolve fn parent, _, _ ->
         batch({IdotodosEx.Schema.Helpers, :has_many_from_guest, GuestInviteStatus}, parent.id, fn batch_results ->
-          {:ok, Map.get(batch_results, parent.id)}
+          {:ok, Map.get(batch_results, parent.id, [])}
         end)
       end
     end

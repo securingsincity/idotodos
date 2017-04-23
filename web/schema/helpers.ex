@@ -22,7 +22,7 @@ defmodule IdotodosEx.Schema.Helpers do
     model
     |> where([m], m.guest_id in ^ids)
     |> Repo.all
-    |> Map.new(&{&1.id, &1})
+    |> Enum.group_by(fn storage -> Map.get(storage, :guest_id) end)
   end
 
   def has_many_from_party(model, ids) do
@@ -30,7 +30,7 @@ defmodule IdotodosEx.Schema.Helpers do
     model
     |> where([m], m.party_id in ^ids)
     |> Repo.all
-    |> Map.new(&{&1.id, &1})
+    |> Enum.group_by(fn storage -> Map.get(storage, :party_id) end)
   end
 
 end

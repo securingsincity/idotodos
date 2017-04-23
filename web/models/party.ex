@@ -24,7 +24,14 @@ defmodule IdotodosEx.Party do
     |> changeset(params)
     |> cast_assoc(:guests)
     |> validate_max_party_size
+    |> cast_guests_with_campaign_id
     |> cast_assoc(:campaign)
+  end
+
+  def cast_guests_with_campaign_id(changeset) do
+    guests = get_field(changeset, :guests)
+    |> Enum.map(fn(guest) -> Map.put(guest, :campaign_id, get_field(changeset, :campaign_id)) end)
+    put_assoc(changeset, :guests, guests)
   end
 
   def validate_max_party_size(changeset) do

@@ -18,5 +18,29 @@ defmodule IdotodosEx.Schema do
       arg :id, non_null(:id)
       resolve &IdotodosEx.UserResolver.find/2
     end
+
+    @desc "Get a user of the site"
+    field :users, type: list_of(:user) do
+      resolve &IdotodosEx.UserResolver.all/2
+    end
+  end
+
+  mutation do
+    @desc "Create a party with guests"
+    field :create_party, type: :party do
+      arg :max_party_size, non_null(:integer)
+      arg :name, non_null(:string)
+      arg :guests, list_of(:guest_input)
+      resolve &IdotodosEx.PartyResolver.create/2
+    end
+
+    @desc "Update a party with guests - can't a remove a guest from this kind of relation'"
+    field :update_party, type: :party do
+      arg :id, non_null(:id)
+      arg :max_party_size, non_null(:integer)
+      arg :name, non_null(:string)
+      arg :guests, list_of(:guest_input)
+      resolve &IdotodosEx.PartyResolver.update/2
+    end
   end
 end

@@ -141,7 +141,19 @@ defmodule IdotodosEx.Schema.Types do
       end
     end
   end
-
+  input_object :guest_input do
+    field :id, :id
+    field :first_name, non_null(:string)
+    field :last_name, non_null(:string)
+    field :email, :string
+    field :middle_name, :string
+    field :gender, :string
+    field :street, :string
+    field :suite, :string
+    field :city, :string
+    field :state, :string
+    field :zip_code, :string
+  end
   object :guest do
     field :id, :id
     field :first_name, :string

@@ -1,7 +1,7 @@
 defmodule IdotodosEx.PartyResolver do
-  alias IdotodosEx.{Party, Repo}
+  alias IdotodosEx.{Party, Guest, PartyInviteEmailStatus, Repo}
+  import Ecto.Query
   def create(args, %{context: %{current_user: current_user}}) do
-
     changeset = %Party{}
       |> Map.put(:campaign_id, current_user.campaign_id)
       |> Party.changeset_with_guests(args)
@@ -18,6 +18,18 @@ defmodule IdotodosEx.PartyResolver do
             {:ok, party} -> {:ok, party}
             {:error, changeset} -> {:error, "Some error"}
           end
+    end
+  end
+
+  def delete(%{id: id}, %{context: %{current_user: current_user}}) do
+    campaign_id = current_user.campaign_id
+    case Repo.get_by(Party, %{id: id, campaign_id: campaign_id}) do
+      nil -> {:error, "not_found"}
+      party ->
+        from(g in Guest, where: [campaign_id: ^campaign_id, party_id: ^party.id]) |> Repo.delete_all
+        from(g in PartyInviteEmailStatus, where: [campaign_id: ^campaign_id, party_id: ^party.id]) |> Repo.delete_all
+        Repo.delete!(party)
+        {:ok, %{id: id}}
     end
   end
 end

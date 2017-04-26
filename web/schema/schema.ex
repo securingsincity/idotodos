@@ -7,6 +7,7 @@ defmodule IdotodosEx.Schema do
     field :campaigns, list_of(:campaign) do
       resolve &IdotodosEx.CampaignResolver.all/2
     end
+
     @desc "Get a campaign by Id"
     field :campaign, type: :campaign do
       arg :id, non_null(:id)
@@ -43,10 +44,18 @@ defmodule IdotodosEx.Schema do
       resolve &IdotodosEx.PartyResolver.update/2
     end
 
+    @desc "Remove a guest"
+    field :remove_guest, type: :guest do
+      arg :id, non_null(:id)
+      resolve &IdotodosEx.GuestResolver.delete/2
+    end
 
+    @desc "Remove a party and all of their guests"
+    field :remove_party, type: :party do
+      arg :id, non_null(:id)
+      resolve &IdotodosEx.PartyResolver.delete/2
+    end
 
-    # @todo "Remove guest"
-    # @todo "Remove party"
     # @todo manage invites
     # @todo manage registries
     # @todo update the website?

@@ -4,7 +4,7 @@ defmodule IdotodosEx.UserWeddingController do
   alias IdotodosEx.GuestInviteStatus
   alias IdotodosEx.Campaign
   plug IdotodosEx.Plugs.SpotifyAuth
-
+  plug :put_layout, "admin.html" when action in [:admin]
   def playlist(conn, %{"id" => campaign_id}) do
     query = from g in GuestInviteStatus,
     where: g.campaign_id == ^campaign_id,
@@ -57,5 +57,10 @@ defmodule IdotodosEx.UserWeddingController do
 
     conn
     |> redirect(to: user_wedding_path(conn, :playlist, campaign_id))
+  end
+
+  def admin(conn, _) do
+
+    render(conn, "index.html")
   end
 end

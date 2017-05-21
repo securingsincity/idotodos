@@ -2,7 +2,7 @@ defmodule IdotodosEx.Router do
   use IdotodosEx.Web, :router
   use Plug.ErrorHandler
   use Sentry.Plug
-
+#  use Molasses.Router
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -63,6 +63,10 @@ defmodule IdotodosEx.Router do
     get "/wedding/:name/sign-out", WeddingController, :sign_out
   end
   scope "/wedding-admin", IdotodosEx do
+    pipe_through [:browser, :browser_auth]
+    get "/", UserWeddingController, :admin
+  end
+  scope "/wedding-admin", IdotodosEx do
     pipe_through [:browser, :browser_basic_auth]
     get "/:id", GuestController, :view_invites
     get "/download/:id", GuestController, :view_invites_as_csv
@@ -113,14 +117,19 @@ defmodule IdotodosEx.Router do
     pipe_through [:api]
     post "/party-invite-email-status", PartyInviteEmailStatusController, :create
 
-
+  end
+  scope "/api", Molasses do
+    pipe_through [:api, :auth_api,:browser_auth, :browser_admin, :graphql]
+    #api_routes()
   end
 
-
+  scope "/feature-toggles", Molasses do
+    pipe_through [:browser, :browser_auth, :browser_admin]
+    #admin_panel_routes()
+  end
   scope "/admin", IdotodosEx do
     pipe_through [:browser, :browser_auth, :browser_admin]
     resources "/campaigns", CampaignController
-
   end
 
 end

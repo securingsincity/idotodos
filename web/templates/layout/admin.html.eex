@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>I Do To Dos</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Arimo|Roboto:300,400,700,900" rel="stylesheet">
+
+    <style>
+    h2 {
+      font-size: 40px;
+      line-height: 40px;
+      letter-spacing: -1px;
+      font-family: 'Dancing Script', serif;
+      font-weight: 400;
+      color: #432142;
+    }
+
+p {
+  font-size: 20px;
+  line-height: 23px;
+  letter-spacing: -0.5px;
+  font-family: 'Arimo', serif;
+  font-weight: 400;
+  color: #C0476E;
+}
+
+p {
+  font-size: 15px;
+  line-height: 19px;
+  letter-spacing: 0px;
+  font-family: 'Roboto', serif;
+  font-weight: 400;
+  color: #FFFFFF;
+}
+
+.forget-me-not {
+  color: #FFF0F0;
+}
+
+.white-background {
+  background-color: #FFFFFF;
+}
+.forget-me-not-background {
+  background-color: #FFF0F0;
+}
+
+.pink-pig {
+  color: #FFD7DF;
+}
+.pink-pig-background {
+  background-color: #FFD7DF;
+}
+.blush {
+  color: #C0476E;
+}
+.blush-background {
+  background-color: #C0476E;
+}
+.voodoo {
+  color: #432142;
+}
+.voodoo-background {
+  background-color: #432142;
+}
+.revolver {
+  color: #2A0C2A;
+}
+.revolver-background {
+  background-color: #2A0C2A;
+}
+
+body, header {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+    </style>
+  </head>
+
+  <body class="">
+    <div class="container-fluid voodoo">
+    <%= render IdotodosEx.SharedView, "header.html", conn: @conn %>
+    </div>
+    <div class="container-fluid white-background">
+
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+      <div id="admin-app">
+      </div>
+    </div> <!-- /container -->
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <script src="<%= static_path(@conn, "/js/admin.js") %>"></script>
+  </body>
+</html>

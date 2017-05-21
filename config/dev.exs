@@ -16,7 +16,8 @@ config :idotodos_ex, IdotodosEx.Endpoint,
 config :sentry,
 	  environment_name: Mix.env || :dev
 
-config :molasses, adapter: "ecto"
+# config :molasses, adapter: "ecto",
+#  repo: IdotodosEx.Repo
 # Watch static and templates for browser reloading.
 config :idotodos_ex, IdotodosEx.Endpoint,
   live_reload: [

@@ -1,5 +1,7 @@
 # I Do To Dos
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/securingsincity/idotodos.svg)](https://greenkeeper.io/)
+
 A service to make wedding invitations and wedding planning easier written in Elixir and JavaScript   
 
 # Getting started

@@ -6,7 +6,9 @@
     "watch": "webpack --watch",
     "test": " mocha 'client/**/*.test.js'",
     "test:watch": "yarn test -- --watch",
-    "cover": "nyc yarn test"
+    "cover": "nyc yarn test",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "dependencies": {
     "axios": "^0.15.3",
@@ -35,7 +37,8 @@
     "redux-form": "^6.6.1",
     "redux-thunk": "^2.2.0",
     "sass-loader": "^5.0.1",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "snyk": "^1.88.0"
   },
   "devDependencies": {
     "@types/history": "^4.5.0",
@@ -94,5 +97,6 @@
       "text",
       "html"
     ]
-  }
+  },
+  "snyk": true
 }

@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^4.0.0",
     "bootstrap-sass": "^3.3.7",
     "es6-promise": "^4.1.0",
     "history": "^4.6.1",

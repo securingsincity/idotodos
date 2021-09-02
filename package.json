@@ -9,7 +9,7 @@
     "cover": "nyc yarn test"
   },
   "dependencies": {
-    "axios": "^0.15.3",
+    "axios": "^0.21.1",
     "bootstrap": "^3.3.7",
     "bootstrap-sass": "^3.3.7",
     "es6-promise": "^4.1.0",
